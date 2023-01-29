@@ -1,0 +1,6 @@
+{
+  "name": "deposit",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Deposit.js"
+}

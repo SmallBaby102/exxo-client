@@ -1,0 +1,148 @@
+html {
+  font-weight: 100;
+  font-size: $font-size-initial;
+}
+
+body {
+  min-height: 100%;
+  padding: 0px;
+  margin: 0px;
+  background: #f5f5f5 url("/assets/bg.png") left top repeat;
+  position: relative;
+  font-family: 'Open Sans',sans-serif;
+  font-size: 12px;
+  color: #656d78;
+  overflow-x: hidden;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+a,
+.dropdown-item,
+.btn {
+  cursor: pointer;
+  transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
+  font-family: $font-family-base;
+}
+
+a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+th {
+  font-weight: 600;
+}
+
+td {
+  font-weight: 300;
+}
+
+label {
+  font-weight: 400;
+}
+
+strong {
+  font-weight: 700;
+}
+
+ul ul,
+ol ul {
+  list-style: none;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding-left: 0;
+}
+
+.social-link {
+  width: 30px;
+  height: 30px;
+}
+.language-flag {
+  width: 30px;
+}
+.ck.ck-editor__main>.ck-editor__editable {
+  color: black;
+}
+.fw-semi-bold img {
+  width: 100%;
+}
+.login-body {
+  background: rgba(255, 255, 255, 0.07) !important;
+}
+.btn-default {
+  font-size: 11px;
+  color: #333 !important;
+  background-color: #fff !important;
+}
+.btn-link {
+  text-decoration: none;
+  color: #FFF;
+  border: 0px;
+  font-size: 12px;
+}
+.btn-link:hover {
+  color: #FFF;
+  text-decoration: underline;
+}
+.login-or {
+  width: 40px;
+  height: 25px;
+  background: rgba(0, 0, 0, 0.2);
+  position: relative;
+  margin: 25px auto;
+  text-align: center;
+  line-height: 25px;
+  color: #FFF;
+}
+.login-or::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 0;
+  height: 0;
+  top: -10px;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 10px solid rgba(0, 0, 0, 0.2);
+}
+.login-or::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 0;
+  height: 0;
+  bottom: -10px;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 10px solid rgba(0, 0, 0, 0.2);
+}
+.la {
+  font-size: 22px;
+}
+.form-content {
+  background: #fff;
+  padding: 15px;
+}
+.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+  width: 100%; 
+
+}
+.css-y2u636-MuiFormControl-root-MuiTextField-root {
+  width: 100%;
+} 
+.example-item-image {
+  height: 100px;
+ }
+.example-item-image img {
+  height: 100%;
+  width: 100%;
+
+ }

@@ -1,0 +1,120 @@
+@import '../../styles/app';
+
+.root {
+  :global {
+    .post-comments footer {
+      margin: 0 (-$widget-padding-horizontal) (-$widget-padding-vertical);
+      padding: $widget-padding-vertical $widget-padding-horizontal;
+    }
+
+    .stat-item .name {
+      margin-top: 10px;
+    }
+
+    .list-group-item:hover {
+      background-color: $bg-addition;
+    }
+
+    .detail {
+      .x_label {
+        background: $widget-bg-color !important;
+      }
+    }
+  }
+}
+
+.table {
+  :global(.table.table-sm) {
+    td {
+      font-size: 1rem;
+      vertical-align: middle;
+    }
+  }
+}
+
+.searchBtn {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+.payment_option {
+  display: inline-block;
+  width: 110px;
+  height: 68px;
+  background: url(/assets/payment/unavailable.png) no-repeat;
+  background-size: 110px 68px !important;
+  position: relative;
+  margin: 20px 0 20px 0;
+}
+.payment_option_bitcoin{
+  background: url(/assets/crypto/bitcoin.png) no-repeat;
+}
+
+.payment_option_bitcoincash{
+  background: url(/assets/crypto/bitcash.png) no-repeat;
+}
+.payment_option_ethereum{
+  background: url(/assets/crypto/ethereum.png) no-repeat;
+}
+.payment_option_litecoin{
+  background: url(/assets/crypto/litecoin.png) no-repeat;
+}
+.payment_option_xrp_ripple{
+  background: url(/assets/crypto/xrp_ripple.png) no-repeat;
+}
+.payment_option_tether{
+  background: url(/assets/crypto/tether.png) no-repeat;
+}
+.payment_option_usd_coin{
+  background: url(/assets/crypto/usd_coin.png) no-repeat;
+}
+.payment_option_dogecoin{
+  background: url(/assets/crypto/dogecoin.png) no-repeat;
+}
+.payment_option_binancecoin{
+  background: url(/assets/crypto/binancecoin.png) no-repeat;
+}
+.payment_option_stacoinex{
+  background: url(/assets/payment/stacoinex.png) no-repeat;
+}
+.payment_option_bank{
+  background: url(/assets/payment/bank.png) no-repeat;
+}
+.payment_option_payop{
+  background: url(/assets/payment/payop.png) no-repeat;
+}
+.payment_option_neteller{
+  background: url(/assets/payment/neteller.png) no-repeat;
+}
+.payment_option_skrill{
+  background: url(/assets/payment/skrill.png) no-repeat;
+}
+.payment_option_sticpay{
+  background: url(/assets/payment/sticpay.png) no-repeat;
+}
+.deposit_promo {
+  background: #dde3f1;
+  padding: 5px;
+  border-radius: 4px;
+  position: absolute;
+  right: -10px;
+  top: -12px;
+  color: #4c517e;
+}
+legend {
+  margin: 0 2px 20px;
+  padding: 0px 5px;
+  border: 0;
+  width: auto;
+  font-size: 21px;
+  line-height: inherit;
+  color: #333;
+}
+
+.payment_block {
+  text-align: center;
+  margin: 20px 0 30px 0;
+  width: 160px;
+  position: relative;
+  padding: 0;
+  float: left;
+}

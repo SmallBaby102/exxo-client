@@ -1,0 +1,6 @@
+{
+  "name": "Rightbar",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Rightbar.js"
+}
