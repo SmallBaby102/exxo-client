@@ -11,6 +11,7 @@ import ReactSelect from "react-select";
 
 import { setChecking } from '../../actions/navigation'
 import { toast } from "react-toastify";
+import StacoinexResult from "./StacoinexResult";
 
 class DepositDetail extends React.Component {
   constructor(props) {
@@ -23,7 +24,8 @@ class DepositDetail extends React.Component {
       open: false,
       title : "",
       address : null,
-      amount : null
+      amount : null,
+      result: null
     };
     this.onDeposit = this.onDeposit.bind(this);
     this.handleCopy = this.handleCopy.bind(this);
@@ -73,10 +75,10 @@ class DepositDetail extends React.Component {
     axios.post(`${process.env.REACT_APP_BASE_URL}/api/buy`, data)
     .then(res => {
         toast.success("Deposit Success!");
-        this.setState({ loading: false });
+        this.setState({ loading: false, result: res.data?.data?.order });
       })
     .catch(err => {
-      console.log(err.response.data.message);
+      console.log(err);
       toast.error("Deposit Failed!");
       this.setState({ loading: false });
 
@@ -107,117 +109,101 @@ class DepositDetail extends React.Component {
   }
   render() {
   const { themeColor } = this.props;
-  const { title, address, amount, accounts, account } = this.state;
+  const { title, address, amount, accounts, account, result } = this.state;
     return (
       <div className={s.root}>
-        
-          <div className="form-content">
-             <h4 className={`page-title-${themeColor}`}>
-                { this.capitalizeFirstLetter(title) }
-            </h4>
-            <Row>
-                <Col lg={6} >
-                      <div className="mt-2">
-                        <Label>Trading Account *</Label>
-                        {/* <div className="input-transparent pl-3"  style={{ flex: 1 }}> */}
-                          <ReactSelect
-                              options={ accounts } 
-                              className="react-select-container mt-1" 
-                              classNamePrefix="react-select"
-                              value={{ value: account, label: account }}
-                              onChange={e => this.changeAccount(e)}
-                              styles={{
-                                  control: (baseStyles, state) => ({
-                                    ...baseStyles,
-                                    borderColor: 'grey',
-                                    backgroundColor: "white",
-                                      cursor: "pointer",
-                                      opacity: .8
-                                  }),
-                                  option: (base) => ({
-                                      ...base,
-                                      color: 'black',
-                                      backgroundColor: "white",
-                                      cursor: "pointer"
-                                    }),
-                                }}
-                            />
-                        {/* </div> */}
-                      </div>
-                </Col>
-                {/* <Col lg={6} >
-                    <h3 className={`page-title-${themeColor} text-warning`}>
-                        <span className="fa fa-warning"></span>
-                         &nbsp;Important Notice
-                    </h3>
-                    <p>
-                    When depositing funds you agree the Payment provider will charge a processing fee. For deposits to your trading account using this payment option, the fee is 0.5%
-                    <br/>
-                    <br/>
-                    You can deposit Litecoin to your LTC-denominated account(s) and to account(s) denominated in USD, EUR, CHF, AUD, GBP, CAD.
-                    <br/>
-                    <br/>
-                    Сross-crypto denominated trading accounts transfers are forbidden.
-                    <br/>
-                    <br/>
-                    For deposit over 3000 USD using this method, deposit fee will be automatically reimbursed after payment.
-                    </p>
-                </Col> */}
-            </Row>
-          </div> 
           {
-          address !== null &&
-          <div className="form-content">
-              <h6 className={`page-title-${themeColor}`}>
-              To deposit funds, make a transfer to the blockchain address below. Copy the address or scan the QR code with the camera on your phone.
-              </h6>
-              <br/>Your unique USDT BEP20 account address
-              <Row className="mt-2">
-                  <Col md={1} className="d-flex align-items-center">
-                      <Label><strong >Address: </strong></Label>
-                  </Col>
-                  <Col md={8}>
-                      <Input disabled value={ address }></Input>
-                  </Col>
-                  <Col md={3}>
-                      <Button onClick={this.handleCopy} className="btn-success"><AiOutlineCopy></AiOutlineCopy></Button>
-                      <Snackbar
-                        open={this.state.open}
-                        onClose={() => this.setState({ open: false})}
-                        message="Copied to clibboard"
-                        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                        autoHideDuration={1600}
-                      />
-                  </Col>
-              </Row>
-              <Row>
-                  <Col md={12}>
-                      <p className="mt-3">Alternatively you can use the QR code below to complete this transaction with your mobile device:</p>
-                  </Col>
-                  <Col md={12} className="text-center">
-                      <img src={`https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${address}`} alt="QrCode"></img>
-                  </Col>
-              </Row>
+            result === null?
+            <div>
+              <div className="form-content">
+                <h4 className={`page-title-${themeColor}`}>
+                    { this.capitalizeFirstLetter(title) }
+                </h4>
+                <Row>
+                    <Col lg={6} >
+                          <div className="mt-2">
+                            <Label>Trading Account *</Label>
+                              <ReactSelect
+                                  options={ accounts } 
+                                  className="react-select-container mt-1" 
+                                  classNamePrefix="react-select"
+                                  value={{ value: account, label: account }}
+                                  onChange={e => this.changeAccount(e)}
+                                  styles={{
+                                      control: (baseStyles, state) => ({
+                                        ...baseStyles,
+                                        borderColor: 'grey',
+                                        backgroundColor: "white",
+                                          cursor: "pointer",
+                                          opacity: .8
+                                      }),
+                                      option: (base) => ({
+                                          ...base,
+                                          color: 'black',
+                                          backgroundColor: "white",
+                                          cursor: "pointer"
+                                        }),
+                                    }}
+                                />
+                          </div>
+                    </Col>
+                </Row>
+              </div> 
               {
-                title === "stacoinex" && 
-                <div>
-                   <Row className="mt-2">
-                      <Col lg={6} >
-                        <div className="">
-                            <Label><strong >Amount: </strong></Label>
-                            <Input value={ amount } onChange={e => this.changeAmount(e)} ></Input>
-                        </div>
-                      </Col>
+                address !== null &&
+                <div className="form-content">
+                    <h6 className={`page-title-${themeColor}`}>
+                    To deposit funds, make a transfer to the blockchain address below. Copy the address or scan the QR code with the camera on your phone.
+                    </h6>
+                    <br/>Your unique USDT BEP20 account address
+                    <Row className="mt-2">
+                        <Col md={1} className="d-flex align-items-center">
+                            <Label><strong >Address: </strong></Label>
+                        </Col>
+                        <Col md={8}>
+                            <Input disabled value={ address }></Input>
+                        </Col>
+                        <Col md={3}>
+                            <Button onClick={this.handleCopy} className="btn-success"><AiOutlineCopy></AiOutlineCopy></Button>
+                            <Snackbar
+                              open={this.state.open}
+                              onClose={() => this.setState({ open: false})}
+                              message="Copied to clibboard"
+                              anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                              autoHideDuration={1600}
+                            />
+                        </Col>
                     </Row>
-                    <div className="mt-4 mb-3">
-                        <Button className={`btn-success`} onClick={e => this.onDeposit()} >
-                        {this.state.loading ? <Spinner size="sm" color="light"></Spinner> : 'Deposit via Stacoinex'}</Button>       
-                    </div>
+                    <Row>
+                        <Col md={12}>
+                            <p className="mt-3">Alternatively you can use the QR code below to complete this transaction with your mobile device:</p>
+                        </Col>
+                        <Col md={12} className="text-center">
+                            <img src={`https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${address}`} alt="QrCode"></img>
+                        </Col>
+                    </Row>
+                    {
+                      title === "stacoinex" && 
+                      <div>
+                        <Row className="mt-2">
+                            <Col lg={6} >
+                              <div className="">
+                                  <Label><strong >Amount: </strong></Label>
+                                  <Input value={ amount } onChange={e => this.changeAmount(e)} ></Input>
+                              </div>
+                            </Col>
+                          </Row>
+                          <div className="mt-4 mb-3">
+                              <Button className={`btn-success`} onClick={e => this.onDeposit()} >
+                              {this.state.loading ? <Spinner size="sm" color="light"></Spinner> : 'Deposit via Stacoinex'}</Button>       
+                          </div>
+                      </div>
+                    }
                 </div>
               }
-          </div>
-        }
-        
+            </div>:
+            <StacoinexResult result={result}></StacoinexResult>
+          }
       </div>
     );
   }
