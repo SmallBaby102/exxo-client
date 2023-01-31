@@ -89,15 +89,15 @@ class DepositDetail extends React.Component {
     const { match } = this.props;
     let accounts = [];
     this.props.dispatch(setChecking(true));
-    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { email: this.props.account?.email, partnerId: this.props.account?.partnerId }})
+    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: this.props.account?.accountUuid, partnerId: this.props.account?.partnerId }})
     .then( async res => {
       this.props.dispatch(setChecking(false));
       let temp = [];
       for (let index = 0; index < res.data.length; index++) {
         const element = res.data[index];
-        temp.push({ value: element.tradingAccountId, label: element.tradingAccountId, address: element.address})
+        temp.push({ value: element.login, label: element.login, address: element.address})
       }
-      this.setState({ title: match.params.currency, accounts: temp, account: res.data[0].tradingAccountId, address: res.data[0].address }); 
+      this.setState({ title: match.params.currency, accounts: temp, account: res.data[0].login, address: res.data[0].address }); 
     console.log(res);
     })
     .catch(e => {

@@ -58,7 +58,7 @@ class Accounts extends React.Component {
       this.props.dispatch(setChecking(false));
       this.setState({ step: 0 })
       this.props.dispatch(setChecking(true));
-      axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { email: this.props.account?.email, partnerId: this.props.account?.partnerId }})
+      axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: this.props.account?.accountUuid, partnerId: this.props.account?.partnerId }})
       .then( async res => {
         this.props.dispatch(setChecking(false));
         this.setState({ tradingAccounts: res.data})
@@ -83,7 +83,7 @@ class Accounts extends React.Component {
     // this.setState({ offerNames: this.props.offerNames })
     
     this.props.dispatch(setChecking(true));
-    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { email: this.props.account?.email, partnerId: this.props.account?.partnerId }})
+    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: this.props.account?.accountUuid, partnerId: this.props.account?.partnerId }})
     .then( async res => {
       this.props.dispatch(setChecking(false));
       this.setState({ tradingAccounts: res.data})
@@ -124,30 +124,22 @@ class Accounts extends React.Component {
                     <thead>
                       <tr className="fs-sm">
                         <th>Id</th>
-                        <th>Partner Id</th>
-                        <th>Email</th>
+                        <th>CreatedAt</th>
                         <th>Currency</th>
                         <th>Balance</th>
-                        <th>Equity</th>
-                        <th>Free Margin</th>
                       </tr>
                     </thead>
                     <tbody>
                       { this.state.tradingAccounts?.map((row) => (
                         <tr key={row.uuid}>
                           <td>
-                          { row.tradingAccountId }
+                          { row.login }
                           </td>
                           <td>
-                            {row.partnerId}
+                          <td>{ new Date(row.created).toLocaleString() }</td>
                           </td>
-                          <td>
-                            {row.accountEmail}
-                          </td>
-                          <td>{row.balance?.currency}</td>
-                          <td>{row.balance?.balance}</td>
-                          <td>{row.balance?.equity}</td>
-                          <td>{row.balance?.freeMargin}</td>
+                          <td>{row.currency}</td>
+                          <td>{row.balance}</td>
                         </tr>
                       ))}
                     </tbody>
