@@ -42,7 +42,7 @@ class DepositDetail extends React.Component {
   changeCurrency = (e) => {
     this.setState({ currency: e.value})
   }
-  handleCopy = () => {
+  handleCopy = (e) => {
     this.setState({ open: true})
     navigator.clipboard.writeText(this.state.address);
   }
@@ -164,7 +164,7 @@ class DepositDetail extends React.Component {
                             <Input disabled value={ address }></Input>
                         </Col>
                         <Col md={3}>
-                            <Button onClick={this.handleCopy} className="btn-success"><AiOutlineCopy></AiOutlineCopy></Button>
+                            <Button onClick={(e) => this.handleCopy(e)} className="btn-success"><AiOutlineCopy></AiOutlineCopy></Button>
                             <Snackbar
                               open={this.state.open}
                               onClose={() => this.setState({ open: false})}

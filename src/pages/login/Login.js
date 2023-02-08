@@ -117,56 +117,11 @@ class Login extends React.Component {
       
         return (
             <div className="auth-page">
-                <a href="https://my.myfxchoice.com"><span class="login-logo"></span></a>
+                <a href="https://exxormarkets.com"><span class="login-logo"></span></a>
                 <div className='auth-header'>
                     <div class="link-to-homepage-container">
-                    <a href="https://en.myfxchoice.com/" target="_blank">
+                    <a href="https://exxormarkets.com" target="_blank">
                         Please click here to go to our homepage          </a>
-                    </div>
-                    <div class="language-drop-down-container">
-                        <div id="language-drop-down" class="language-drop-down">
-                            <div className="current" onClick={e => {}}>
-                                English<span className="caret"></span>
-                            </div>
-                            <ul class="hide">
-                                    <li>
-                                    <a href="/login/index?lang=fa_ir">
-                                    فارسی        </a>
-                                </li>
-                                    <li>
-                                    <a href="/login/index?lang=de">
-                                    Deutsch        </a>
-                                </li>
-                                    <li>
-                                    <a href="/login/index?lang=es">
-                                    Español        </a>
-                                </li>
-                                    <li>
-                                    <a href="/login/index?lang=ar">
-                                    العربية        </a>
-                                </li>
-                                    <li>
-                                    <a href="/login/index?lang=th">
-                                    ภาษาไทย        </a>
-                                </li>
-                                    <li>
-                                    <a href="/login/index?lang=zh_cn">
-                                    中文        </a>
-                                </li>
-                                    <li>
-                                    <a href="/login/index?lang=fr">
-                                    Français        </a>
-                                </li>
-                                    <li>
-                                    <a href="/login/index?lang=pt">
-                                    Português        </a>
-                                </li>
-                                    <li>
-                                    <a href="/login/index?lang=ja">
-                                    日本語        </a>
-                                </li>
-                            </ul>
-                        </div>        
                     </div>
                 </div>
                 {

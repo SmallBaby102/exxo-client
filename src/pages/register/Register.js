@@ -159,56 +159,11 @@ class Register extends React.Component {
         const { step } = this.state;
         return (
             <div className="auth-page register-page">
-                 <a href="https://my.myfxchoice.com"><span className="login-logo"></span></a>
+                 <a href="https://exxormarkets.com"><span className="login-logo"></span></a>
                 <div className='auth-header'>
                     <div className="link-to-homepage-container">
-                    <a href="https://en.myfxchoice.com/" target="_blank">
+                    <a href="https://exxormarkets.com" target="_blank">
                         Please click here to go to our homepage          </a>
-                    </div>
-                    <div className="language-drop-down-container">
-                        <div id="language-drop-down" className="language-drop-down">
-                            <div className="current" onClick={e => {}}>
-                                English<span className="caret"></span>
-                            </div>
-                            <ul className="hide">
-                                    <li>
-                                    <a href="/login/index?lang=fa_ir">
-                                    فارسی        </a>
-                                </li>
-                                    <li>
-                                    <a href="/login/index?lang=de">
-                                    Deutsch        </a>
-                                </li>
-                                    <li>
-                                    <a href="/login/index?lang=es">
-                                    Español        </a>
-                                </li>
-                                    <li>
-                                    <a href="/login/index?lang=ar">
-                                    العربية        </a>
-                                </li>
-                                    <li>
-                                    <a href="/login/index?lang=th">
-                                    ภาษาไทย        </a>
-                                </li>
-                                    <li>
-                                    <a href="/login/index?lang=zh_cn">
-                                    中文        </a>
-                                </li>
-                                    <li>
-                                    <a href="/login/index?lang=fr">
-                                    Français        </a>
-                                </li>
-                                    <li>
-                                    <a href="/login/index?lang=pt">
-                                    Português        </a>
-                                </li>
-                                    <li>
-                                    <a href="/login/index?lang=ja">
-                                    日本語        </a>
-                                </li>
-                            </ul>
-                        </div>        
                     </div>
                 </div>
                 {
@@ -271,7 +226,7 @@ class Register extends React.Component {
                                 </FormGroup>
                                 <div className="fs-12 mt-4" style={{ whiteSpace: "nowrap"}}>
                                     <input type="checkbox" className='form-check-input' checked={this.state.read_notice} onChange={e => this.setState({read_notice: e.target.checked})}></input>
-                                    I have read, understood and accepted the <a target="_blank" href="https://en.myfxchoice.com/data-protection-notice" className='btn btn-link btn-block remind-link'><strong>Data Protection Notice</strong></a>.</div>
+                                    I have read, understood and accepted the <a target="_blank" href="https://en.myfxchoice.com/data-protection-notice" className='btn btn-link btn-block remind-link'><strong>Term and Conditions of Trading</strong></a>.</div>
                                 <div className=" auth-widget-footer">
                                     <Button type="button" onClick={this.next} className="next-btn"
                                             size="sm" style={{color: '#fff'}}>Next</Button>

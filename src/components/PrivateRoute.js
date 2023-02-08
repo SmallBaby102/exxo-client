@@ -22,19 +22,26 @@ const PrivateRoute = ({dispatch, component, ...rest }) => {
         history.push("/login");
         return;
       }
-      const decoded = jwt_decode(token);
-      console.log("token decode", decoded)
-      if ( decoded.exp < Date.now() / 1000 ) {
-          dispatch(logoutUser());
-          history.push("/login");
-          return;
-      } else {
-        if(!account){
-            const temp =  JSON.parse(localStorage.getItem("account"));
-            console.log("account", temp)
-            dispatch(setAccount(temp));
+      try {
+        const decoded = jwt_decode(token);
+        console.log("token decode", decoded)
+        if ( decoded.exp < Date.now() / 1000 ) {
+            dispatch(logoutUser());
+            history.push("/login");
+            return;
+        } else {
+          if(!account){
+              const temp =  JSON.parse(localStorage.getItem("account"));
+              console.log("account", temp)
+              dispatch(setAccount(temp));
+          }
         }
       }
+      catch(err) {
+            history.push("/login");
+      }
+     
+
     }, [ location.pathname ])
     return ( // eslint-disable-line
               <LoadingOverlay active={checking} spinner>
