@@ -19,19 +19,45 @@ class Withdrawal extends React.Component {
     super(props);
     this.state = {
       accounts: [],
+      methods: [],
+      method: null,
       withdraws: [],
       tradingAccount: "",
-      amount : null
+      amount : null,
+      benificiaryName : null,
+      bankName : null,
+      bankAccount : null,
+      bankBranch : null,
     };
     this.changeAccount = this.changeAccount.bind(this);
+    this.changeMethod = this.changeMethod.bind(this);
     this.changeAmount = this.changeAmount.bind(this);
+    this.changeBenificiaryName = this.changeBenificiaryName.bind(this);
+    this.changeBankName = this.changeBankName.bind(this);
+    this.changeBankAccount = this.changeBankAccount.bind(this);
+    this.changeBankBranch = this.changeBankBranch.bind(this);
     this.withdraw = this.withdraw.bind(this);
   }
   changeAccount = (e) => {
     this.setState({ tradingAccount: e.value })
   }
+  changeMethod = (e) => {
+    this.setState({ method: e.value })
+  }
   changeAmount = (e) => {
     this.setState({ amount: e.target.value })
+  }
+  changeBenificiaryName = (e) => {
+    // this.setState({ amount: e.target.value })
+  }
+  changeBankName = (e) => {
+    // this.setState({ amount: e.target.value })
+  }
+  changeBankAccount = (e) => {
+    // this.setState({ amount: e.target.value })
+  }
+  changeBankBranch = (e) => {
+    // this.setState({ amount: e.target.value })
   }
   withdraw = (e) => {
     let inputValidation = true;
@@ -49,7 +75,6 @@ class Withdrawal extends React.Component {
     const { account } = this.props;
 
     const tradingAccountFilter = this.state.accounts?.find(item => item.value === this.state.tradingAccount);
-    console.log("tr.acc",  tradingAccountFilter)
     const data = {
       email: account?.email,
       tradingAccountUuid: tradingAccountFilter.tradingAccountUuid,
@@ -78,7 +103,24 @@ class Withdrawal extends React.Component {
     const { match } = this.props;
     let accounts = [];
     this.props.dispatch(setChecking(true));
-
+    this.setState({ methods: [
+      {
+        value: "USDT BEP20",
+        label: "USDT BEP20"
+      },
+      {
+        value: "Vietnam Bank Transfer",
+        label: "Vietnam Bank Transfer"
+      },
+      {
+        value: "Neteller",
+        label: "Neteller"
+      },
+      {
+        value: "Skrill",
+        label: "Skrill"
+      },
+    ]})
     axios.get(`${process.env.REACT_APP_BASE_URL}/api/other/withdraw`, { params: { email: this.props.account?.email }})
     .then( async res => {
         this.setState({ withdraws: res.data });
@@ -86,15 +128,15 @@ class Withdrawal extends React.Component {
     .catch(e => {
       console.log(e);
     })
-    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { email: this.props.account?.email, partnerId: this.props.account?.partnerId }})
+    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: this.props.account?.accountUuid, partnerId: this.props.account?.partnerId }})
     .then( async res => {
       this.props.dispatch(setChecking(false));
       let temp = [];
       for (let index = 0; index < res.data.length; index++) {
         const element = res.data[index];
-        temp.push({ value: element.tradingAccountId, label: element.tradingAccountId, address: element.address, tradingAccountUuid: element.uuid})
+        temp.push({ value: element.login, label: element.login, address: element.address, tradingAccountUuid: element.uuid})
       }
-      this.setState({ accounts: temp, tradingAccount: res.data[0].tradingAccountId, address: res.data[0].address }); 
+      this.setState({ accounts: temp, tradingAccount: res.data[0].login, address: res.data[0].address }); 
     console.log("tr.accounts", res.data);
     })
     .catch(e => {
@@ -106,7 +148,7 @@ class Withdrawal extends React.Component {
   }
   render() {
   const { themeColor } = this.props;
-  const { accounts, tradingAccount, amount } = this.state;
+  const { accounts, methods, method, tradingAccount, amount, benificiaryName, bankName, bankAccount, bankBranch } = this.state;
 
     return (
       <div className={s.root}>
@@ -117,13 +159,13 @@ class Withdrawal extends React.Component {
               <Row>
                 <Col lg={6} >
                       <div className="mt-2">
-                          <Label><strong>Trading Account *</strong></Label>
+                          <Label><strong>Method *</strong></Label>
                           <ReactSelect
-                              options={ accounts } 
+                              options={ methods } 
                               className="react-select-container mt-1" 
                               classNamePrefix="react-select"
-                              value={{ value: tradingAccount, label: tradingAccount }}
-                              onChange={e => this.changeAccount(e)}
+                              value={{ value: method, label: method }}
+                              onChange={e => this.changeMethod(e)}
                               styles={{
                                   control: (baseStyles, state) => ({
                                     ...baseStyles,
@@ -143,17 +185,134 @@ class Withdrawal extends React.Component {
                       </div>
                 </Col>
               </Row>
-              <Row className="mt-2">
-                <Col lg={6} >
-                  <div className="">
-                      <Label><strong >Amount: </strong></Label>
-                      <Input value={ amount } onChange={e => this.changeAmount(e)} ></Input>
+              {
+                method === "USDT BEP20" &&
+                <div>
+                  <Row>
+                    <Col lg={6} >
+                          <div className="mt-2">
+                              <Label><strong>Trading Account *</strong></Label>
+                              <ReactSelect
+                                  options={ accounts } 
+                                  className="react-select-container mt-1" 
+                                  classNamePrefix="react-select"
+                                  value={{ value: tradingAccount, label: tradingAccount }}
+                                  onChange={e => this.changeAccount(e)}
+                                  styles={{
+                                      control: (baseStyles, state) => ({
+                                        ...baseStyles,
+                                        borderColor: 'grey',
+                                        backgroundColor: "white",
+                                          cursor: "pointer",
+                                          opacity: .8
+                                      }),
+                                      option: (base) => ({
+                                          ...base,
+                                          color: 'black',
+                                          backgroundColor: "white",
+                                          cursor: "pointer"
+                                        }),
+                                  }}
+                              />
+                          </div>
+                    </Col>
+                  </Row>
+                  <Row className="mt-2">
+                    <Col lg={6} >
+                      <div className="">
+                          <Label><strong >Amount: </strong></Label>
+                          <Input value={ amount } onChange={e => this.changeAmount(e)} ></Input>
+                      </div>
+                    </Col>
+                  </Row>
+                  <div className="mt-4 mb-3">
+                      <Button className={`btn-success`} onClick={e => this.withdraw()} >Request Withdraw</Button>       
                   </div>
-                </Col>
-              </Row>
-              <div className="mt-4 mb-3">
-                  <Button className={`btn-success`} onClick={e => this.withdraw()} >Request Withdraw</Button>       
-              </div>
+                </div>
+              }
+              {
+                method === "Vietnam Bank Transfer" &&
+                <div>
+                  <Row>
+                    <Col lg={6} >
+                          <div className="mt-2">
+                              <Label><strong>Trading Account *</strong></Label>
+                              <ReactSelect
+                                  options={ accounts } 
+                                  className="react-select-container mt-1" 
+                                  classNamePrefix="react-select"
+                                  value={{ value: tradingAccount, label: tradingAccount }}
+                                  onChange={e => this.changeAccount(e)}
+                                  styles={{
+                                      control: (baseStyles, state) => ({
+                                        ...baseStyles,
+                                        borderColor: 'grey',
+                                        backgroundColor: "white",
+                                          cursor: "pointer",
+                                          opacity: .8
+                                      }),
+                                      option: (base) => ({
+                                          ...base,
+                                          color: 'black',
+                                          backgroundColor: "white",
+                                          cursor: "pointer"
+                                        }),
+                                  }}
+                              />
+                          </div>
+                    </Col>
+                  </Row>
+                  <Row className="mt-2">
+                    <Col lg={6} >
+                      <div className="">
+                          <Label><strong >Benificiary Name: </strong></Label>
+                          <Input value={ benificiaryName } onChange={e => this.changeBenificiaryName(e)} ></Input>
+                      </div>
+                    </Col>
+                  </Row>
+                  <Row className="mt-2">
+                    <Col lg={6} >
+                      <div className="">
+                          <Label><strong >Bank Name: </strong></Label>
+                          <Input value={ bankName } onChange={e => this.changeBankName(e)} ></Input>
+                      </div>
+                    </Col>
+                  </Row>
+                  <Row className="mt-2">
+                    <Col lg={6} >
+                      <div className="">
+                          <Label><strong >Bank Account: </strong></Label>
+                          <Input value={ bankAccount } onChange={e => this.changeBankAccount(e)} ></Input>
+                      </div>
+                    </Col>
+                  </Row>
+                  <Row className="mt-2">
+                    <Col lg={6} >
+                      <div className="">
+                          <Label><strong >Bank Branch: </strong></Label>
+                          <Input value={ bankBranch } onChange={e => this.changeBankBranch(e)} ></Input>
+                      </div>
+                    </Col>
+                  </Row>
+                  <Row className="mt-2">
+                    <Col lg={6} >
+                      <div className="">
+                          <Label><strong >Amount: </strong></Label>
+                          <Input value={ amount } onChange={e => this.changeAmount(e)} ></Input>
+                      </div>
+                    </Col>
+                  </Row>
+                  <div className="mt-4 mb-3">
+                      <Button className={`btn-success`} onClick={e => this.withdraw()} >Request Withdraw</Button>       
+                  </div>
+                </div>
+              }
+              {
+                (method === "Neteller" || method === "Skrill" ) &&
+                <p>This method is not supported in your region</p>
+
+              }
+             
               <hr></hr>
               <h5 className="mb-3">
                 Withdraw History
@@ -185,7 +344,7 @@ class Withdrawal extends React.Component {
                           <td >
                             <span
                               className={`tb-status text-${
-                                row.status === "Approved" ? "success" : row.status === "Pending" ? "info" : "danger"
+                                (row.status === "Approved" || row.status === "DONE") ? "success" : row.status === "Pending" ? "info" : "danger"
                               }`}
                             >
                               { row.status } 

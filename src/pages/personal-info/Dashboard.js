@@ -8,6 +8,8 @@ import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import axios from "axios";
+import { toast } from "react-toastify";
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -21,6 +23,17 @@ class Dashboard extends React.Component {
       address: "",
     };
   }
+  updateProfile() {
+    const account = this.props.account;
+    axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/users/${account?._id}`, { data: this.state })
+    .then(res => {
+      toast.success("Updated your profile successfully!");
+    })
+    .catch(e => {
+      toast.error(e.response.data.message);
+      
+    })
+  }
  componentDidMount() {
   const account = this.props.account;
   this.setState({ dob: account?.birthday,postalCode: account?.postalCode, name: account?.fullname, country: account?.country, city: account?.city, address: account?.address })
@@ -32,7 +45,7 @@ class Dashboard extends React.Component {
       <div className={s.root}>
         {
           verifyStatus === "New" ? <VerifyButton></VerifyButton> : verifyStatus === "Pending" ? <div style={{ color: "blue", padding: "5px 10px", fontSize: "1.3rem" }}>Your verification is pending now.</div> 
-          : verifyStatus === "Rejected" ? <div style={{ color: "red", padding: "5px 10px", fontSize: "1.3rem" }}>Your account was rejected.</div>: ""
+          : verifyStatus === "Rejected" ? <div style={{ color: "red", padding: "5px 10px", fontSize: "1.3rem" }}>Your profile has not verified. Please update your information.</div>: ""
         }
         
         <div className="form-content">
@@ -75,6 +88,10 @@ class Dashboard extends React.Component {
                         <Input className="input-content" value={city} onChange={e => this.setState({ city: e.target.value})}></Input>
                       </div>
                       <div className="mt-3">
+                        <Label>Country</Label>
+                        <Input className="input-content" value={country} onChange={e => this.setState({ country: e.target.value})}></Input>
+                      </div>
+                      <div className="mt-3">
                         <Label>Address</Label>
                         <Input className="input-content" value={address} onChange={e => this.setState({ address: e.target.value})}></Input>
                       </div>
@@ -87,7 +104,11 @@ class Dashboard extends React.Component {
                         <Input className="input-content"></Input>
                       </div>
                       <div className="mt-3">
-                        <Button className="input-content btn-info">Submit</Button>
+                        { 
+                          // verifyStatus === "Pending" ?  <Button className="input-content btn-info" disabled={true} >Submit</Button> :
+                          <Button className="input-content btn-info" onClick={() => { this.updateProfile()}}>Submit</Button>
+                        }
+                        
                       </div>
                 </Col>
             </Row>

@@ -89,7 +89,7 @@ class Sidebar extends React.Component {
                         iconName={<AiOutlineUser className={themeColor === "dark"? s.menuIcon: s.menuIconLight}/>}
                         link="/app/profile"
                         index="profile"
-                        childrenLinks={verifyStatus !== "Approved" ? [
+                        childrenLinks={(verifyStatus !== "Approved" && verifyStatus !== "Pending"  )? [
                             {
                                 header: 'Personal Information', link: '/app/profile/personal-info',
                             },
