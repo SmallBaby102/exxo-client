@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Container, Alert, Button, FormGroup, Label, InputGroup, InputGroupAddon, Input, InputGroupText, Row, Col } from 'reactstrap';
+import { Container, Alert, Button, FormGroup, Label, InputGroup, InputGroupAddon, Input, InputGroupText, Row, Col, Toast } from 'reactstrap';
 import Widget from '../../components/Widget';
 import { loginUser, setAccount, setTradingAccounts, setOfferNames } from '../../actions/user';
 import { setChecking } from '../../actions/navigation'
@@ -10,7 +10,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 // import "react-toastify/dist/ReactToastify.css";
 import Helper from '../../utils/Helper'
-class VerifyEmail extends React.Component {
+class ResetLink extends React.Component {
     static propTypes = {
         dispatch: PropTypes.func.isRequired,
     };
@@ -24,6 +24,7 @@ class VerifyEmail extends React.Component {
 
         this.state = {
             loading: false,
+            email: "",
             options: {
                 position: "top-right",
                 autoClose: 5000,
@@ -31,12 +32,25 @@ class VerifyEmail extends React.Component {
                 pauseOnHover: false,
                 draggable: true,
               },
-          
+              
             errorMessage: null
         };
+        this.changeEmail = this.changeEmail.bind(this);
+        this.resetPassword = this.resetPassword.bind(this);
 
     }
-
+    changeEmail(event) {
+        this.setState({ email: event.target.value });
+    }
+    resetPassword() {
+        axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/reset-link`, { email: this.state.email })
+        .then( async res => {
+            toast.success("We have sent the link to your email.");
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
 
     render() {
         const {
@@ -55,8 +69,20 @@ class VerifyEmail extends React.Component {
                     </div>
                 </div>
                 <Container>
-                    <Widget className="widget-auth mx-auto login-body" title={<h4 className="mt-0"><strong>
-                        Please check your mail box.</strong></h4>}>
+                    <Widget className="widget-auth mx-auto login-body" title={<h4 className="mt-0"><strong>Sign In</strong> to Client Portal</h4>}>
+
+                            <FormGroup className="mt">
+                                <InputGroup className="input-group-no-border">
+                                    
+                                    <Input id="email" className="input-transparent pl-3" style={{padding: "0 0 0 10px" }} value={this.state.email} onChange={this.changeEmail} type="email"
+                                            name="email" placeholder="Email"/>
+                                    <InputGroupAddon addonType="prepend"  onClick = {e => this.resetPassword(e)}>
+                                        <InputGroupText>
+                                            <i className="la la-send text-white"/>
+                                        </InputGroupText>
+                                    </InputGroupAddon>
+                                </InputGroup>
+                            </FormGroup>
                     </Widget>
                 </Container>
                 <footer className="auth-footer" style={{ position: "absolute"}}>
@@ -78,5 +104,5 @@ function mapStateToProps(state) {
     };
 }
  
-export default connect(mapStateToProps)(VerifyEmail);
+export default connect(mapStateToProps)(ResetLink);
 

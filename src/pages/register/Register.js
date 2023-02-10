@@ -226,7 +226,7 @@ class Register extends React.Component {
                                 </FormGroup>
                                 <div className="fs-12 mt-4" style={{ whiteSpace: "nowrap"}}>
                                     <input type="checkbox" className='form-check-input' checked={this.state.read_notice} onChange={e => this.setState({read_notice: e.target.checked})}></input>
-                                    I have read, understood and accepted the <a target="_blank" href="https://en.myfxchoice.com/data-protection-notice" className='btn btn-link btn-block remind-link'><strong>Term and Conditions of Trading</strong></a>.</div>
+                                    I have read, understood and accepted the <a target="_blank" href="https://exxomarkets.com/data-protection-notice" className='btn btn-link btn-block remind-link'><strong>Term and Conditions of Trading</strong></a>.</div>
                                 <div className=" auth-widget-footer">
                                     <Button type="button" onClick={this.next} className="next-btn"
                                             size="sm" style={{color: '#fff'}}>Next</Button>
@@ -312,7 +312,7 @@ class Register extends React.Component {
                 </Container>
                 <footer className="auth-footer">
                     <div className="text-center">
-                            © 2022 <a href="https://en.myfxchoice.com/" target="blank">Exxo Choice Limited</a><br/>
+                            © 2022 <a href="https://exxomarkets.com/" target="blank">Exxo Choice Limited</a><br/>
                             All Rights Reserved      
                     </div>
                 </footer>

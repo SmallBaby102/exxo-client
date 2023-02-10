@@ -394,7 +394,7 @@ class Dashboard extends React.Component {
                             <Input type="checkbox" style={{ width: "15px"}} onChange={e => this.setState({ check1: e.target.checked})}>  </Input> I declare and confirm my acceptance of the Client Agreement (including the Risk Disclosure Statement), that I have read, understood and fully agree to the Terms and Conditions outlined above.
                          </Label>
                          <Label >
-                            <Input type="checkbox" style={{ width: "15px"}} onChange={e => this.setState({ check2: e.target.checked})}> </Input> I declare that I act in my own name as specified above and not on behalf of a third party in respect of all matters related to this client relationship. Accordingly all funds to be deposited and traded on the account with FXChoice are my own funds.
+                            <Input type="checkbox" style={{ width: "15px"}} onChange={e => this.setState({ check2: e.target.checked})}> </Input> I declare that I act in my own name as specified above and not on behalf of a third party in respect of all matters related to this client relationship. Accordingly all funds to be deposited and traded on the account with Exxomarkets are my own funds.
                          </Label> 
                       </Col>
                       <Col md={12} className="d-flex justify-content-between mt-3" >

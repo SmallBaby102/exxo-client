@@ -30,6 +30,7 @@ class Accounts extends React.Component {
     this.changePassword = this.changePassword.bind(this);
     this.changeCurrency = this.changeCurrency.bind(this);
     this.changeLeverage = this.changeLeverage.bind(this);
+    this.setInternalTransfer = this.setInternalTransfer.bind(this);
   }
   changeAccount(event) {
       this.setState({ account: event.value });
@@ -63,6 +64,9 @@ class Accounts extends React.Component {
     this.setState({ offerNames: temp })
 
     this.setState({ step: 1 })
+  }
+  setInternalTransfer() {
+    this.props.history.push("/app/internal-transfer");
   }
  
   openLiveAccount() {
@@ -271,7 +275,8 @@ class Accounts extends React.Component {
               step === 0 ?
               <div>
                 <Button className="btn-success sm" onClick={this.setLiveAccount}>Open Live Account</Button>
-                <Button className="btn-info sm" onClick={this.setDemoAccount}>Open Demo Account</Button>
+                <Button className="btn-info sm  ml-1" onClick={this.setDemoAccount}>Open Demo Account</Button>
+                <Button className="btn-warning sm" onClick={this.setInternalTransfer}>Internal Transfer</Button>
               </div>
               :
               <Button className="btn-success sm" onClick={this.openLiveAccount}>Open account</Button>

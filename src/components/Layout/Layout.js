@@ -19,6 +19,7 @@ import Header from '../Header';
 import Sidebar from '../Sidebar';
 import { openSidebar, closeSidebar } from '../../actions/navigation';
 import s from './Layout.module.scss';
+import InternalTransfer from '../../pages/accounts/InternalTransfer';
 
 class Layout extends React.Component {
   static propTypes = {
@@ -86,6 +87,7 @@ class Layout extends React.Component {
                     <Route path="/app/profile/change-backoffice-pass" exact component={ChangeBackofficePass} />
                     <Route path="/app/profile/verify" exact component={VerifyProfile} />
                     <Route path="/app/accounts" exact component={Accounts} />
+                    <Route path="/app/internal-transfer" exact component={InternalTransfer} />
                     <Route path="/app/withdraw" exact component={Withdrawal} />
                     <Route path="/app/deposit" exact component={Deposit} />
                     <Route path="/app/deposit_detail/:currency" exact component={DepositDetail} />

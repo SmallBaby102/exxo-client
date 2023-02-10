@@ -23,6 +23,7 @@ class Withdrawal extends React.Component {
       method: null,
       withdraws: [],
       tradingAccount: "",
+      address : null,
       amount : null,
       benificiaryName : null,
       bankName : null,
@@ -31,6 +32,7 @@ class Withdrawal extends React.Component {
     };
     this.changeAccount = this.changeAccount.bind(this);
     this.changeMethod = this.changeMethod.bind(this);
+    this.changeAddress = this.changeAddress.bind(this);
     this.changeAmount = this.changeAmount.bind(this);
     this.changeBenificiaryName = this.changeBenificiaryName.bind(this);
     this.changeBankName = this.changeBankName.bind(this);
@@ -43,6 +45,9 @@ class Withdrawal extends React.Component {
   }
   changeMethod = (e) => {
     this.setState({ method: e.value })
+  }
+  changeAddress = (e) => {
+    this.setState({ address: e.target.value })
   }
   changeAmount = (e) => {
     this.setState({ amount: e.target.value })
@@ -69,6 +74,10 @@ class Withdrawal extends React.Component {
       toast.warn("Please input withdraw amount!");
       inputValidation = false;
     }
+    if(!this.state.address){
+      toast.warn("Please input withdraw address!");
+      inputValidation = false;
+    }
     if(!inputValidation){
       return;
     }
@@ -79,6 +88,7 @@ class Withdrawal extends React.Component {
       email: account?.email,
       tradingAccountUuid: tradingAccountFilter.tradingAccountUuid,
       tradingAccountId: this.state.tradingAccount,
+      address: this.state.address,
       amount: this.state.amount,
       partnerId: account?.partnerId,
       // for only update current states
@@ -148,7 +158,7 @@ class Withdrawal extends React.Component {
   }
   render() {
   const { themeColor } = this.props;
-  const { accounts, methods, method, tradingAccount, amount, benificiaryName, bankName, bankAccount, bankBranch } = this.state;
+  const { accounts, methods, method, tradingAccount, address, amount, benificiaryName, bankName, bankAccount, bankBranch } = this.state;
 
     return (
       <div className={s.root}>
@@ -215,6 +225,14 @@ class Withdrawal extends React.Component {
                                   }}
                               />
                           </div>
+                    </Col>
+                  </Row>
+                  <Row className="mt-2">
+                    <Col lg={6} >
+                      <div className="">
+                          <Label><strong >Address: </strong></Label>
+                          <Input value={ address } onChange={e => this.changeAddress(e)} ></Input>
+                      </div>
                     </Col>
                   </Row>
                   <Row className="mt-2">
@@ -323,6 +341,7 @@ class Withdrawal extends React.Component {
                       <tr className="fs-sm">
                         <th>Trading Account Id</th>
                         <th>Email</th>
+                        <th>Address</th>
                         <th>Amount</th>
                         <th>Currency</th>
                         <th>Submitted At</th>
@@ -338,6 +357,7 @@ class Withdrawal extends React.Component {
                           <td>
                             { row.email }
                           </td>
+                          <td>{ row.address }</td>
                           <td>{ row.amount }</td>
                           <td>{ row.currency }</td>
                           <td>{ new Date(row.submittedAt).toLocaleString() }</td>

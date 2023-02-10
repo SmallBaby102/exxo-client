@@ -9,6 +9,8 @@ import '../styles/theme.scss';
 import Login from '../pages/login';
 import Register from '../pages/register';
 import VerifyEmail from '../pages/login/VerifyEmail';
+import ResetLink from '../pages/login/ResetLink';
+import ResetPassword from '../pages/login/ResetPassword';
 const PrivateRoute = lazy(() =>  import('./PrivateRoute'));
 const LayoutComponent = lazy(() => import('../components/Layout'));
 
@@ -31,6 +33,8 @@ class App extends React.PureComponent {
                         <Route path="/register" exact component={Register}/>
                         <Route path="/login" exact component={Login}/>
                         <Route path="/verify-email" exact component={VerifyEmail}/>
+                        <Route path="/remind-link" exact component={ResetLink}/>
+                        <Route path="/reset-password" exact component={ResetPassword}/>
                         <Route path="/error" exact component={ErrorPage}/>
                         <Route component={ErrorPage}/>
                         <Redirect from="*" to="/app/profile"/>

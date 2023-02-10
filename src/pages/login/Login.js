@@ -105,6 +105,7 @@ class Login extends React.Component {
     signUp() {
         this.props.history.push('/register');
     }
+
     onGoogleAuth = (values) => {
         console.log("google auth", values)
     }
@@ -169,7 +170,7 @@ class Login extends React.Component {
                                         </Button>
                                     </Col>
                                     <Col md={6} className="text-center">
-                                        <a className="mt-4 btn btn-link btn-block remind-link" href='/login/remind'>
+                                        <a className="mt-4 btn btn-link btn-block remind-link" href="/remind-link">
                                             Forgotten password?
                                         </a>
                                     </Col>
@@ -183,7 +184,7 @@ class Login extends React.Component {
                 </Container>
                 <footer className="auth-footer">
                     <div class="text-center">
-                            © 2022 <a href="https://en.myfxchoice.com/" target="blank">Exxo Choice Limited</a><br/>
+                            © 2022 <a href="https://exxomarkets.com/" target="blank">Exxo Choice Limited</a><br/>
                             All Rights Reserved      
                     </div>
                 </footer>
