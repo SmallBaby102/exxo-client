@@ -78,7 +78,7 @@ class Sidebar extends React.Component {
             >
                 
                 <header className={this.props.themeColor === "dark" ? s.logo: s.logoLight }>
-                    <a href = "/"><img src = {Logo} style = {{width: "100px"}} alt="logo"></img></a>
+                    <a href = "/app/profile"><img src = {Logo} style = {{width: "100px"}} alt="logo"></img></a>
                 </header>
                 <ul className = {s.nav}>
                     <LinksGroup

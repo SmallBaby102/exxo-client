@@ -8,6 +8,7 @@ import Facebook from '../../assets/socials/facebook.png'
 import Twitter from '../../assets/socials/twitter.png'
 import Youtube from '../../assets/socials/youtube.png'
 import Accounts from '../../pages/accounts';
+import AccountDetail from '../../pages/accounts/AccountDetail';
 import Withdrawal from '../../pages/withdrawal';
 import Deposit from '../../pages/deposit';
 import DepositDetail from '../../pages/deposit_detail';
@@ -87,6 +88,7 @@ class Layout extends React.Component {
                     <Route path="/app/profile/change-backoffice-pass" exact component={ChangeBackofficePass} />
                     <Route path="/app/profile/verify" exact component={VerifyProfile} />
                     <Route path="/app/accounts" exact component={Accounts} />
+                    <Route path="/app/account-detail/:id/:systemUuid" exact component={AccountDetail} />
                     <Route path="/app/internal-transfer" exact component={InternalTransfer} />
                     <Route path="/app/withdraw" exact component={Withdrawal} />
                     <Route path="/app/deposit" exact component={Deposit} />

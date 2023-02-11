@@ -31,6 +31,7 @@ class Accounts extends React.Component {
     this.changeCurrency = this.changeCurrency.bind(this);
     this.changeLeverage = this.changeLeverage.bind(this);
     this.setInternalTransfer = this.setInternalTransfer.bind(this);
+    this.accountDetail = this.accountDetail.bind(this);
   }
   changeAccount(event) {
       this.setState({ account: event.value });
@@ -67,6 +68,12 @@ class Accounts extends React.Component {
   }
   setInternalTransfer() {
     this.props.history.push("/app/internal-transfer");
+  }
+  accountDetail(id) {
+    const tradingAccount = this.state.tradingAccounts.find(item => item.login === id);
+    const offer = this.state.offers.find(item => item.uuid === tradingAccount?.offerUuid);
+    const systemUuid = offer?.system?.uuid;
+    this.props.history.push(`/app/account-detail/${id}/${systemUuid}`);
   }
  
   openLiveAccount() {
@@ -107,9 +114,11 @@ class Accounts extends React.Component {
     })
   } 
   componentDidMount() {
-    // this.setState({ tradingAccounts: this.props.tradingAccounts})
-    // this.setState({ offerNames: this.props.offerNames })
-    
+    if(this.props.account?.verification_status !== "Approved")
+    {
+      this.props.history.push(`/app/profile/verify`);
+      return;
+    }
     this.props.dispatch(setChecking(true));
     
     axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/offers`, { params: { email: this.props.account?.email, partnerId: this.props.account?.partnerId }})
@@ -159,7 +168,7 @@ class Accounts extends React.Component {
                     </thead>
                     <tbody>
                       { this.state.tradingAccounts?.map((row) => (
-                        <tr key={row.uuid}>
+                        <tr key={row.uuid} onDoubleClick={(e) => this.accountDetail(row.login)} >
                           <td>
                           { row.login }
                           </td>

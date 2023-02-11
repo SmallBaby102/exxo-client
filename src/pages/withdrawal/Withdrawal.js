@@ -110,6 +110,11 @@ class Withdrawal extends React.Component {
     })
   }
   componentDidMount() {
+    if(this.props.account?.verification_status !== "Approved")
+    {
+      this.props.history.push(`/app/profile/verify`);
+      return;
+    }
     const { match } = this.props;
     let accounts = [];
     this.props.dispatch(setChecking(true));
@@ -384,7 +389,6 @@ function mapStateToProps(store) {
   return {
     themeColor: store.navigation.themeColor,
     account: store.auth.account
-
   };
 }
 export default withRouter(connect(mapStateToProps)(Withdrawal));
