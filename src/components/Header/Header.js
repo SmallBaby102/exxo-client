@@ -176,30 +176,9 @@ class Header extends React.Component {
                     Dark
                   </Button>
                 </ButtonGroup>
-                {/* <h6 className="mt-2">Sidebar</h6>
-                <ButtonGroup size="sm">
-                  <Button
-                    color="primary"
-                    onClick={() => this.toggleVisibilitySidebar("show")}
-                    className={
-                      this.props.sidebarVisibility === "show" ? "active" : ""
-                    }
-                  >
-                    Show
-                  </Button>
-                  <Button
-                    color="primary"
-                    onClick={() => this.toggleVisibilitySidebar("hide")}
-                    className={
-                      this.props.sidebarVisibility === "hide" ? "active" : ""
-                    }
-                  >
-                    Hide
-                  </Button>
-                </ButtonGroup> */}
               </DropdownMenu>
             </Dropdown>
-            <Dropdown
+            {/* <Dropdown
               className="d-none d-sm-block"
               nav
               isOpen={this.state.settingsLangOpen}
@@ -235,7 +214,7 @@ class Header extends React.Component {
                   
                 </ul>
               </DropdownMenu>
-            </Dropdown>
+            </Dropdown> */}
             <NavItem>
               <NavLink
                 onClick={this.doLogout}

@@ -74,7 +74,7 @@ class DepositDetail extends React.Component {
     this.setState({ loading: true });
     axios.post(`${process.env.REACT_APP_BASE_URL}/api/buy`, data)
     .then(res => {
-        toast.success("Deposit Success!");
+        // toast.success("Deposit Success!");
         this.setState({ loading: false, result: res.data?.data?.order });
       })
     .catch(err => {
@@ -117,7 +117,7 @@ class DepositDetail extends React.Component {
             <div>
               <div className="form-content">
                 <h4 className={`page-title-${themeColor}`}>
-                    { this.capitalizeFirstLetter(title) }
+                    { title === "Tether" ? "Deposit USDT BEP20" : this.capitalizeFirstLetter(title) }
                 </h4>
                 <Row>
                     <Col lg={6} >

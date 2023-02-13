@@ -34,6 +34,14 @@ class Dashboard extends React.Component {
       
     })
   }
+  subtractYears(date, years) {
+    // 👇 make copy with "Date" constructor
+    const dateCopy = new Date(date);
+  
+    dateCopy.setFullYear(date.getFullYear() - years);
+  
+    return dateCopy;
+  }
  componentDidMount() {
   const account = this.props.account;
   this.setState({ dob: account?.birthday,postalCode: account?.postalCode, name: account?.fullname, country: account?.country, city: account?.city, address: account?.address })
@@ -64,6 +72,7 @@ class Dashboard extends React.Component {
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                               <DatePicker
                                 disableFuture
+                                minDate={subtractYears(new Date(), 18)}
                                 openTo="year"
                                 views={['year', 'month', 'day']}
                                 value={dob}

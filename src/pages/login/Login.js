@@ -118,9 +118,9 @@ class Login extends React.Component {
       
         return (
             <div className="auth-page">
-                <a href="https://exxormarkets.com"><span class="login-logo"></span></a>
+                <a href="https://client.exxormarkets.com"><span className="login-logo"></span></a>
                 <div className='auth-header'>
-                    <div class="link-to-homepage-container">
+                    <div className="link-to-homepage-container">
                     <a href="https://exxormarkets.com" target="_blank">
                         Please click here to go to our homepage          </a>
                     </div>
@@ -175,7 +175,7 @@ class Login extends React.Component {
                                         </a>
                                     </Col>
                                 </Row>
-                                <div class="login-or">OR</div>
+                                <div className="login-or">OR</div>
                                 <Link className="mb-4 btn btn-default btn-block" to="register">Create a new Profile</Link>
                               
                             </div>
@@ -183,8 +183,8 @@ class Login extends React.Component {
                     </Widget>
                 </Container>
                 <footer className="auth-footer">
-                    <div class="text-center">
-                            © 2022 <a href="https://exxomarkets.com/" target="blank">Exxo Choice Limited</a><br/>
+                    <div className="text-center">
+                            © 2020 <a href="https://exxomarkets.com/" target="blank">Exxo Markets LLC</a><br/>
                             All Rights Reserved      
                     </div>
                 </footer>

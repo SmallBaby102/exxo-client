@@ -97,11 +97,6 @@ class Layout extends React.Component {
                 </CSSTransition>
               </TransitionGroup>
               <footer className={s.contentFooter} >
-                <a href="#" className='m-1'>Contact</a>
-                <a href="#" className='m-1'>About us</a>
-                <a href="#" className='m-1'>Advertise</a>
-                <a href="#" className='m-1'>Disclaimer</a>
-                <a href="#" className='m-1'>Privacy Policy</a>
                 <a href="#" className='m-1'><img className="social-link" src={Facebook} /></a>
                 <a href="#" className='m-1'><img className="social-link" src={Twitter} /></a>
                 <a href="#" className='m-1'><img className="social-link" src={Youtube} /></a>

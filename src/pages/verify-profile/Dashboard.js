@@ -193,7 +193,7 @@ class Dashboard extends React.Component {
                step === 0 &&
               <div>
                   <h5 className={`page-title-${themeColor} mt-3`}>
-                      Please verify your identity
+                      Please verify your profile by uploading ID document and Proof of address
                   </h5>
                   <Row>
                       <Col md={6}>
@@ -233,7 +233,7 @@ class Dashboard extends React.Component {
                                 </Col>
                                 <Col md={6}>
                                     <Button className={`${s.btn_doc} btn-light ${docType === "passport" && "active"}`} onClick={e => this.setDocType("passport")} >Passport</Button>
-                                    <Button className={`${s.btn_doc} btn-light ${docType === "resident" && "active"}`} onClick={e => this.setDocType("resident")} >Permanent resident or alien registration card</Button>
+                                    <Button className={`${s.btn_doc} btn-light ${docType === "resident" && "active"}`} onClick={e => this.setDocType("resident")} >Proof of Address(Utility Bill or Bank statement)</Button>
                                 </Col>
                             </Row>
                             <Row> 

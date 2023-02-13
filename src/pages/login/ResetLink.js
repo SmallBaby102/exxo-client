@@ -69,7 +69,7 @@ class ResetLink extends React.Component {
                     </div>
                 </div>
                 <Container>
-                    <Widget className="widget-auth mx-auto login-body" title={<h4 className="mt-0"><strong>Sign In</strong> to Client Portal</h4>}>
+                    <Widget className="widget-auth mx-auto login-body" title={<h4 className="mt-0">Enter your account's email address to reset your password.</h4>}>
 
                             <FormGroup className="mt">
                                 <InputGroup className="input-group-no-border">
@@ -87,7 +87,7 @@ class ResetLink extends React.Component {
                 </Container>
                 <footer className="auth-footer" style={{ position: "absolute"}}>
                     <div class="text-center">
-                            © 2022 <a href="https://exxomarkets.com/" target="blank">Exxo Choice Limited</a><br/>
+                            © 2020 <a href="https://exxomarkets.com/" target="blank">Exxo Markets LLC</a><br/>
                             All Rights Reserved      
                     </div>
                 </footer>

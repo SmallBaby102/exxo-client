@@ -236,43 +236,6 @@ class Accounts extends React.Component {
                             }}
                         />
                       </div>
-                      {/* <div className="input-transparent mt-3"  style={{ flex: 1 }}>
-                        <Label>
-                            Leverage *
-                        </Label>
-                        <Select
-                            options={leverages} 
-                            className="react-select-container" 
-                            classNamePrefix="react-select"
-                            value={{ value: leverage, label: leverage }}
-                            onChange={e => this.changeLeverage(e)}
-                            styles={{
-                                control: (baseStyles, state) => ({
-                                  ...baseStyles,
-                                  borderColor: 'grey',
-                                  backgroundColor: "white",
-                                  opacity: .8
-                                  
-                                }),
-                                option: (base) => ({
-                                    ...base,
-                                    color: 'black',
-                                  }),
-                            }}
-                        />
-                      </div> */}
-                      {/* <div className="input-transparent mt-3" >
-                          <Label>
-                            Password *
-                          </Label>
-                          <Input 
-                              className="input-transparent" 
-                              value={password} 
-                              style={{paddingLeft: "10px" }}
-                              onChange={this.changePassword} 
-                              type="text"
-                              placeholder="Password"/>
-                      </div> */}
                    </Col>
                 </Row>
                

@@ -12,7 +12,6 @@ class InternalTransfer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      step: 0, 
       tradingAccounts: [],
       targetTradingAccounts: [],
       account: "",
@@ -99,12 +98,12 @@ class InternalTransfer extends React.Component {
   }
   render() {
   const { themeColor } = this.props;
-  const { step, amount, account, targetAccount, originBalance, targetBalance, tradingAccounts, targetTradingAccounts } = this.state;
+  const { amount, account, targetAccount, originBalance, targetBalance, tradingAccounts, targetTradingAccounts } = this.state;
     return (
       <div className={s.root}>
          <div className="form-content">
               <h4 className={`page-title-${themeColor}`}>
-                { step === 0 ? "Accounts" : (step === 1 ? "Open Live account" : "")}
+                  Internal Transfer      
               </h4>
                 <Row className="mt-4">
                    <Col md={6}>
@@ -190,7 +189,7 @@ class InternalTransfer extends React.Component {
                 </Row>
           </div>
           <div className={`s.buttonGroup mt-2`}>
-              <Button className="btn-success sm " onClick={this.withdraw}>Withdraw</Button>
+              <Button className="btn-success sm " onClick={this.withdraw}>Submit</Button>
           </div>
       </div>
     );
