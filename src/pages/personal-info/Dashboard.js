@@ -72,7 +72,7 @@ class Dashboard extends React.Component {
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                               <DatePicker
                                 disableFuture
-                                minDate={subtractYears(new Date(), 18)}
+                                minDate={this.subtractYears(new Date(), 18)}
                                 openTo="year"
                                 views={['year', 'month', 'day']}
                                 value={dob}
