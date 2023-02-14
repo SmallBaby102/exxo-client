@@ -152,38 +152,8 @@ class DepositDetail extends React.Component {
               {
                 address !== null &&
                 <div className="form-content">
-                    <h6 className={`page-title-${themeColor}`}>
-                    To deposit funds, make a transfer to the blockchain address below. Copy the address or scan the QR code with the camera on your phone.
-                    </h6>
-                    <br/>Your unique USDT BEP20 account address
-                    <Row className="mt-2">
-                        <Col md={1} className="d-flex align-items-center">
-                            <Label><strong >Address: </strong></Label>
-                        </Col>
-                        <Col md={8}>
-                            <Input disabled value={ address }></Input>
-                        </Col>
-                        <Col md={3}>
-                            <Button onClick={(e) => this.handleCopy(e)} className="btn-success"><AiOutlineCopy></AiOutlineCopy></Button>
-                            <Snackbar
-                              open={this.state.open}
-                              onClose={() => this.setState({ open: false})}
-                              message="Copied to clibboard"
-                              anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                              autoHideDuration={1600}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={12}>
-                            <p className="mt-3">Alternatively you can use the QR code below to complete this transaction with your mobile device:</p>
-                        </Col>
-                        <Col md={12} className="text-center">
-                            <img src={`https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${address}`} alt="QrCode"></img>
-                        </Col>
-                    </Row>
                     {
-                      title === "stacoinex" && 
+                      title === "stacoinex" ? 
                       <div>
                         <Row className="mt-2">
                             <Col lg={6} >
@@ -197,6 +167,38 @@ class DepositDetail extends React.Component {
                               <Button className={`btn-success`} onClick={e => this.onDeposit()} >
                               {this.state.loading ? <Spinner size="sm" color="light"></Spinner> : 'Deposit via Stacoinex'}</Button>       
                           </div>
+                      </div>:
+                      <div>
+                          <h6 className={`page-title-${themeColor}`}>
+                            To deposit funds, make a transfer to the blockchain address below. Copy the address or scan the QR code with the camera on your phone.
+                          </h6>
+                          <br/>Your unique USDT BEP20 account address
+                          <Row className="mt-2">
+                              <Col md={1} className="d-flex align-items-center">
+                                  <Label><strong >Address: </strong></Label>
+                              </Col>
+                              <Col md={8}>
+                                  <Input disabled value={ address }></Input>
+                              </Col>
+                              <Col md={3}>
+                                  <Button onClick={(e) => this.handleCopy(e)} className="btn-success"><AiOutlineCopy></AiOutlineCopy></Button>
+                                  <Snackbar
+                                    open={this.state.open}
+                                    onClose={() => this.setState({ open: false})}
+                                    message="Copied to clibboard"
+                                    anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                                    autoHideDuration={1600}
+                                  />
+                              </Col>
+                          </Row>
+                          <Row>
+                              <Col md={12}>
+                                  <p className="mt-3">Alternatively you can use the QR code below to complete this transaction with your mobile device:</p>
+                              </Col>
+                              <Col md={12} className="text-center">
+                                  <img src={`https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${address}`} alt="QrCode"></img>
+                              </Col>
+                          </Row>
                       </div>
                     }
                 </div>

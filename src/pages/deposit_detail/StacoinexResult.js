@@ -71,12 +71,13 @@ class StacoinexResult extends React.Component {
               </Row>
               <Row>
                   <Col md={12}>
-                      <p className="mt-3">Vui lòng thực hiện chuyển khoản trong vòng 10 phút. Sau thời gian này, yêu cầu gửi tiền của bạn sẽ bị hủy : 
+                        <h6 className="mt-3">Vui lòng thực hiện chuyển khoản trong vòng 10 phút. Sau thời gian này, yêu cầu gửi tiền của bạn sẽ bị hủy : 
                         <br/>
-                        {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</p>
+                        <br/>
+                        <strong style={{ fontSize: "1.2rem"}}>{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</strong></h6>
                   </Col>
                   <Col md={12} className="text-center">
-                        <ImageList sx={{ width: "100%", height: "94%", marginTop: 5}} cols={4}>
+                        <ImageList sx={{ width: "100%", height: "94%", marginTop: 2}} cols={4}>
                             {result?.listBank?.map((item) => (
                                 <ImageListItem key={item.id}  sx={{ width: 200 }}  >
                                     <img
