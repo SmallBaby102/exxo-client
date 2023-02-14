@@ -67,12 +67,6 @@ class Accounts extends React.Component {
                     </tr>
                     <tr >
                       <td>
-                        Label
-                      </td>
-                      <td>{ tradingAccountId }</td>
-                   </tr>
-                    <tr >
-                      <td>
                         Credit
                       </td>
                       <td>{ account?.credit }</td>
@@ -105,7 +99,8 @@ class Accounts extends React.Component {
               </Table>
           </div>
           <div className={s.buttonGroup}>
-                <Button className="btn-info sm" onClick={this.back}>Back</Button>
+                <Button className="btn-info sm col-md-3" onClick={this.back}>Back</Button>
+                <Button className="btn-warning sm  sm col-md-3 ml-5" onClick={this.back}>Start WebTerminal</Button>
           </div>
       </div>
     );

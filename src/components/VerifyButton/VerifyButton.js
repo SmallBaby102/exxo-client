@@ -17,7 +17,7 @@ class Widget extends React.Component {
         <React.Fragment>
             <Link to="/app/profile/verify" className={s.root}>
               <div className = {s.item_icon}></div>
-              <div className = {s.item_title}>Verify your profile</div>
+              <div className = {s.item_title}>{this.props.title}</div>
             </Link>
         </React.Fragment>
     );

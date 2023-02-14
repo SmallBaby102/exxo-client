@@ -22,11 +22,11 @@ class Deposit extends React.Component {
          {
             verifyStatus === "New" ? 
               <div>
-                <VerifyButton></VerifyButton>
+                <VerifyButton title="Please verify your profile."></VerifyButton>
                 <p className="mt-2">You can't fund your account right now your user profile hasn't been verified yet. Please click here to get verified now.</p>
               </div>
-              : verifyStatus === "Pending" ? <div style={{ color: "blue", padding: "5px 10px", fontSize: "1.3rem" }}>Your verification is pending now.</div> 
-              : verifyStatus === "Rejected" ? <div style={{ color: "red", padding: "5px 10px", fontSize: "1.3rem" }}>Your account was rejected.</div>
+              : verifyStatus === "Pending" ?  <div className="col-md-12 text-center" style={{ color: "white", background:"blue", padding: "5px 10px", fontSize: "1.3rem" }}>Your verification is pending now.</div> 
+              : verifyStatus === "Rejected" ? <VerifyButton title="Your profile has not verified. Please update your information."></VerifyButton>
               :
               <fieldset class="payment-buttons payment-buttons-crypto">
                 <legend className={s.legend}>Methods for deposit</legend>
@@ -64,26 +64,8 @@ class Deposit extends React.Component {
                       </Link>
                     </div>
                 
-                    {/* <div className={s.payment_block}>
-                      <Link to="/app/deposit_detail/usd_coin"  className={s.payment_option +" " + s.payment_option_usd_coin}>
-                      </Link>
-                    </div>
-                    <div className={s.payment_block}>
-                      <Link to="/app/deposit_detail/dogecoin"  className={s.payment_option +" " + s.payment_option_dogecoin}>
-                      </Link>
-                    </div>
-                    <div className={s.payment_block}>
-                      <Link to="/app/deposit_detail/binancecoin"  className={s.payment_option +" " + s.payment_option_binancecoin}>
-                      </Link>
-                    </div> */}
                 </Row>
                 <div class="payment-buttons-crypto-text col-lg-4 col-md-12">
-                  
-                  <p>
-                    <a data-toggle="collapse" href="#deposit-crypto-list" class="deposit-crypto-link">
-                      Show more info &gt;  </a>
-                  </p>
-
                   <ul class="collapse" id="deposit-crypto-list">
                         <li>
                         No conversion fee if the crypto funds are deposited directly into a fiat account (USD, EUR etc).    </li>

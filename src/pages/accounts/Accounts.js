@@ -120,12 +120,12 @@ class Accounts extends React.Component {
       return;
     }
     this.props.dispatch(setChecking(true));
-    
-    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/offers`, { params: { email: this.props.account?.email, partnerId: this.props.account?.partnerId }})
+    const temp =  JSON.parse(localStorage.getItem("account"));
+    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/offers`, { params: { email: temp?.email, partnerId: temp?.partnerId }})
     .then( async res => {
       this.setState({ offers: res.data})
     
-      axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: this.props.account?.accountUuid, partnerId: this.props.account?.partnerId }})
+      axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: temp?.accountUuid, partnerId: temp?.partnerId }})
       .then( async result => {
         this.props.dispatch(setChecking(false));
         let tempAcc = result.data?.map(item => {
@@ -156,6 +156,7 @@ class Accounts extends React.Component {
               {
                 step === 0 &&
                 <div className={s.overFlow}>
+                  <label>Please doube click to see an account detail</label>
                   <Table lg={12} md={12} sm={12} striped>
                     <thead>
                       <tr className="fs-sm">
@@ -246,12 +247,12 @@ class Accounts extends React.Component {
             {
               step === 0 ?
               <div>
-                <Button className="btn-success sm" onClick={this.setLiveAccount}>Open Live Account</Button>
-                <Button className="btn-info sm  ml-1" onClick={this.setDemoAccount}>Open Demo Account</Button>
-                <Button className="btn-warning sm" onClick={this.setInternalTransfer}>Internal Transfer</Button>
+                <Button className="btn-success sm col-md-3" onClick={this.setLiveAccount}>Open Live Account</Button>
+                <Button className="btn-info sm  ml-1 col-md-3" onClick={this.setDemoAccount}>Open Demo Account</Button>
+                <Button className="btn-warning sm col-md-3" onClick={this.setInternalTransfer}>Internal Transfer</Button>
               </div>
               :
-              <Button className="btn-success sm" onClick={this.openLiveAccount}>Open account</Button>
+              <Button className="btn-success sm col-md-3" onClick={this.openLiveAccount}>Open account</Button>
 
             }
           </div>

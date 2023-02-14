@@ -6,10 +6,9 @@
   height: 152px;
   background-color: #E6ECF4;
   border-radius: 5px;
-  margin-left: 12px;
   margin-bottom: 12px;
   text-decoration: none;
-  padding: 30px 0 18px 28px;
+  padding: 30px 0 18px 20px;
   &:hover {
     background-color: #243B61 !important;
     text-decoration: none!important;
@@ -33,7 +32,6 @@ html * {
   background-position: center left;
 }
 .item_title {
-  margin: 20px 0 12px 0;
   color: #254476;
   font-weight: 700;
   font-size: 16px;

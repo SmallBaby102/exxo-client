@@ -189,7 +189,7 @@ class InternalTransfer extends React.Component {
                 </Row>
           </div>
           <div className={`s.buttonGroup mt-2`}>
-              <Button className="btn-success sm " onClick={this.withdraw}>Submit</Button>
+              <Button className="btn-success sm col-md-3" onClick={this.withdraw}>Submit</Button>
           </div>
       </div>
     );

@@ -14,7 +14,7 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dob: null,
+      dob: "",
       expDate: null,
       name: "",
       country: "",
@@ -44,7 +44,10 @@ class Dashboard extends React.Component {
   }
  componentDidMount() {
   const account = this.props.account;
-  this.setState({ dob: account?.birthday,postalCode: account?.postalCode, name: account?.fullname, country: account?.country, city: account?.city, address: account?.address })
+  this.setState({ postalCode: account?.postalCode, name: account?.fullname, country: account?.country, city: account?.city, address: account?.address })
+  if(account?.birthday){
+    this.setState({ dob: account?.birthday })
+  }
  }
   render() {
   const { themeColor, verifyStatus } = this.props;
@@ -52,8 +55,8 @@ class Dashboard extends React.Component {
     return (
       <div className={s.root}>
         {
-          verifyStatus === "New" ? <VerifyButton></VerifyButton> : verifyStatus === "Pending" ? <div style={{ color: "blue", padding: "5px 10px", fontSize: "1.3rem" }}>Your verification is pending now.</div> 
-          : verifyStatus === "Rejected" ? <div style={{ color: "red", padding: "5px 10px", fontSize: "1.3rem" }}>Your profile has not verified. Please update your information.</div>: ""
+          verifyStatus === "New" ? <VerifyButton title="Please verify your profile."></VerifyButton> : verifyStatus === "Pending" ? <div className="col-md-12 text-center" style={{ color: "white", background:"blue", padding: "5px 10px", fontSize: "1.3rem" }}>Your verification is pending now.</div> 
+          : verifyStatus === "Rejected" ? <div style={{ color: "red", padding: "5px 10px", fontSize: "1.3rem" }}><VerifyButton title="Your profile has not verified. Please update your information."></VerifyButton></div>: ""
         }
         
         <div className="form-content">
@@ -72,7 +75,7 @@ class Dashboard extends React.Component {
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                               <DatePicker
                                 disableFuture
-                                minDate={this.subtractYears(new Date(), 18)}
+                                maxDate={this.subtractYears(new Date(), 18)}
                                 openTo="year"
                                 views={['year', 'month', 'day']}
                                 value={dob}
@@ -114,7 +117,7 @@ class Dashboard extends React.Component {
                       </div>
                       <div className="mt-3">
                         { 
-                          // verifyStatus === "Pending" ?  <Button className="input-content btn-info" disabled={true} >Submit</Button> :
+                          verifyStatus === "Pending" ?  <Button className="input-content btn-info" disabled={true} >Submit</Button> :
                           <Button className="input-content btn-info" onClick={() => { this.updateProfile()}}>Submit</Button>
                         }
                         

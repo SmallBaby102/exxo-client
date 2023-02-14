@@ -97,31 +97,10 @@ class Sidebar extends React.Component {
                                 header: 'Change backoffice password', link: '/app/profile/change-backoffice-pass',
                             },
                             {
-                                header: 'Change Email', link: '/app/profile/change-email',
-                            },
-                            {
                                 header: 'Verify profile', link: '/app/profile/verify',
                             },
                             {
                                 header: 'Mobile phone verification', link: '/app/profile/mobile-verify',
-                            },
-                            {
-                                header: 'Security', link: '/app/profile/security',
-                            },
-                            {
-                                header: 'Notifications', link: '/app/profile/notifications',
-                            },
-                            {
-                                header: 'Pips+ Loyalty Programme', link: '/app/profile/pips',
-                            },
-                            {
-                                header: 'Corporate account', link: '/app/profile/corporate-account',
-                            },
-                            {
-                                header: 'Joint account', link: '/app/profile/joint-account',
-                            },
-                            {
-                                header: 'Subscriptions', link: '/app/profile/subscriptions',
                             },
                         ] : 
                         [
@@ -130,30 +109,6 @@ class Sidebar extends React.Component {
                             },
                             {
                                 header: 'Change backoffice password', link: '/app/profile/change-backoffice-pass',
-                            },
-                            {
-                                header: 'Change Email', link: '/app/profile/change-email',
-                            },
-                            {
-                                header: 'Change home address', link: '/app/profile/change-home',
-                            },
-                            {
-                                header: 'Security', link: '/app/profile/security',
-                            },
-                            {
-                                header: 'Notifications', link: '/app/profile/notifications',
-                            },
-                            {
-                                header: 'Pips+ Loyalty Programme', link: '/app/profile/pips',
-                            },
-                            {
-                                header: 'Corporate account', link: '/app/profile/corporate-account',
-                            },
-                            {
-                                header: 'Joint account', link: '/app/profile/joint-account',
-                            },
-                            {
-                                header: 'Subscriptions', link: '/app/profile/subscriptions',
                             },
                         ]}
                     />
@@ -191,35 +146,6 @@ class Sidebar extends React.Component {
                         />
                     }
                  
-                    <LinksGroup
-                        onActiveSidebarItemChange={activeItem => this.props.dispatch(changeActiveSidebarItem(activeItem))}
-                        activeItem={this.props.activeItem}
-                        header="Services"
-                        isHeader
-                        iconName={<AiOutlineTool className={themeColor === "dark"? s.menuIcon: s.menuIconLight}/>}
-                        link="/app/services"
-                        index="services"
-                        childrenLinks={[
-                            {
-                                header: 'VPS', link: '/app/services/vps',
-                            },
-                            {
-                                header: 'Myfxbook Autotrade', link: '/app/services/autotrade',
-                            },
-                            {
-                                header: 'ZuluTrade', link: '/app/services/zulutrade',
-                            },
-                            {
-                                header: 'Web terminal MetaTrader 4', link: '/app/services/metatrader4',
-                            },
-                            {
-                                header: 'Web terminal MetaTrader 5', link: '/app/services/metatrader5',
-                            },
-                            {
-                                header: 'Open a MAM', link: '/app/services/mam',
-                            },
-                        ]}
-                    />
                      <LinksGroup
                         onActiveSidebarItemChange={activeItem => this.props.dispatch(changeActiveSidebarItem(activeItem))}
                         activeItem={this.props.activeItem}

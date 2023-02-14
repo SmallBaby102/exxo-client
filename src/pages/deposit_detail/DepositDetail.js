@@ -193,7 +193,7 @@ class DepositDetail extends React.Component {
                               </div>
                             </Col>
                           </Row>
-                          <div className="mt-4 mb-3">
+                          <div className="mt-4 mb-3 ">
                               <Button className={`btn-success`} onClick={e => this.onDeposit()} >
                               {this.state.loading ? <Spinner size="sm" color="light"></Spinner> : 'Deposit via Stacoinex'}</Button>       
                           </div>

@@ -12,6 +12,7 @@ import moment from "moment";
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
+import { setAccount } from "../../actions/user";
 import StepLabel from '@mui/material/StepLabel';
 import DriverL1 from "../../assets/verify/driving_license/driving-license-ex-01.png";
 import DriverL2 from "../../assets/verify/driving_license/driving-license-ex-02.png";
@@ -168,14 +169,22 @@ class Dashboard extends React.Component {
 
     axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/verifyProfile`, formData, { headers })
     .then( account_info => {
-
+      localStorage.setItem("account", JSON.stringify(account_info.data));
+      this.props.dispatch(setAccount(account_info.data));
     })
     this.props.history.push("/app/profile");
   }
- 
+  subtractYears(date, years) {
+    // 👇 make copy with "Date" constructor
+    const dateCopy = new Date(date);
+  
+    dateCopy.setFullYear(date.getFullYear() - years);
+  
+    return dateCopy;
+  }
   render() {
-  const { step, img1, img2, img3, img4, frontImg, backImg, docType, dob, expDate, name, country, city, postalCode, address } = this.state;
-  const { themeColor } = this.props;
+    const { step, img1, img2, img3, img4, frontImg, backImg, docType, dob, expDate, name, country, city, postalCode, address } = this.state;
+    const { themeColor } = this.props;
 
     return (
       <div className={s.root}>
@@ -207,6 +216,7 @@ class Dashboard extends React.Component {
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                   <DatePicker
                                     disableFuture
+                                    maxDate={this.subtractYears(new Date(), 18)}
                                     openTo="year"
                                     views={['year', 'month', 'day']}
                                     value={dob}
