@@ -74,10 +74,18 @@ class Withdrawal extends React.Component {
       toast.warn("Please input withdraw amount!");
       inputValidation = false;
     }
-    if(!this.state.address){
-      toast.warn("Please input withdraw address!");
-      inputValidation = false;
+    if (this.state.method === "USDT BEP20") {
+      if(!this.state.address){
+        toast.warn("Please input withdraw address!");
+        inputValidation = false;
+      }
+      let regex = /^0x[a-fA-F0-9]{40}$/;
+      if (this.state.address.match(regex) === null) {
+        toast.warning("Invalid address entered. Please input a correct BEP20 address!");
+        inputValidation = false;
+      }
     }
+    
     if(!inputValidation){
       return;
     }
@@ -118,24 +126,27 @@ class Withdrawal extends React.Component {
     const { match } = this.props;
     let accounts = [];
     this.props.dispatch(setChecking(true));
-    this.setState({ methods: [
-      {
-        value: "USDT BEP20",
-        label: "USDT BEP20"
-      },
-      {
-        value: "Vietnam Bank Transfer",
-        label: "Vietnam Bank Transfer"
-      },
-      {
-        value: "Neteller",
-        label: "Neteller"
-      },
-      {
-        value: "Skrill",
-        label: "Skrill"
-      },
-    ]})
+    this.setState({ 
+        methods: [
+          {
+            value: "USDT BEP20",
+            label: "USDT BEP20"
+          },
+          {
+            value: "Vietnam Bank Transfer",
+            label: "Vietnam Bank Transfer"
+          },
+          {
+            value: "Neteller",
+            label: "Neteller"
+          },
+          {
+            value: "Skrill",
+            label: "Skrill"
+          },
+        ],
+      benificiaryName: this.props.account.fullname,
+    })
     axios.get(`${process.env.REACT_APP_BASE_URL}/api/other/withdraw`, { params: { email: this.props.account?.email }})
     .then( async res => {
         this.setState({ withdraws: res.data });
@@ -244,7 +255,7 @@ class Withdrawal extends React.Component {
                     <Col lg={6} >
                       <div className="">
                           <Label><strong >Amount: </strong></Label>
-                          <Input value={ amount } onChange={e => this.changeAmount(e)} ></Input>
+                          <Input type="number" value={ amount } onChange={e => this.changeAmount(e)} ></Input>
                       </div>
                     </Col>
                   </Row>
@@ -321,7 +332,7 @@ class Withdrawal extends React.Component {
                     <Col lg={6} >
                       <div className="">
                           <Label><strong >Amount: </strong></Label>
-                          <Input value={ amount } onChange={e => this.changeAmount(e)} ></Input>
+                          <Input type="number" value={ amount } onChange={e => this.changeAmount(e)} ></Input>
                       </div>
                     </Col>
                   </Row>
