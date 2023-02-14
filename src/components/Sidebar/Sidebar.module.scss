@@ -32,21 +32,21 @@
   @include scroll-bar($sidebar-scrollbar-bg);
 
 
-  @media (max-width: breakpoint-max(sm)) {
-    position: static !important;
-    width: 100%;
-    margin-left: 0;
-    padding: 0 15px;
-    height: 0;
-    transform: none;
+  // @media (max-width: breakpoint-max(sm)) {
+  //   position: static !important;
+  //   width: 100%;
+  //   margin-left: 0;
+  //   padding: 0 15px;
+  //   height: 0;
+  //   transform: none;
 
-    .logo,
-    .sidebarAlerts,
-    .sidebarLabels,
-    .navTitle {
-      display: none;
-    }
-  }
+  //   .logo,
+  //   .sidebarAlerts,
+  //   .sidebarLabels,
+  //   .navTitle {
+  //     display: none;
+  //   }
+  // }
 }
 
 .logo {

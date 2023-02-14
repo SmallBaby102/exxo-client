@@ -161,7 +161,6 @@ class Accounts extends React.Component {
                     <thead>
                       <tr className="fs-sm">
                         <th>Id</th>
-                        <th>Partner Id</th>
                         <th>Account Type</th>
                         <th>Currency</th>
                         <th>Balance</th>
@@ -173,7 +172,6 @@ class Accounts extends React.Component {
                           <td>
                           { row.login }
                           </td>
-                          <td>{ row.partnerId }</td>
                           <td>{ row.offerName }</td>
                           <td>{row.currency}</td>
                           <td>{row.balance}</td>

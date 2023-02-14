@@ -22,7 +22,9 @@
     }
   }
 }
-
+.overFlow {
+  overflow-x: auto;
+}
 .table {
   :global(.table.table-sm) {
     td {

@@ -48,9 +48,9 @@ class Sidebar extends React.Component {
         if (nextProps.sidebarOpened !== this.props.sidebarOpened) {
             if (nextProps.sidebarOpened) {
                 this.element.style.height = `${this.element.scrollHeight}px`;
-                this.element.style.transform = "translateX(-15px)";
+                this.element.style.transform = "translateX(0px)";
                 this.element.style.zIndex = 1;
-                this.element.style.background = "#1B1E3F";
+                this.element.style.background = "linear-gradient(#244985, #243b61)";
                 this.element.style.transition = "1s";
             } else {
                 this.element.classList.remove(s.sidebarOpen);
@@ -70,7 +70,6 @@ class Sidebar extends React.Component {
 
     render() {
         const { themeColor, sidebarOpened, verifyStatus } = this.props;
-        console.log("vv", verifyStatus)
         return (
             <nav
                 className={cx(s.root)}
