@@ -53,6 +53,7 @@ class LinksGroup extends Component {
         (this.props.activeItem && !this.props.activeItem.includes(this.props.index)),
     });
     e.preventDefault();
+    e.stopPropagation();
   }
 
   render() {
@@ -110,7 +111,7 @@ class LinksGroup extends Component {
             <li className={classnames({ [s.headerLink]: this.props.isHeader }, this.props.className)}>
               <a className={classnames(s.accordionToggle, { [s.headerLinkActive]: match }, { [s.collapsed]: isOpen }, "d-flex")}
                 style={{ paddingLeft: `${this.props.deep == 0 ? 10 : 35 + 10 * (this.props.deep - 1)}px` }}
-                onClick={(e) => this.togglePanelCollapse(this.props.link, e)}
+                onClick={(e) =>{ this.togglePanelCollapse(this.props.link, e)}}
                 href="#"
               >
                 {this.props.isHeader ?

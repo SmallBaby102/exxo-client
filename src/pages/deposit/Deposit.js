@@ -28,7 +28,7 @@ class Deposit extends React.Component {
               : verifyStatus === "Pending" ?  <div className="col-md-12 text-center" style={{ color: "white", background:"blue", padding: "5px 10px", fontSize: "1.3rem" }}>Your verification is pending now.</div> 
               : verifyStatus === "Rejected" ? <VerifyButton title="Your profile has not verified. Please update your information."></VerifyButton>
               :
-              <fieldset class="payment-buttons payment-buttons-crypto">
+              <fieldset className="payment-buttons payment-buttons-crypto">
                 <legend className={s.legend}>Methods for deposit</legend>
                 <Row>
                     <div className={s.payment_block}>
@@ -65,8 +65,8 @@ class Deposit extends React.Component {
                     </div>
                 
                 </Row>
-                <div class="payment-buttons-crypto-text col-lg-4 col-md-12">
-                  <ul class="collapse" id="deposit-crypto-list">
+                <div className="payment-buttons-crypto-text col-lg-4 col-md-12">
+                  <ul className="collapse" id="deposit-crypto-list">
                         <li>
                         No conversion fee if the crypto funds are deposited directly into a fiat account (USD, EUR etc).    </li>
                       <li>
