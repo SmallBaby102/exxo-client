@@ -1,6 +1,6 @@
 /* eslint-disable no-unreachable */
 import React from "react";
-import { Row, Col, Button, Table, Label, Badge, Input, FormGroup, InputGroup } from "reactstrap";
+import { Row, Col, Button, Table, Label } from "reactstrap";
 import axios from "axios";
 import { setChecking } from '../../actions/navigation'
 import { connect } from "react-redux";
@@ -73,7 +73,8 @@ class Accounts extends React.Component {
     const tradingAccount = this.state.tradingAccounts.find(item => item.login === id);
     const offer = this.state.offers.find(item => item.uuid === tradingAccount?.offerUuid);
     const systemUuid = offer?.system?.uuid;
-    this.props.history.push(`/app/account-detail/${id}/${systemUuid}`);
+    const tradingAccountUuid = tradingAccount.uuid;
+    this.props.history.push(`/app/account-detail/${id}/${systemUuid}/${tradingAccountUuid}`);
   }
  
   openLiveAccount() {
@@ -85,9 +86,10 @@ class Accounts extends React.Component {
     let data = {
       partnerId: this.props.account?.partnerId,
       offerUuid: offer?.uuid,
-      clientUuid: this.props.account?.uuid
+      clientUuid: this.props.account?.accountUuid
     }
     this.props.dispatch(setChecking(true));
+
     axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccount`, data )
     .then( async res => {
       this.props.dispatch(setChecking(false));
@@ -146,7 +148,7 @@ class Accounts extends React.Component {
   }
   render() {
   const { themeColor } = this.props;
-  const { step, password, account, currencies, currency, leverages, leverage, offerNames } = this.state;
+  const { step, password, account, currencies, currency, offerNames } = this.state;
     return (
       <div className={s.root}>
          <div className="form-content">
@@ -156,11 +158,11 @@ class Accounts extends React.Component {
               {
                 step === 0 &&
                 <div className={s.overFlow}>
-                  <label>Please doube click to see an account detail</label>
+                  <label>Please doube click a row to see an account detail</label>
                   <Table lg={12} md={12} sm={12} striped>
                     <thead>
                       <tr className="fs-sm">
-                        <th>Id</th>
+                        <th className="hover-overlay hover-zoom hover-shadow ripple">Id</th>
                         <th>Account Type</th>
                         <th>Currency</th>
                         <th>Balance</th>
@@ -169,7 +171,7 @@ class Accounts extends React.Component {
                     <tbody>
                       { this.state.tradingAccounts?.map((row) => (
                         <tr key={row.uuid} onDoubleClick={(e) => this.accountDetail(row.login)} >
-                          <td>
+                          <td >
                           { row.login }
                           </td>
                           <td>{ row.offerName }</td>

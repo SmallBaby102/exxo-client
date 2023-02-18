@@ -15,6 +15,7 @@
     "bootstrap": "^5.2.2",
     "buffer": "^6.0.3",
     "classnames": "^2.3.2",
+    "country-state-city": "^3.1.2",
     "dayjs": "^1.11.7",
     "font-awesome": "4.7.0",
     "glyphicons-halflings": "^1.9.1",

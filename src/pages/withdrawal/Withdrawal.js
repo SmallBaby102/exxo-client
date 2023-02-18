@@ -1,15 +1,15 @@
 /* eslint-disable no-unreachable */
 import React from "react";
-import { Row, Col, Progress, Button, Label, Input, Table } from "reactstrap";
+import { Row, Col, Button, Label, Input, Table, FormGroup, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
 import axios from "axios";
-import xml2js from "xml2js";
 import { connect } from "react-redux";
 import ReactSelect from "react-select";
-
 
 import Widget from "../../components/Widget/Widget";
 
 import s from "./Withdrawal.module.scss";
+import "../../styles/custom.css"
+
 import { Link, withRouter } from "react-router-dom";
 import { setChecking } from '../../actions/navigation'
 import { toast } from "react-toastify";
@@ -23,13 +23,15 @@ class Withdrawal extends React.Component {
       method: null,
       withdraws: [],
       tradingAccount: "",
-      address : null,
+      address : '',
       amount : null,
       benificiaryName : null,
       bankName : null,
       bankAccount : null,
       bankBranch : null,
+      verifycode: null
     };
+
     this.changeAccount = this.changeAccount.bind(this);
     this.changeMethod = this.changeMethod.bind(this);
     this.changeAddress = this.changeAddress.bind(this);
@@ -39,7 +41,25 @@ class Withdrawal extends React.Component {
     this.changeBankAccount = this.changeBankAccount.bind(this);
     this.changeBankBranch = this.changeBankBranch.bind(this);
     this.withdraw = this.withdraw.bind(this);
+    this.sendVerifyCode = this.sendVerifyCode.bind(this);
+    this.changeVerifyCode = this.changeVerifyCode.bind(this);
   }
+
+  changeVerifyCode = (e) => {
+    this.setState({ verifycode: e.target.value })
+  }
+
+  sendVerifyCode = (e) => {
+    // confirm sms code from email
+    axios.get(`${process.env.REACT_APP_BASE_URL}/api/auth/send-verify-code`, { params: { email: this.props.account?.email }})
+    .then( async result => {
+      toast.success("Withdraw verification code sent successfully! Please check the email.")
+    }) 
+    .catch(e => {
+      console.log(e);
+    })
+  }
+
   changeAccount = (e) => {
     this.setState({ tradingAccount: e.value })
   }
@@ -85,6 +105,11 @@ class Withdrawal extends React.Component {
         inputValidation = false;
       }
     }
+   console.log(this.state);
+    if(!this.state.verifycode){
+      toast.warn("Please input verification code!");
+      inputValidation = false;
+    }
     
     if(!inputValidation){
       return;
@@ -93,11 +118,12 @@ class Withdrawal extends React.Component {
 
     const tradingAccountFilter = this.state.accounts?.find(item => item.value === this.state.tradingAccount);
     const data = {
-      email: account?.email,
+      email: account?.email, 
       tradingAccountUuid: tradingAccountFilter.tradingAccountUuid,
       tradingAccountId: this.state.tradingAccount,
       address: this.state.address,
       amount: this.state.amount,
+      code: this.state.verifycode,
       partnerId: account?.partnerId,
       // for only update current states
       currency: "USD",
@@ -107,6 +133,11 @@ class Withdrawal extends React.Component {
     this.props.dispatch(setChecking(true));
     axios.post(`${process.env.REACT_APP_BASE_URL}/api/other/withdraw`, data )
     .then( res => {
+      if ( res.data.status == "0" ) {
+        toast.warning(res.data.message);
+        this.props.dispatch(setChecking(false));
+        return;
+      }
       this.props.dispatch(setChecking(false));
       this.setState({ withdraws: [...this.state.withdraws, data ] });
       toast.success("Withdraw request was successfully sent to admin!")
@@ -117,6 +148,7 @@ class Withdrawal extends React.Component {
       console.log(e);
     })
   }
+
   componentDidMount() {
     if(this.props.account?.verification_status !== "Approved")
     {
@@ -143,6 +175,10 @@ class Withdrawal extends React.Component {
           {
             value: "Skrill",
             label: "Skrill"
+          },
+          {
+            value: "International Bankwire",
+            label: "International Bankwire"
           },
         ],
       benificiaryName: this.props.account.fullname,
@@ -174,7 +210,7 @@ class Withdrawal extends React.Component {
   }
   render() {
   const { themeColor } = this.props;
-  const { accounts, methods, method, tradingAccount, address, amount, benificiaryName, bankName, bankAccount, bankBranch } = this.state;
+  const { accounts, methods, method, tradingAccount, address, amount, benificiaryName, bankName, bankAccount, bankBranch, verifycode } = this.state;
 
     return (
       <div className={s.root}>
@@ -259,6 +295,20 @@ class Withdrawal extends React.Component {
                       </div>
                     </Col>
                   </Row>
+                  <Row className="mt-2">
+                    <Col lg={3}>
+                      <FormGroup>
+                          <InputGroup className="input-group-no-border mt-3">
+                              <Input className="input-transparent c_code_ipt pl-3" type="text" value={verifycode} name="verifycode" onChange={e => this.changeVerifyCode(e)} placeholder="CODE"/>
+                              <InputGroupAddon addonType="prepend">
+                                  <InputGroupText className="c_sendcode_btn" onClick={e => this.sendVerifyCode()} >
+                                      Send Code
+                                  </InputGroupText>
+                              </InputGroupAddon>
+                          </InputGroup>
+                      </FormGroup>
+                    </Col>
+                  </Row>
                   <div className="mt-4 mb-3">
                       <Button className={`btn-success`} onClick={e => this.withdraw()} >Request Withdraw</Button>       
                   </div>
@@ -336,13 +386,27 @@ class Withdrawal extends React.Component {
                       </div>
                     </Col>
                   </Row>
+                  <Row className="mt-2">
+                    <Col lg={3}>
+                      <FormGroup>
+                          <InputGroup className="input-group-no-border mt-3">
+                              <Input className="input-transparent c_code_ipt pl-3" type="text" value={verifycode} name="verifycode" onChange={e => this.changeVerifyCode(e)} placeholder="CODE"/>
+                              <InputGroupAddon addonType="prepend">
+                                  <InputGroupText className="c_sendcode_btn" onClick={e => this.sendVerifyCode()} >
+                                      Send Code
+                                  </InputGroupText>
+                              </InputGroupAddon>
+                          </InputGroup>
+                      </FormGroup>
+                    </Col>
+                  </Row>
                   <div className="mt-4 mb-3">
                       <Button className={`btn-success`} onClick={e => this.withdraw()} >Request Withdraw</Button>       
                   </div>
                 </div>
               }
               {
-                (method === "Neteller" || method === "Skrill" ) &&
+                (method === "Neteller" || method === "Skrill" || method === "International Bankwire" ) &&
                 <p>This method is not supported in your region</p>
 
               }

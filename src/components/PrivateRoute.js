@@ -32,7 +32,6 @@ const PrivateRoute = ({dispatch, component, ...rest }) => {
         } else {
           if(!account){
               const temp =  JSON.parse(localStorage.getItem("account"));
-              console.log("account", temp)
               dispatch(setAccount(temp));
           }
         }

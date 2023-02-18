@@ -25,6 +25,7 @@ let country_code_json = {"+1":"United States(+1)", "+93":"Afghanistan(+93)","+35
       country_code_arr.push({value: key, label: element});
     }
   }
+  
 class Register extends React.Component {
     static propTypes = {
         dispatch: PropTypes.func.isRequired,
@@ -159,10 +160,10 @@ class Register extends React.Component {
         const { step } = this.state;
         return (
             <div className="auth-page register-page">
-                 <a href="https://exxormarkets.com"><span className="login-logo"></span></a>
+                 <a href="https://client.exxomarkets.com"><span className="login-logo"></span></a>
                 <div className='auth-header'>
                     <div className="link-to-homepage-container">
-                    <a href="https://exxormarkets.com" target="_blank">
+                    <a href="https://exxomarkets.com" target="_blank">
                         Please click here to go to our homepage          </a>
                     </div>
                 </div>
@@ -312,7 +313,7 @@ class Register extends React.Component {
                 </Container>
                 <footer className="auth-footer">
                     <div className="text-center">
-                            © 2022 <a href="https://exxomarkets.com/" target="blank">Exxo Choice Limited</a><br/>
+                            © 2020 <a href="https://exxomarkets.com/" target="blank">Exxo Markets LLC</a><br/>
                             All Rights Reserved      
                     </div>
                 </footer>

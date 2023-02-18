@@ -8,6 +8,7 @@ import VerifyButton from "../../components/VerifyButton";
 
 import s from "./Deposit.module.scss";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 class Deposit extends React.Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class Deposit extends React.Component {
                 <VerifyButton title="Please verify your profile."></VerifyButton>
                 <p className="mt-2">You can't fund your account right now your user profile hasn't been verified yet. Please click here to get verified now.</p>
               </div>
-              : verifyStatus === "Pending" ?  <div className="col-md-12 text-center" style={{ color: "white", background:"blue", padding: "5px 10px", fontSize: "1.3rem" }}>Your verification is pending now.</div> 
+              : verifyStatus === "Pending" ?  <div className="col-md-12 text-center" style={{ color: "white", background:"#244985", padding: "5px 10px", fontSize: "1.3rem" }}>Your verification is pending now.</div> 
               : verifyStatus === "Rejected" ? <VerifyButton title="Your profile has not verified. Please update your information."></VerifyButton>
               :
               <fieldset className="payment-buttons payment-buttons-crypto">
@@ -40,29 +41,29 @@ class Deposit extends React.Component {
                       </Link>
                     </div>
                     <div className={s.payment_block}>
-                      <Link to="/app/deposit_detail/bank"  className={s.payment_option +" " + s.payment_option_bank}>
+                      <Link to="/app/deposit_detail/bank" onClick={e => {e.preventDefault(); toast.warning("This payment method is not available in your country.")}}  className={s.payment_option +" " + s.payment_option_bank}>
                       </Link>
                     </div>
                     <div className={s.payment_block}>
-                      <Link to="/app/deposit_detail/payop"  className={s.payment_option +" " + s.payment_option_payop}>
+                      <Link to="/app/deposit_detail/payop" onClick={e => {e.preventDefault(); toast.warning("This payment method is not available in your country.")}}  className={s.payment_option +" " + s.payment_option_payop}>
                       </Link>
                     </div>
                     <div className={s.payment_block}>
-                      <Link to="/app/deposit_detail/neteller"  className={s.payment_option +" " + s.payment_option_neteller}>
+                      <Link to="/app/deposit_detail/neteller" onClick={e => {e.preventDefault(); toast.warning("This payment method is not available in your country.")}}  className={s.payment_option +" " + s.payment_option_neteller}>
                       </Link>
                     </div>
                     <div className={s.payment_block}>
-                      <Link to="/app/deposit_detail/skrill"  className={s.payment_option +" " + s.payment_option_skrill}>
+                      <Link to="/app/deposit_detail/skrill" onClick={e => {e.preventDefault(); toast.warning("This payment method is not available in your country.")}}  className={s.payment_option +" " + s.payment_option_skrill}>
                       </Link>
                     </div>
                     <div className={s.payment_block}>
-                      <Link to="/app/deposit_detail/sticpay"  className={s.payment_option +" " + s.payment_option_sticpay}>
+                      <Link to="/app/deposit_detail/sticpay" onClick={e => {e.preventDefault(); toast.warning("This payment method is not available in your country.")}}  className={s.payment_option +" " + s.payment_option_sticpay}>
                       </Link>
                     </div>
-                    <div className={s.payment_block}>
+                    {/* <div className={s.payment_block}>
                       <Link to="/app/deposit_detail/xrp_ripple"  className={s.payment_option +" " + s.payment_option_xrp_ripple}>
                       </Link>
-                    </div>
+                    </div> */}
                 
                 </Row>
                 <div className="payment-buttons-crypto-text col-lg-4 col-md-12">

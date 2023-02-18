@@ -88,7 +88,7 @@ class Layout extends React.Component {
                     <Route path="/app/profile/change-backoffice-pass" exact component={ChangeBackofficePass} />
                     <Route path="/app/profile/verify" exact component={VerifyProfile} />
                     <Route path="/app/accounts" exact component={Accounts} />
-                    <Route path="/app/account-detail/:id/:systemUuid" exact component={AccountDetail} />
+                    <Route path="/app/account-detail/:id/:systemUuid/:tradingAccountUuid" exact component={AccountDetail} />
                     <Route path="/app/internal-transfer" exact component={InternalTransfer} />
                     <Route path="/app/withdraw" exact component={Withdrawal} />
                     <Route path="/app/deposit" exact component={Deposit} />
@@ -96,13 +96,13 @@ class Layout extends React.Component {
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>
-              <footer className={s.contentFooter} >
+              {/* <footer className={s.contentFooter} >
                 <a href="#" className='m-1'><img className="social-link" src={Facebook} /></a>
                 <a href="#" className='m-1'><img className="social-link" src={Twitter} /></a>
                 <a href="#" className='m-1'><img className="social-link" src={Youtube} /></a>
                 
                 { new Date().getFullYear() } &copy; Exxo - Made by <a href="#" rel="noopener noreferrer" target="_blank">CRTLN</a>.
-              </footer>
+              </footer> */}
             </main>
           </Hammer>
         </div>

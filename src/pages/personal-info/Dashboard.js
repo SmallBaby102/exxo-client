@@ -1,6 +1,6 @@
 /* eslint-disable no-unreachable */
 import React from "react";
-import { Row, Col, Progress, Table, Label, Input, Button } from "reactstrap";
+import { Row, Col, Spinner, Table, Label, Input, Button } from "reactstrap";
 import { connect } from "react-redux";
 import VerifyButton from "../../components/VerifyButton";
 import s from "./Dashboard.module.scss";
@@ -9,28 +9,63 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import axios from "axios";
+import Select from "react-select";
+import { Country, State, City } from "country-state-city";
+
 import { toast } from "react-toastify";
+import { setAccount } from "../../actions/user";
+const countries = Country.getAllCountries();
+
+const updatedCountries = countries.map((country) => ({
+  label: country.name,
+  value: country.isoCode,
+  ...country
+}));
+
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: false,
       dob: "",
       expDate: null,
       name: "",
-      country: "",
       postalCode: "",
-      city: "",
+      country: "",
+      state: null,
+      city: "",      
       address: "",
+
     };
   }
+  updatedStates = (countryId) =>
+    State
+      .getStatesOfCountry(countryId)
+      .map((state) => ({ ...state, label: state.name, value: state.isoCode }));
+  updatedCities = (countryId, stateId) =>
+    City
+      .getCitiesOfState(countryId, stateId)
+      .map((city) => ({ ...city, label: city.name, value: city.name,  }));
+
   updateProfile() {
     const account = this.props.account;
-    axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/users/${account?._id}`, { data: this.state })
+    const data ={
+      ...this.state,
+      country: this.state.country?.name,
+      state: this.state.state?.name,
+      city: this.state.city?.name,
+    }
+    this.setState({ loading: true});
+    axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/users/${account?._id}`, { data })
     .then(res => {
       toast.success("Updated your profile successfully!");
+      localStorage.setItem("account", JSON.stringify({...account, ...res.data}));
+      this.props.dispatch(setAccount({...account, ...res.data}));
+      this.setState({ loading: false});
     })
     .catch(e => {
       toast.error(e.response.data.message);
+      this.setState({ loading: false});
       
     })
   }
@@ -44,18 +79,23 @@ class Dashboard extends React.Component {
   }
  componentDidMount() {
   const account = this.props.account;
-  this.setState({ postalCode: account?.postalCode, name: account?.fullname, country: account?.country, city: account?.city, address: account?.address })
+  this.setState({ postalCode: account?.postalCode, name: account?.fullname, address: account?.address })
+  const country = countries.find(item => item.name === account?.country);
+  const state = this.updatedStates(country?.isoCode).find(item => item.name === account?.state);
+  const city = this.updatedCities(country?.isoCode, state?.isoCode).find(item => item.name === account?.city);
+  this.setState({ country: { ...country, label: country?.name,  value: country?.isoCode},  state: { ...state , label: state?.name,  value: state?.isoCode}, city: { ...city, label: city?.name, value: city?.name} })
   if(account?.birthday){
     this.setState({ dob: account?.birthday })
   }
  }
+ 
   render() {
   const { themeColor, verifyStatus } = this.props;
-  const { name, dob, country, city, postalCode, address } = this.state;
+  const { name, dob, country, state, city, postalCode, address } = this.state;
     return (
       <div className={s.root}>
         {
-          verifyStatus === "New" ? <VerifyButton title="Please verify your profile."></VerifyButton> : verifyStatus === "Pending" ? <div className="col-md-12 text-center" style={{ color: "white", background:"blue", padding: "5px 10px", fontSize: "1.3rem" }}>Your verification is pending now.</div> 
+          verifyStatus === "New" ? <VerifyButton title="Please verify your profile."></VerifyButton> : verifyStatus === "Pending" ? <div className="col-md-12 text-center" style={{ color: "white", background:"#244985", padding: "5px 10px", fontSize: "1.3rem" }}>Your verification is pending now.</div> 
           : verifyStatus === "Rejected" ? <div style={{ color: "red", padding: "5px 10px", fontSize: "1.3rem" }}><VerifyButton title="Your profile has not verified. Please update your information."></VerifyButton></div>: ""
         }
         
@@ -93,15 +133,43 @@ class Dashboard extends React.Component {
                         </div>
                       <div className="mt-3">
                         <Label>Postal Code</Label>
-                        <Input className="input-content" value={postalCode} onChange={e => this.setState({ postalCode: e.target.value})}></Input>
+                        <Input className="input-content" type="number" value={postalCode} onChange={e => this.setState({ postalCode: e.target.value})}></Input>
                       </div>
                       <div className="mt-3">
-                        <Label>City</Label>
-                        <Input className="input-content" value={city} onChange={e => this.setState({ city: e.target.value})}></Input>
+                        <Select
+                          id="country"
+                          name="country"
+                          label="country"
+                          options={updatedCountries}
+                          value={country}
+                          onChange={(value) => {
+                            
+                            this.setState({ country: value, state: null, city: null });
+                          }}
+                        />
                       </div>
                       <div className="mt-3">
-                        <Label>Country</Label>
-                        <Input className="input-content" value={country} onChange={e => this.setState({ country: e.target.value})}></Input>
+                        <Select
+                          id="state"
+                          name="state"
+                          options={this.updatedStates(country ? country.isoCode : null)}
+                          value={state}
+                          onChange={(value) => {
+                            this.setState({ state: value, city: null });
+                          }}
+                        />
+                      </div>
+                      <div className="mt-3">
+                        <Select
+                          id="city"
+                          name="city"
+                          options={this.updatedCities(country? country.isoCode : null, state ? state.isoCode : null)}
+                          value={city}
+                          onChange={(value) => {
+                              this.setState({city: value })
+                            }
+                          }
+                        />
                       </div>
                       <div className="mt-3">
                         <Label>Address</Label>
@@ -118,7 +186,7 @@ class Dashboard extends React.Component {
                       <div className="mt-3">
                         { 
                           verifyStatus === "Pending" ?  <Button className="input-content btn-info" disabled={true} >Submit</Button> :
-                          <Button className="input-content btn-info" onClick={() => { this.updateProfile()}}>Submit</Button>
+                          <Button className="input-content btn-info" onClick={() => { this.updateProfile()}}>{this.state.loading ? <Spinner size="sm" color="light"></Spinner> :"Submit"}</Button>
                         }
                         
                       </div>

@@ -14,6 +14,7 @@ class Accounts extends React.Component {
     this.state = {
       tradingAccountId: null,
       account: "",
+      transactions: []
     };
     this.back = this.back.bind(this);
   }
@@ -28,19 +29,37 @@ class Accounts extends React.Component {
       return;
     }
     const { match } = this.props;
+
     const tradingAccountId = match.params?.id;
     this.setState({ tradingAccountId })
     const systemUuid = match.params?.systemUuid;
     this.props.dispatch(setChecking(true));
-    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccount/balance`, { params: { tradingAccountId, systemUuid, partnerId: this.props.account?.partnerId }})
+    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccount/balance`, { params: { tradingAccountId, systemUuid, partnerId: this.props.account?.partnerId}})
     .then( async result => {
       this.props.dispatch(setChecking(false));
-      this.setState({ account: result.data})
+      this.setState({ account: result.data});
+    }) 
+    .catch(e => {
+      this.props.dispatch(setChecking(false));
+      console.log(e);
+    })    
+
+    // get given trading account's deposit llist
+    const email = this.props.account.email;
+    const tradingAccountUuid = match.params?.tradingAccountUuid;
+    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccountTransactions`, { params: { tradingAccountId, systemUuid, tradingAccountUuid, email, partnerId: this.props.account?.partnerId }})
+    .then( async result => {
+      this.props.dispatch(setChecking(false));
+
+      console.log("Transaction List", result.data);
+
+      this.setState({ transactions: result.data})
     }) 
     .catch(e => {
       this.props.dispatch(setChecking(false));
       console.log(e);
     })
+
   }
   render() {
   const { themeColor } = this.props;
@@ -48,9 +67,15 @@ class Accounts extends React.Component {
     return (
       <div className={s.root}>
          <div className="form-content">
-              <h4 className={`page-title-${themeColor} mb-4`}>
-                Account Detail
-              </h4>
+              <div className="c_ta_detail_tlt_bar">
+                <h4 className={`page-title-${themeColor} mb-4`}>
+                  Account Detail
+                </h4>
+                <div className={s.buttonGroup}>
+                  <Button className="btn-info sm col-md-3" onClick={this.back}>Back</Button>
+                  <Button className="btn-warning sm  sm col-md-3 ml-5" onClick={this.back}>Start WebTerminal</Button>
+                </div>  
+              </div>
               <Table lg={12} md={12} sm={12} striped>
                 <tbody>
                     <tr >
@@ -98,9 +123,37 @@ class Accounts extends React.Component {
                 </tbody>
               </Table>
           </div>
-          <div className={s.buttonGroup}>
+          {/* <div className={s.buttonGroup}>
                 <Button className="btn-info sm col-md-3" onClick={this.back}>Back</Button>
                 <Button className="btn-warning sm  sm col-md-3 ml-5" onClick={this.back}>Start WebTerminal</Button>
+          </div> */}
+          <div className={s.overFlow}>
+            <br />
+            <h3>Transaction List</h3>
+            <Table lg={12} md={12} sm={12} striped>
+              <thead>
+                <tr className="fs-sm">
+                  <th className="hover-overlay hover-zoom hover-shadow ripple">Id</th>
+                  <th>Payment Gateway Name</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Operation Type</th>
+                  <th>Created DateTime</th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.state.transactions?.length > 0 && this.state.transactions?.map((row) => (
+                  <tr key={row.uuid}>
+                    <td >{ row.uuid }</td>
+                    <td>{ row.paymentGatewayName }</td>
+                    <td>{row.amount}</td>
+                    <td>{row.status}</td>
+                    <td>{row.operationType}</td>
+                    <td>{row.created}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
           </div>
       </div>
     );

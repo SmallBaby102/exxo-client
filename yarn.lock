@@ -4098,6 +4098,11 @@
     "path-type" "^4.0.0"
     "yaml" "^1.10.0"
 
+"country-state-city@^3.1.2":
+  "integrity" "sha512-qpzY7GyzqgJsx5TQUak0ryhbMcn1bLN1mgQc37EWkJMOEbszrAMowjzmisnf8ybhLBnbesZ1LK3KTc7SUX1T1w=="
+  "resolved" "https://registry.npmjs.org/country-state-city/-/country-state-city-3.1.2.tgz"
+  "version" "3.1.2"
+
 "create-emotion@^10.0.27":
   "integrity" "sha512-fIK73w82HPPn/RsAij7+Zt8eCE8SptcJ3WoRMfxMtjteYxud8GDTKKld7MYwAX2TVhrw29uR1N/bVGxeStHILg=="
   "resolved" "https://registry.npmjs.org/create-emotion/-/create-emotion-10.0.27.tgz"

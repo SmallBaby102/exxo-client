@@ -10,6 +10,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 // import "react-toastify/dist/ReactToastify.css";
 import Helper from '../../utils/Helper'
+
 class Login extends React.Component {
     static propTypes = {
         dispatch: PropTypes.func.isRequired,
@@ -70,6 +71,9 @@ class Login extends React.Component {
             localStorage.setItem("authenticated", res.data.accessToken);
             localStorage.setItem("account", JSON.stringify(res.data));
             this.props.dispatch(setAccount(res.data));
+
+            console.log("********************", res.data);
+
             axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: res.data?.accountUuid, partnerId: res.data?.partnerId }})
             .then( async res => {
                 this.props.dispatch(setTradingAccounts(res.data));
@@ -118,10 +122,10 @@ class Login extends React.Component {
       
         return (
             <div className="auth-page">
-                <a href="https://client.exxormarkets.com"><span className="login-logo"></span></a>
+                <a href="https://client.exxomarkets.com"><span className="login-logo"></span></a>
                 <div className='auth-header'>
                     <div className="link-to-homepage-container">
-                    <a href="https://exxormarkets.com" target="_blank">
+                    <a href="https://exxomarkets.com" target="_blank">
                         Please click here to go to our homepage          </a>
                     </div>
                 </div>
@@ -176,12 +180,11 @@ class Login extends React.Component {
                                     </Col>
                                 </Row>
                                 <div className="login-or">OR</div>
-                                <Link className="mb-4 btn btn-default btn-block" to="register">Create a new Profile</Link>
-                              
+                                <Link className="mb-4 btn btn-default btn-block" to="register">Create a new Profile</Link>                              
                             </div>
                         </form>
                     </Widget>
-                </Container>
+                </Container> 
                 <footer className="auth-footer">
                     <div className="text-center">
                             © 2020 <a href="https://exxomarkets.com/" target="blank">Exxo Markets LLC</a><br/>

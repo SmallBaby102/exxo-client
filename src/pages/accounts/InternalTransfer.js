@@ -60,6 +60,7 @@ class InternalTransfer extends React.Component {
     const originTradingAccount = this.state.tradingAccounts.find(item => item.value === this.state.account)
     const targetTradingAccount = this.state.tradingAccounts.find(item => item.value === this.state.targetAccount)
     const data = {
+      originTradingAccountId: originTradingAccount.login,
       originTradingAccountUuid: originTradingAccount.uuid,
       targetTradingAccountUuid: targetTradingAccount.uuid,
       amount: this.state.amount,
@@ -163,6 +164,7 @@ class InternalTransfer extends React.Component {
                             Amount *
                           </Label>
                           <Input 
+                              type="number"
                               value={amount} 
                               style={{paddingLeft: "10px" }}
                               onChange={this.changeAmount} 

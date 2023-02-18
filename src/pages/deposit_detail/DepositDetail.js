@@ -117,7 +117,7 @@ class DepositDetail extends React.Component {
             <div>
               <div className="form-content">
                 <h4 className={`page-title-${themeColor}`}>
-                    { title === "Tether" ? "Deposit USDT BEP20" : this.capitalizeFirstLetter(title) }
+                    { title === "tether" ? "Deposit USDT BEP20" : (title === "stacoinex" ? "Deposit VietQR" : this.capitalizeFirstLetter(title)) }
                 </h4>
                 <Row>
                     <Col lg={6} >
@@ -159,13 +159,13 @@ class DepositDetail extends React.Component {
                             <Col lg={6} >
                               <div className="">
                                   <Label><strong >Amount: </strong></Label>
-                                  <Input value={ amount } onChange={e => this.changeAmount(e)} ></Input>
+                                  <Input value={ amount } type="number" onChange={e => this.changeAmount(e)} ></Input>
                               </div>
                             </Col>
                           </Row>
                           <div className="mt-4 mb-3 ">
                               <Button className={`btn-success`} onClick={e => this.onDeposit()} >
-                              {this.state.loading ? <Spinner size="sm" color="light"></Spinner> : 'Deposit via Stacoinex'}</Button>       
+                              {this.state.loading ? <Spinner size="sm" color="light"></Spinner> : 'Submit'}</Button>       
                           </div>
                       </div>:
                       <div>

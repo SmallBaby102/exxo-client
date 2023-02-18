@@ -1,0 +1,22 @@
+.c_sendcode_btn {
+    cursor: pointer;
+}
+
+.c_code_ipt {
+    text-align: center;
+    border: 1px solid silver !important;
+    margin-left: -3px;
+}
+
+.c_ta_detail_tlt_bar>h4 {
+    display: inline-block;
+}
+
+.c_ta_detail_tlt_bar>div {
+    display: inline-block;
+    float: right;
+}
+
+.c_ta_detail_tlt_bar>div>button:last-child {
+    width: 150px;
+}
