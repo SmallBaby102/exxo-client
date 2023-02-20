@@ -87,22 +87,33 @@ class DepositDetail extends React.Component {
   
   componentDidMount() {
     const { match } = this.props;
+    this.setState({ title: match.params.currency }); 
     let accounts = [];
     this.props.dispatch(setChecking(true));
     axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: this.props.account?.accountUuid, partnerId: this.props.account?.partnerId }})
     .then( async res => {
-      this.props.dispatch(setChecking(false));
-      let temp = [];
-      for (let index = 0; index < res.data.length; index++) {
-        const element = res.data[index];
-        temp.push({ value: element.login, label: element.login, address: element.address})
-      }
-      this.setState({ title: match.params.currency, accounts: temp, account: res.data[0].login, address: res.data[0].address }); 
-    console.log(res);
+      axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/offers`, { params: { email: this.props.account?.email, partnerId: this.props.account?.partnerId }})
+      .then( async offersRes => {
+        let offersTemp = offersRes.data.filter(item => item.demo === false );
+        let liveTrAccounts = res.data?.filter(item => {
+          let liveOffer = offersTemp.find(offer =>  offer.uuid === item.offerUuid);
+          if(liveOffer) return true;
+          else return false;
+        });
+        let temp = [];
+        for (const element of liveTrAccounts) {
+          temp.push({ value: element.login, label: element.login, address: element.address, tradingAccountUuid: element.uuid})
+        }
+        this.setState({ accounts: temp, tradingAccount: liveTrAccounts[0].login, address: liveTrAccounts[0].address }); 
+        this.props.dispatch(setChecking(false));
+      })
+      .catch(err => {
+        console.log(err)
+        this.props.dispatch(setChecking(false));
+      })
     })
     .catch(e => {
       this.props.dispatch(setChecking(false));
-      this.setState({ title: match.params.currency, accounts }); 
       console.log(e);
     })
 
@@ -169,9 +180,9 @@ class DepositDetail extends React.Component {
                           </div>
                       </div>:
                       <div>
-                          <h6 className={`page-title-${themeColor}`}>
+                          <p className={`page-title-${themeColor}`}>
                             To deposit funds, make a transfer to the blockchain address below. Copy the address or scan the QR code with the camera on your phone.
-                          </h6>
+                          </p>
                           <br/>Your unique USDT BEP20 account address
                           <Row className="mt-2">
                               <Col md={1} className="d-flex align-items-center">

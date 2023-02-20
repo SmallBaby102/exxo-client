@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import React from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
 import {
   Navbar,
   Nav,
@@ -71,6 +72,7 @@ class Header extends React.Component {
       settingsLangOpen: false,
       searchFocused: false,
       searchOpen: false,
+      telegramLink: "",
       lang: "en",
       languages: { 
         en: EnglishFlag,
@@ -126,9 +128,19 @@ class Header extends React.Component {
     this.setState({lang: nextLanguage});
     this.props.i18n.changeLanguage(nextLanguage);
   }
+  componentDidMount() {
+    axios.get(`${process.env.REACT_APP_BASE_URL}/api/other/setting`)
+    .then(res => {
+      this.setState({ telegramLink: res.data.sysSetting.telegram });
+    })
+    .catch(err => {
+
+    })
+  }
+
   render() {
     const { t } = this.props;
-    const { lang } = this.state;
+    const { telegramLink } = this.state;
     const { themeColor } = this.props;
     return (
       <Navbar className={`d-print-none `}>
@@ -215,6 +227,15 @@ class Header extends React.Component {
                 </ul>
               </DropdownMenu>
             </Dropdown> */}
+            <NavItem>
+              <NavLink
+                className={`${s.navItem} text-white`}
+                href={telegramLink}
+                target="_blank"
+              >
+                  <img style={{ width: "20px", height:"20px"}} src="https://seeklogo.com/images/T/telegram-logo-E89B56AD97-seeklogo.com.png"></img>                                
+              </NavLink>
+            </NavItem>
             <NavItem>
               <NavLink
                 onClick={this.doLogout}

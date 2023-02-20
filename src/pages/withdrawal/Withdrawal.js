@@ -23,6 +23,7 @@ class Withdrawal extends React.Component {
       method: null,
       withdraws: [],
       tradingAccount: "",
+      tradingAccountBalance: "",
       address : '',
       amount : null,
       benificiaryName : null,
@@ -61,7 +62,8 @@ class Withdrawal extends React.Component {
   }
 
   changeAccount = (e) => {
-    this.setState({ tradingAccount: e.value })
+    this.setState({ tradingAccount: e.value }); 
+    this.setState({ tradingAccountBalance: e.balance });
   }
   changeMethod = (e) => {
     this.setState({ method: e.value })
@@ -73,17 +75,18 @@ class Withdrawal extends React.Component {
     this.setState({ amount: e.target.value })
   }
   changeBenificiaryName = (e) => {
-    // this.setState({ amount: e.target.value })
+    this.setState({ benificiaryName: e.target.value })
   }
   changeBankName = (e) => {
-    // this.setState({ amount: e.target.value })
+    this.setState({ bankName: e.target.value })
   }
   changeBankAccount = (e) => {
-    // this.setState({ amount: e.target.value })
+    this.setState({ bankAccount: e.target.value })
   }
   changeBankBranch = (e) => {
-    // this.setState({ amount: e.target.value })
+    this.setState({ bankBranch: e.target.value })
   }
+
   withdraw = (e) => {
     let inputValidation = true;
     if(!this.state.tradingAccount){
@@ -104,7 +107,21 @@ class Withdrawal extends React.Component {
         toast.warning("Invalid address entered. Please input a correct BEP20 address!");
         inputValidation = false;
       }
+    } else if ( this.state.method === "Vietnam Bank Transfer" ) {
+      if(!this.state.benificiaryName){
+        toast.warn("Please input Benificiary Name!");
+        inputValidation = false;
+      }
+      if(!this.state.bankName){
+        toast.warn("Please input Bank Name!");
+        inputValidation = false;
+      }
+      if(!this.state.bankAccount){
+        toast.warn("Please input Bank Account!");
+        inputValidation = false;
+      }
     }
+
    console.log(this.state);
     if(!this.state.verifycode){
       toast.warn("Please input verification code!");
@@ -118,13 +135,18 @@ class Withdrawal extends React.Component {
 
     const tradingAccountFilter = this.state.accounts?.find(item => item.value === this.state.tradingAccount);
     const data = {
-      email: account?.email, 
-      tradingAccountUuid: tradingAccountFilter.tradingAccountUuid,
-      tradingAccountId: this.state.tradingAccount,
-      address: this.state.address,
-      amount: this.state.amount,
-      code: this.state.verifycode,
-      partnerId: account?.partnerId,
+      email:                account?.email, 
+      tradingAccountUuid:   tradingAccountFilter.tradingAccountUuid,
+      tradingAccountId:     this.state.tradingAccount,
+      address:              this.state.address,
+      amount:               this.state.amount,
+      code:                 this.state.verifycode,
+      partnerId:            account?.partnerId,
+      method:               this.state.method, 
+      benificiaryName:      this.state.benificiaryName, 
+      bankName:             this.state.bankName, 
+      bankAccount:          this.state.bankAccount, 
+      bankBranch:           this.state.bankBranch, 
       // for only update current states
       currency: "USD",
       status: "Pending",
@@ -141,6 +163,7 @@ class Withdrawal extends React.Component {
       this.props.dispatch(setChecking(false));
       this.setState({ withdraws: [...this.state.withdraws, data ] });
       toast.success("Withdraw request was successfully sent to admin!")
+      this.setState({ address:'', amount: '', verifycode:'', benificiaryName:'', bankName:'', bankAccount:'', bankBranch:''});
     })
     .catch(e => {
       this.props.dispatch(setChecking(false));
@@ -192,14 +215,26 @@ class Withdrawal extends React.Component {
     })
     axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: this.props.account?.accountUuid, partnerId: this.props.account?.partnerId }})
     .then( async res => {
-      this.props.dispatch(setChecking(false));
-      let temp = [];
-      for (let index = 0; index < res.data.length; index++) {
-        const element = res.data[index];
-        temp.push({ value: element.login, label: element.login, address: element.address, tradingAccountUuid: element.uuid})
-      }
-      this.setState({ accounts: temp, tradingAccount: res.data[0].login, address: res.data[0].address }); 
-    console.log("tr.accounts", res.data);
+      axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/offers`, { params: { email: this.props.account?.email, partnerId: this.props.account?.partnerId }})
+      .then( async offersRes => {
+        let offersTemp = offersRes.data.filter(item => item.demo === false );
+        let liveTrAccounts = res.data?.filter(item => {
+          let liveOffer = offersTemp.find(offer =>  offer.uuid === item.offerUuid);
+          if(liveOffer) return true;
+          else return false;
+        });
+
+        let temp = [];
+        for (const element of liveTrAccounts) {
+          temp.push({ value: element.login, balance: element.balance, label: element.login, address: element.address, tradingAccountUuid: element.uuid})
+        }
+        this.setState({ accounts: temp, tradingAccount: liveTrAccounts[0].login, tradingAccountBalance: liveTrAccounts[0].balance, address: liveTrAccounts[0].address }); 
+        this.props.dispatch(setChecking(false));
+      })
+      .catch(err => {
+        console.log(err)
+        this.props.dispatch(setChecking(false));
+      })
     })
     .catch(e => {
       this.props.dispatch(setChecking(false));
@@ -210,7 +245,7 @@ class Withdrawal extends React.Component {
   }
   render() {
   const { themeColor } = this.props;
-  const { accounts, methods, method, tradingAccount, address, amount, benificiaryName, bankName, bankAccount, bankBranch, verifycode } = this.state;
+  const { accounts, methods, method, tradingAccount, tradingAccountBalance, address, amount, benificiaryName, bankName, bankAccount, bankBranch, verifycode } = this.state;
 
     return (
       <div className={s.root}>
@@ -258,22 +293,23 @@ class Withdrawal extends React.Component {
                                   options={ accounts } 
                                   className="react-select-container mt-1" 
                                   classNamePrefix="react-select"
-                                  value={{ value: tradingAccount, label: tradingAccount }}
+                                  balance={ tradingAccountBalance } 
+                                  value={{ value: tradingAccount, label: tradingAccount + " ( " + tradingAccountBalance  + "USDT )" }}
                                   onChange={e => this.changeAccount(e)}
                                   styles={{
                                       control: (baseStyles, state) => ({
                                         ...baseStyles,
                                         borderColor: 'grey',
                                         backgroundColor: "white",
-                                          cursor: "pointer",
-                                          opacity: .8
+                                        cursor: "pointer",
+                                        opacity: .8
                                       }),
                                       option: (base) => ({
-                                          ...base,
-                                          color: 'black',
-                                          backgroundColor: "white",
-                                          cursor: "pointer"
-                                        }),
+                                        ...base,
+                                        color: 'black',
+                                        backgroundColor: "white",
+                                        cursor: "pointer"
+                                      }),
                                   }}
                               />
                           </div>
@@ -302,7 +338,7 @@ class Withdrawal extends React.Component {
                               <Input className="input-transparent c_code_ipt pl-3" type="text" value={verifycode} name="verifycode" onChange={e => this.changeVerifyCode(e)} placeholder="CODE"/>
                               <InputGroupAddon addonType="prepend">
                                   <InputGroupText className="c_sendcode_btn" onClick={e => this.sendVerifyCode()} >
-                                      Send Code
+                                      Email Code
                                   </InputGroupText>
                               </InputGroupAddon>
                           </InputGroup>
@@ -325,7 +361,8 @@ class Withdrawal extends React.Component {
                                   options={ accounts } 
                                   className="react-select-container mt-1" 
                                   classNamePrefix="react-select"
-                                  value={{ value: tradingAccount, label: tradingAccount }}
+                                  balance={ tradingAccountBalance } 
+                                  value={{ value: tradingAccount, label: tradingAccount + " ( " + tradingAccountBalance  + "USDT )" }}
                                   onChange={e => this.changeAccount(e)}
                                   styles={{
                                       control: (baseStyles, state) => ({

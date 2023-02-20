@@ -66,7 +66,7 @@ class StacoinexResult extends React.Component {
               <br/>
               <Row className="mt-2">
                   <Col md={12} className="d-flex align-items-center">
-                      <Label><strong >Nội dung chuyển khoản : {result?.bankTransfer.transfer_code} </strong></Label>
+                      <h6><strong >Nội dung chuyển khoản : {result?.bankTransfer.transfer_code} </strong></h6>
                   </Col>
               </Row>
               <Row>

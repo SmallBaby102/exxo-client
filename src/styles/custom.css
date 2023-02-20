@@ -1,5 +1,7 @@
 .c_sendcode_btn {
     cursor: pointer;
+    color: white !important;
+    background-color: #3498db !important;
 }
 
 .c_code_ipt {

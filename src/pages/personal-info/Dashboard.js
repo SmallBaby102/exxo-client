@@ -31,6 +31,7 @@ class Dashboard extends React.Component {
       expDate: null,
       name: "",
       postalCode: "",
+      phone: "",
       country: "",
       state: null,
       city: "",      
@@ -79,7 +80,7 @@ class Dashboard extends React.Component {
   }
  componentDidMount() {
   const account = this.props.account;
-  this.setState({ postalCode: account?.postalCode, name: account?.fullname, address: account?.address })
+  this.setState({ postalCode: account?.postalCode, name: account?.fullname, address: account?.address, phone: account?.phone })
   const country = countries.find(item => item.name === account?.country);
   const state = this.updatedStates(country?.isoCode).find(item => item.name === account?.state);
   const city = this.updatedCities(country?.isoCode, state?.isoCode).find(item => item.name === account?.city);
@@ -91,7 +92,7 @@ class Dashboard extends React.Component {
  
   render() {
   const { themeColor, verifyStatus } = this.props;
-  const { name, dob, country, state, city, postalCode, address } = this.state;
+  const { name, dob, country, state, city, postalCode, address, phone } = this.state;
     return (
       <div className={s.root}>
         {
@@ -111,7 +112,7 @@ class Dashboard extends React.Component {
                       </div>
                       <div className="mt-3">
                           <Label>Date of birth *</Label>
-                          <div  className={s.mui_control} >
+                          <div  className={s.mui_control} style={{background:"#f4f4f5" }}>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                               <DatePicker
                                 disableFuture
@@ -124,7 +125,7 @@ class Dashboard extends React.Component {
                                 }}
                                 renderInput={(params) => <TextField {...params}  
                                 sx={{
-                                  '.MuiInputBase-input': { height: "35px", padding: "0px 0 0 10px", width: "100%" },
+                                  '.MuiInputBase-input': { height: "35px", padding: "0px 0 0 10px", width: "100%", },
                                 }}
                               />}
                               />
@@ -142,6 +143,19 @@ class Dashboard extends React.Component {
                           label="country"
                           options={updatedCountries}
                           value={country}
+                          styles={{
+                            control: (baseStyles, state) => ({
+                              ...baseStyles,
+                              borderColor: 'grey',
+                              backgroundColor: "#f4f4f5",
+                              opacity: .8
+                              
+                            }),
+                              option: (base) => ({
+                                  ...base,
+                                  color: 'black',
+                                }),
+                          }}
                           onChange={(value) => {
                             
                             this.setState({ country: value, state: null, city: null });
@@ -157,6 +171,19 @@ class Dashboard extends React.Component {
                           onChange={(value) => {
                             this.setState({ state: value, city: null });
                           }}
+                          styles={{
+                            control: (baseStyles, state) => ({
+                              ...baseStyles,
+                              borderColor: 'grey',
+                              backgroundColor: "#f4f4f5",
+                              opacity: .8
+                              
+                            }),
+                              option: (base) => ({
+                                  ...base,
+                                  color: 'black',
+                                }),
+                          }}
                         />
                       </div>
                       <div className="mt-3">
@@ -169,6 +196,19 @@ class Dashboard extends React.Component {
                               this.setState({city: value })
                             }
                           }
+                          styles={{
+                            control: (baseStyles, state) => ({
+                              ...baseStyles,
+                              borderColor: 'grey',
+                              backgroundColor: "#f4f4f5",
+                              opacity: .8
+                              
+                            }),
+                              option: (base) => ({
+                                  ...base,
+                                  color: 'black',
+                                }),
+                          }}
                         />
                       </div>
                       <div className="mt-3">
@@ -177,7 +217,7 @@ class Dashboard extends React.Component {
                       </div>
                       <div className="mt-3">
                         <Label>Phone Mobile</Label>
-                        <Input className="input-content"></Input>
+                        <Input className="input-content" value={phone} onChange={e => this.setState({ phone: e.target.value})}></Input>
                       </div>
                       <div className="mt-3">
                         <Label>Landline phone</Label>

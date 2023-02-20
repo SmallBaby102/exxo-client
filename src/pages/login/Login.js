@@ -96,7 +96,11 @@ class Login extends React.Component {
             })
             this.props.dispatch(setChecking(false));
             this.props.dispatch(loginUser({ email: this.state.email, password: this.state.password }));
-            this.props.history.push("/app/profile");
+            if (res.data.verification_status === "Approved") {
+                this.props.history.push("/app/accounts");
+            } else {
+                this.props.history.push("/app/profile");
+            }
         
         })
         .catch(err => {

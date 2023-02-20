@@ -29,7 +29,7 @@ class InternalTransfer extends React.Component {
       let temp = this.state.tradingAccounts?.filter(item => item.value !== event.value);
       this.setState({ targetTradingAccounts: temp});
       this.setState({ account: event.value });
-      let originAccount = this.state.tradingAccounts?.find(item => item.value !== event.value);
+      let originAccount = this.state.tradingAccounts?.find(item => item.value === event.value);
       this.setState({ originBalance: originAccount.balance });
       if(this.state.targetAccount === event.value){
         this.setState({ targetAccount: ""});
@@ -37,7 +37,7 @@ class InternalTransfer extends React.Component {
     }
   changeTargetAccount(event) {
       this.setState({ targetAccount: event.value });
-      let targetAccount = this.state.tradingAccounts?.find(item => item.value !== event.value);
+      let targetAccount = this.state.tradingAccounts?.find(item => item.value === event.value);
       this.setState({ targetBalance: targetAccount.balance });
   }
   changeAmount(event) {
@@ -69,9 +69,43 @@ class InternalTransfer extends React.Component {
     axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/internal-transfer`, data )
     .then( async res => {
       this.props.dispatch(setChecking(false));
+      toast.success("Success");
+      this.props.dispatch(setChecking(true));
+      axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: this.props.account?.accountUuid, partnerId: this.props.account?.partnerId }})
+      .then( async res => {
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/offers`, { params: { email: this.props.account?.email, partnerId: this.props.account?.partnerId }})
+        .then( async offersRes => {
+          let offersTemp = offersRes.data.filter(item => item.demo === false );
+          let liveTrAccounts = res.data?.filter(item => {
+            let liveOffer = offersTemp.find(offer =>  offer.uuid === item.offerUuid);
+            if(liveOffer) return true;
+            else return false;
+          });
+          let temp = [];
+          for (const iterator of liveTrAccounts) {
+            temp.push({ ...iterator, value: iterator.login, label: iterator.login })
+          }
+          this.setState({ tradingAccounts: temp })
+          this.setState({ targetTradingAccounts: temp })
+          let originAccount = temp?.find(item => item.value === this.state.account);
+          this.setState({ originBalance: originAccount.balance });
+          let targetAccount = temp?.find(item => item.value === this.state.targetAccount);
+          this.setState({ targetBalance: targetAccount.balance });
+          this.props.dispatch(setChecking(false));
+        })
+        .catch(err => {
+          console.log(err)
+          this.props.dispatch(setChecking(false));
+        })
+      })
+      .catch(e => {
+        this.props.dispatch(setChecking(false));
+        console.log(e);
+      })
     })
     .catch(e => {
       this.props.dispatch(setChecking(false));
+      toast.success("Failed");
       console.log(e);
     })
     
@@ -82,14 +116,26 @@ class InternalTransfer extends React.Component {
     
     axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: this.props.account?.accountUuid, partnerId: this.props.account?.partnerId }})
     .then( async res => {
-      let temp = [];
-      for (const iterator of res.data) {
-        temp.push({ ...iterator, value: iterator.login, label: iterator.login })
-      }
-      this.setState({ tradingAccounts: temp })
-      this.setState({ targetTradingAccounts: temp })
-      this.props.dispatch(setChecking(false));
-
+      axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/offers`, { params: { email: this.props.account?.email, partnerId: this.props.account?.partnerId }})
+      .then( async offersRes => {
+        let offersTemp = offersRes.data.filter(item => item.demo === false );
+        let liveTrAccounts = res.data?.filter(item => {
+          let liveOffer = offersTemp.find(offer =>  offer.uuid === item.offerUuid);
+          if(liveOffer) return true;
+          else return false;
+        });
+        let temp = [];
+        for (const iterator of liveTrAccounts) {
+          temp.push({ ...iterator, value: iterator.login, label: iterator.login })
+        }
+        this.setState({ tradingAccounts: temp })
+        this.setState({ targetTradingAccounts: temp })
+        this.props.dispatch(setChecking(false));
+      })
+      .catch(err => {
+        console.log(err)
+        this.props.dispatch(setChecking(false));
+      })
     })
     .catch(e => {
       this.props.dispatch(setChecking(false));

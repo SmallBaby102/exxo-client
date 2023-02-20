@@ -37,7 +37,7 @@ class Deposit extends React.Component {
                       </Link>
                     </div>
                     <div className={s.payment_block}>
-                      <Link to="/app/deposit_detail/stacoinex"  className={s.payment_option +" " + s.payment_option_stacoinex}>
+                      <Link to="/app/deposit_detail/vietqr"  className={s.payment_option +" " + s.payment_option_stacoinex}>
                       </Link>
                     </div>
                     <div className={s.payment_block}>

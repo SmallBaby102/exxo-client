@@ -67,14 +67,17 @@ class Dashboard extends React.Component {
     this.state = {
       step: 0,
       docType: "driver_license",   // passport, driver_license, id_card,  resident
+      docType2: "proofOfResident",   // proofOfResident
       img1: DriverL1,
       img2: DriverL2,
       img3: DriverL3,
       img4: DriverL4,
       frontImg: DriverFrontImgSample,
       backImg: DriverBackImgSample,
+      proofOfResident: "",
       frontFile: null,
       backFile: null,
+      proofOfResidentFile: null,
       dob: null,
       expDate: null,
       name: "",
@@ -85,6 +88,7 @@ class Dashboard extends React.Component {
       address: "",
       frontImgSelected: false,
       backImgSelected: false,
+      proofOfResidentSelected: false,
       check1: false,
       check2: false
     };
@@ -141,10 +145,17 @@ class Dashboard extends React.Component {
       });
     }
   }
+  setDocType2 = type => {
+    this.setState({ docType2: type });
+  }
   next = next => {
     if (next === 1) {
       if (this.state.name === "" || this.state.dob === null) {
         toast.warning("Please input your name and birthday!");
+        return;
+      }
+      if (this.state.proofOfResidentSelected === false) {
+        toast.warning("Please select a proof of resident document!");
         return;
       }
       if (this.state.docType === "passport") {
@@ -187,7 +198,9 @@ class Dashboard extends React.Component {
     formData.append("address", this.state.address)
     formData.append("frontImg", this.state.frontFile)
     formData.append("backImg", this.state.backFile)
+    formData.append("proofOfResident", this.state.proofOfResidentFile)
     formData.append("docType", this.state.docType)
+    formData.append("docType2", this.state.docType2)
 
     axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/verifyProfile`, formData, { headers })
       .then(account_info => {
@@ -216,7 +229,7 @@ class Dashboard extends React.Component {
     }
    }
   render() {
-    const { step, img1, img2, img3, img4, frontImg, backImg, docType, dob, expDate, name, country, state, city, postalCode, address } = this.state;
+    const { step, img1, img2, img3, img4, frontImg, backImg, docType, docType2, proofOfResident, dob, expDate, name, country, state, city, postalCode, address } = this.state;
     const { themeColor } = this.props;
 
     return (
@@ -267,7 +280,7 @@ class Dashboard extends React.Component {
                       </LocalizationProvider>
                     </div>
                   </div>
-                  <strong>Please attach your verification documents</strong>
+                  <strong>Please attach your verification documents</strong><br/>
                   <label className="my-2">Document type *</label>
                   <Row>
                     <Col md={6}>
@@ -325,6 +338,33 @@ class Dashboard extends React.Component {
                         </div>
                       </Col>
                     }
+                  </Row>
+                  <hr></hr>
+                  <Row>
+                    <Col md={6}>
+                      <Button className={`${s.btn_doc} btn-light ${docType2 === "proofOfResident" && "active"}`} onClick={e => this.setDocType2("proofOfResident")} >Proof of resident</Button>
+                    </Col>
+                  </Row>
+                  <Row>
+                      <Col xs={6}>
+                        <div className="mt-3">
+                          <p>{this.state.proofOfResidentFile?.name}</p>
+                        </div>
+                        <div className="upload-btn mt-2" style={{ position: "relative" }}>
+                          <input
+                            type="file"
+                            id="proofOfResident-img"
+                            onChange={e => { this.setState({ proofOfResidentSelected: true, proofOfResidentFile: e.target.files[0], proofOfResident: URL.createObjectURL(e.target.files[0]) }); }}
+                            name="front-img"
+                            style={{ width: "100%", height: "35px", opacity: 0, position: "absolute" }}
+                          />
+                          <label htmlFor="front-img" style={{ width: "100%" }}>
+                            <Button color="primary" className="text-white" style={{ height: "35px", width: "100%" }}>
+                              Upload Proof Of Resident Document
+                            </Button>
+                          </label>
+                        </div>
+                      </Col>
                   </Row>
                   <div className="mt-3">
                     <Label>Expiration date</Label>
