@@ -32,6 +32,7 @@ class Dashboard extends React.Component {
       name: "",
       postalCode: "",
       phone: "",
+      landline_phone : "", 
       country: "",
       state: null,
       city: "",      
@@ -78,9 +79,10 @@ class Dashboard extends React.Component {
   
     return dateCopy;
   }
+  
  componentDidMount() {
   const account = this.props.account;
-  this.setState({ postalCode: account?.postalCode, name: account?.fullname, address: account?.address, phone: account?.phone })
+  this.setState({ postalCode: account?.postalCode, name: account?.fullname, address: account?.address, phone: account?.phone, landline_phone: account?.landline_phone })
   const country = countries.find(item => item.name === account?.country);
   const state = this.updatedStates(country?.isoCode).find(item => item.name === account?.state);
   const city = this.updatedCities(country?.isoCode, state?.isoCode).find(item => item.name === account?.city);
@@ -92,7 +94,7 @@ class Dashboard extends React.Component {
  
   render() {
   const { themeColor, verifyStatus } = this.props;
-  const { name, dob, country, state, city, postalCode, address, phone } = this.state;
+  const { name, dob, country, state, city, postalCode, address, phone, landline_phone } = this.state;
     return (
       <div className={s.root}>
         {
@@ -221,7 +223,7 @@ class Dashboard extends React.Component {
                       </div>
                       <div className="mt-3">
                         <Label>Landline phone</Label>
-                        <Input className="input-content"></Input>
+                        <Input className="input-content" value={landline_phone} onChange={e => this.setState({ landline_phone: e.target.value})}></Input>
                       </div>
                       <div className="mt-3">
                         { 

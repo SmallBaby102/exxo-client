@@ -72,7 +72,7 @@ class Login extends React.Component {
             localStorage.setItem("account", JSON.stringify(res.data));
             this.props.dispatch(setAccount(res.data));
 
-            console.log("********************", res.data);
+            console.log("*********######**********", res.data);
 
             axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: res.data?.accountUuid, partnerId: res.data?.partnerId }})
             .then( async res => {

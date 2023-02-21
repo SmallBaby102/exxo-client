@@ -289,7 +289,7 @@ class Dashboard extends React.Component {
                     </Col>
                     <Col md={6}>
                       <Button className={`${s.btn_doc} btn-light ${docType === "passport" && "active"}`} onClick={e => this.setDocType("passport")} >Passport</Button>
-                      <Button className={`${s.btn_doc} btn-light ${docType === "resident" && "active"}`} onClick={e => this.setDocType("resident")} >Proof of Address(Utility Bill or Bank statement)</Button>
+                      {/* <Button className={`${s.btn_doc} btn-light ${docType === "resident" && "active"}`} onClick={e => this.setDocType("resident")} >Proof of Address(Utility Bill or Bank statement)</Button> */}
                     </Col>
                   </Row>
                   <Row>

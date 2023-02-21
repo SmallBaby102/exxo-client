@@ -98,6 +98,10 @@ class Withdrawal extends React.Component {
       inputValidation = false;
     }
     if (this.state.method === "USDT BEP20") {
+      if(parseInt(this.state.amount) < 50 ){
+        toast.warn("Please set the amount more than 50USD");
+        inputValidation = false;
+      }
       if(!this.state.address){
         toast.warn("Please input withdraw address!");
         inputValidation = false;
@@ -294,7 +298,7 @@ class Withdrawal extends React.Component {
                                   className="react-select-container mt-1" 
                                   classNamePrefix="react-select"
                                   balance={ tradingAccountBalance } 
-                                  value={{ value: tradingAccount, label: tradingAccount + " ( " + tradingAccountBalance  + "USDT )" }}
+                                  value={{ value: tradingAccount, label: tradingAccount + " ( " + tradingAccountBalance  + "USD )" }}
                                   onChange={e => this.changeAccount(e)}
                                   styles={{
                                       control: (baseStyles, state) => ({
@@ -362,7 +366,7 @@ class Withdrawal extends React.Component {
                                   className="react-select-container mt-1" 
                                   classNamePrefix="react-select"
                                   balance={ tradingAccountBalance } 
-                                  value={{ value: tradingAccount, label: tradingAccount + " ( " + tradingAccountBalance  + "USDT )" }}
+                                  value={{ value: tradingAccount, label: tradingAccount + " ( " + tradingAccountBalance  + "USD )" }}
                                   onChange={e => this.changeAccount(e)}
                                   styles={{
                                       control: (baseStyles, state) => ({

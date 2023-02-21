@@ -77,9 +77,11 @@ class Sidebar extends React.Component {
             >
                 
                 <header className={this.props.themeColor === "dark" ? s.logo: s.logoLight }>
-                    <a href = "/app/profile"><img src = {Logo} style = {{width: "100px"}} alt="logo"></img></a>
+                    <a href = {verifyStatus === "Approved"?"/app/accounts":"/app/profile"}>
+                        <img src = {Logo} style = {{width: "100px"}} alt="logo"></img>
+                    </a>
                 </header>
-                <ul className = {s.nav}>
+                <ul className = {`c_sidebar_ul ${s.nav}`}>
                     <LinksGroup
                         onActiveSidebarItemChange={activeItem => this.props.dispatch(changeActiveSidebarItem(activeItem))}
                         activeItem={this.props.activeItem}
@@ -98,9 +100,9 @@ class Sidebar extends React.Component {
                             {
                                 header: 'Verify profile', link: '/app/profile/verify',
                             },
-                            {
-                                header: 'Mobile phone verification', link: '/app/profile/mobile-verify',
-                            },
+                            // {
+                            //     header: 'Mobile phone verification', link: '/app/profile/mobile-verify',
+                            // },
                         ] : 
                         [
                             {

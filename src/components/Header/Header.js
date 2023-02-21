@@ -128,15 +128,15 @@ class Header extends React.Component {
     this.setState({lang: nextLanguage});
     this.props.i18n.changeLanguage(nextLanguage);
   }
-  componentDidMount() {
-    axios.get(`${process.env.REACT_APP_BASE_URL}/api/other/setting`)
-    .then(res => {
-      this.setState({ telegramLink: res.data.sysSetting.telegram });
-    })
-    .catch(err => {
+  // componentDidMount() {
+  //   axios.get(`${process.env.REACT_APP_BASE_URL}/api/other/setting`)
+  //   .then(res => {
+  //     this.setState({ telegramLink: res.data.sysSetting.telegram });
+  //   })
+  //   .catch(err => {
 
-    })
-  }
+  //   })
+  // }
 
   render() {
     const { t } = this.props;
@@ -227,7 +227,7 @@ class Header extends React.Component {
                 </ul>
               </DropdownMenu>
             </Dropdown> */}
-            <NavItem>
+            {/* <NavItem>
               <NavLink
                 className={`${s.navItem} text-white`}
                 href={telegramLink}
@@ -235,7 +235,7 @@ class Header extends React.Component {
               >
                   <img style={{ width: "20px", height:"20px"}} src="https://seeklogo.com/images/T/telegram-logo-E89B56AD97-seeklogo.com.png"></img>                                
               </NavLink>
-            </NavItem>
+            </NavItem> */}
             <NavItem>
               <NavLink
                 onClick={this.doLogout}

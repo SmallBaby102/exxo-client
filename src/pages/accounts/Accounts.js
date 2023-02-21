@@ -170,7 +170,7 @@ class Accounts extends React.Component {
                     </thead>
                     <tbody>
                       { this.state.tradingAccounts?.map((row) => (
-                        <tr key={row.uuid} onDoubleClick={(e) => this.accountDetail(row.login)} >
+                        <tr className="c_accounts_tr" key={row.uuid} onDoubleClick={(e) => this.accountDetail(row.login)} >
                           <td >
                           { row.login }
                           </td>

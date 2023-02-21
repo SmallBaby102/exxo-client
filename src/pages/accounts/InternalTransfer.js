@@ -70,6 +70,9 @@ class InternalTransfer extends React.Component {
     .then( async res => {
       this.props.dispatch(setChecking(false));
       toast.success("Success");
+
+      this.setState({ amount: 0 });
+      
       this.props.dispatch(setChecking(true));
       axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: this.props.account?.accountUuid, partnerId: this.props.account?.partnerId }})
       .then( async res => {
@@ -112,8 +115,7 @@ class InternalTransfer extends React.Component {
   } 
   componentDidMount() {
     
-    this.props.dispatch(setChecking(true));
-    
+    this.props.dispatch(setChecking(true));    
     axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: this.props.account?.accountUuid, partnerId: this.props.account?.partnerId }})
     .then( async res => {
       axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/offers`, { params: { email: this.props.account?.email, partnerId: this.props.account?.partnerId }})

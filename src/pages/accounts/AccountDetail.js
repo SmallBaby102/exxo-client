@@ -73,7 +73,7 @@ class Accounts extends React.Component {
                 </h4>
                 <div className={s.buttonGroup}>
                   <Button className="btn-info sm col-md-3" onClick={this.back}>Back</Button>
-                  <Button className="btn-warning sm  sm col-md-3 ml-5" ><a href="https://terminal.exxomarkets.com" target="_blank">Start WebTerminal</a></Button>
+                  <Button className="btn-warning sm  sm col-md-3 ml-5 c_webterminal_btn" ><a href="https://terminal.exxomarkets.com" target="_blank">Start WebTerminal</a></Button>
                 </div>  
               </div>
               <Table lg={12} md={12} sm={12} striped>
