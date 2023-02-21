@@ -128,7 +128,7 @@ class DepositDetail extends React.Component {
             <div>
               <div className="form-content">
                 <h4 className={`page-title-${themeColor}`}>
-                    { title === "tether" ? "Deposit USDT BEP20" : (title === "stacoinex" ? "Deposit VietQR" : this.capitalizeFirstLetter(title)) }
+                    { title === "tether" ? "Deposit USDT BEP20" : (title === "vietqr" ? "Deposit VietQR" : this.capitalizeFirstLetter(title)) }
                 </h4>
                 <Row>
                     <Col lg={6} >
@@ -164,7 +164,7 @@ class DepositDetail extends React.Component {
                 address !== null &&
                 <div className="form-content">
                     {
-                      title === "stacoinex" ? 
+                      title === "vietqr" ?  // stacoinex
                       <div>
                         <Row className="mt-2">
                             <Col lg={6} >
