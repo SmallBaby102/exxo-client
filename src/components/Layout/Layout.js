@@ -14,7 +14,8 @@ import Deposit from '../../pages/deposit';
 import DepositDetail from '../../pages/deposit_detail';
 import PersonalInfo from '../../pages/personal-info';
 import ChangeBackofficePass from '../../pages/change-backoffice-pass';
-import VerifyProfile from '../../pages/verify-profile';
+import VerifyProfile from '../../pages/verify-profile'; 
+import BecomeIB from '../../pages/become-ib';
 
 import Header from '../Header';
 import Sidebar from '../Sidebar';
@@ -93,6 +94,7 @@ class Layout extends React.Component {
                     <Route path="/app/withdraw" exact component={Withdrawal} />
                     <Route path="/app/deposit" exact component={Deposit} />
                     <Route path="/app/deposit_detail/:currency" exact component={DepositDetail} />
+                    <Route path="/app/refer" exact component={BecomeIB} />
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>

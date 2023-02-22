@@ -40,3 +40,14 @@
     text-decoration: none !important;
     color: white;
 }
+
+.c_ib_decline_dv {
+    border: 1px solid silver;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(200, 200, 200, 0.3);
+    font-size: 15px;
+    max-width: 500px;
+    font-style: normal;
+    margin-bottom: 15px;
+}

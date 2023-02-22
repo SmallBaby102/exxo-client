@@ -56,14 +56,14 @@ class DepositDetail extends React.Component {
       return;
     }
     let validation = true;
-    if (amount > 9500) {
+    if (amount > 9900) {
       validation = false;
     }
     if (amount < 100) {
       validation = false;
     }
     if(!validation){
-      toast.warning("Please input the amount under 9500 and over 100!");
+      toast.warning("Please input the amount under 9900 and over 100!");
       return;
     }
     const data = {
@@ -170,7 +170,7 @@ class DepositDetail extends React.Component {
                             <Col lg={6} >
                               <div className="">
                                   <Label><strong >Amount: </strong></Label>
-                                  <Input value={ amount } type="number" onChange={e => this.changeAmount(e)} ></Input>
+                                  <Input value={ amount } type="number" placeholder="100-9900" onChange={e => this.changeAmount(e)} ></Input>
                               </div>
                             </Col>
                           </Row>

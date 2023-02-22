@@ -69,7 +69,7 @@ class App extends React.PureComponent {
                     </Switch>
                 </Router>
             </Suspense>
-            <Box sx={{ position: "absolute", bottom: 16, right:16 }}>
+            <Box sx={{ position: "fixed", float: "right", bottom: 16, right:16 }}>
               <NavLink
                 href={telegramLink}
                 target="_blank"
