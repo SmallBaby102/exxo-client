@@ -17,6 +17,7 @@ class Dashboard extends React.Component {
       name: "",
       parentTradingAccountUuid: "",
       ibStatus: "New",
+      IBDeclineReason: "", 
       inviteLink: "http://localhost:3000/register",
 
     };
@@ -24,7 +25,7 @@ class Dashboard extends React.Component {
 
  componentDidMount() {
   const account = this.props.account;
-  this.setState({ accountUuid: account?.accountUuid ,name: account?.fullname, ibStatus: account?.ibStatus, parentTradingAccountUuid: account?.parentTradingAccountUuid, inviteLink: account?.IBLink })
+  this.setState({ accountUuid: account?.accountUuid ,name: account?.fullname, ibStatus: account?.ibStatus, parentTradingAccountUuid: account?.parentTradingAccountUuid, inviteLink: account?.IBLink , IBDeclineReason: account?.IBDeclineReason})
  }
 
   handleCopy = (e) => {
@@ -75,7 +76,7 @@ class Dashboard extends React.Component {
  
   render() {
   const { themeColor, verifyStatus } = this.props;
-  const { name, parentTradingAccountUuid, ibStatus, inviteLink } = this.state;
+  const { name, parentTradingAccountUuid, ibStatus, inviteLink, IBDeclineReason } = this.state;
     return (
       <div>        
         <div className="form-content">
@@ -126,11 +127,7 @@ class Dashboard extends React.Component {
                       ibStatus === "Declined" && (
                         <div>
                           <div className="c_ib_alert_dv">Your IB request was declined. You can send IB request again.</div>
-                          <div className="c_ib_decline_dv">
-                            At the moment we can't agree your IB request. <br />
-                            But the function will be working soon. We are doing our best. <br />
-                            Thank you for your understanding.
-                          </div>
+                          <div className="c_ib_decline_dv">{ IBDeclineReason }</div>
                           <Button className="input-content btn-info" onClick={(e)=>this.requestIB()} disabled={false} >Request Become IB</Button>
                         </div>
                     )}
