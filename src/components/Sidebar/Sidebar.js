@@ -11,7 +11,7 @@ import LinksGroup from './LinksGroup';
 import {changeActiveSidebarItem, closeSidebar} from '../../actions/navigation';
 import {logoutUser} from '../../actions/user';
 import Logo from '../../assets/logo-6.png';
-import { AiOutlineTool, AiOutlineLike, AiOutlineGroup, AiOutlineUser, AiOutlinePlusSquare } from 'react-icons/ai';
+import { AiOutlineTool, AiOutlineLike, AiOutlineGroup, AiOutlineUser, AiOutlinePlusSquare, AiOutlineUserSwitch } from 'react-icons/ai';
 import { RiShareForwardLine } from "react-icons/ri";
 class Sidebar extends React.Component {
     static propTypes = {
@@ -20,6 +20,7 @@ class Sidebar extends React.Component {
         dispatch: PropTypes.func.isRequired,
         activeItem: PropTypes.string,
         verifyStatus: PropTypes.string,
+        ibStatus: PropTypes.string,
         location: PropTypes.shape({
             pathname: PropTypes.string,
         }).isRequired,
@@ -69,7 +70,7 @@ class Sidebar extends React.Component {
     }
 
     render() {
-        const { themeColor, sidebarOpened, verifyStatus } = this.props;
+        const { themeColor, sidebarOpened, verifyStatus, ibStatus } = this.props;
         return (
             <nav
                 className={cx(s.root)}
@@ -156,8 +157,19 @@ class Sidebar extends React.Component {
                         link="/app/refer"
                         index="refer"
                     />
-                    
-                  
+
+                    {
+                    ibStatus === "Approved" &&
+                    <LinksGroup
+                        onActiveSidebarItemChange={activeItem => this.props.dispatch(changeActiveSidebarItem(activeItem))}
+                        activeItem={this.props.activeItem}
+                        header="IB Clients"
+                        isHeader
+                        iconName={<AiOutlineUserSwitch className={themeColor === "dark"? s.menuIcon: s.menuIconLight}/>}
+                        link="/app/ib-clients"
+                        index="ib-clients"
+                    />
+                    }
                 </ul>
             </nav>
         );
@@ -172,6 +184,7 @@ function mapStateToProps(store) {
         activeItem: store.navigation.activeItem,
         themeColor: store.navigation.themeColor,
         verifyStatus: store.auth.account?.verification_status,
+        ibStatus: store.auth.account?.ibStatus,
     };
 }
 

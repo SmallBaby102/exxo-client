@@ -51,3 +51,13 @@
     font-style: normal;
     margin-bottom: 15px;
 }
+
+.c_ib_alert_dv {
+    background-color: rgba(52, 152, 219, 0.1);
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    display: block;
+    padding: 5px;
+    border-radius: 3px;
+    font-style: italic;
+    margin-bottom: 15px;
+}

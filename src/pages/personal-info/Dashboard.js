@@ -67,10 +67,10 @@ class Dashboard extends React.Component {
     })
     .catch(e => {
       toast.error(e.response.data.message);
-      this.setState({ loading: false});
-      
+      this.setState({ loading: false});      
     })
   }
+  
   subtractYears(date, years) {
     // 👇 make copy with "Date" constructor
     const dateCopy = new Date(date);

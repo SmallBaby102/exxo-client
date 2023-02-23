@@ -129,7 +129,9 @@ class Register extends React.Component {
     doRegister(e) {
         if (this.state.loading) return;
         this.setState({ loading: true });
-        axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/signup`, { email: this.state.email, password: this.state.password, fullname: this.state.fullname })
+        const queryParams = new URLSearchParams(window.location.search);
+        const ibuuid = queryParams.get("ibuuid")?queryParams.get("ibuuid"):'';
+        axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/signup`, { email: this.state.email,countryCode: this.state.countryCode,  password: this.state.password, phone: this.state.phone, fullname: this.state.fullname, ibuuid:ibuuid })
         .then( async res => {
             this.props.dispatch(setChecking(false));
             this.setState({ loading: false });

@@ -4,40 +4,74 @@ import { Row, Col, Spinner, Table, Label, Input, Button } from "reactstrap";
 import { connect } from "react-redux";
 import { Snackbar } from "@mui/material";
 import { AiOutlineCopy } from "react-icons/ai";
-import VerifyButton from "../../components/VerifyButton";
-import TextField from '@mui/material/TextField';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import axios from "axios";
-import Select from "react-select";
-import { Country, State, City } from "country-state-city";
-
 import { toast } from "react-toastify";
-import { setAccount } from "../../actions/user";
+import { setAccount } from '../../actions/user';
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
+      userUuid: "",
       name: "",
       parentTradingAccountUuid: "",
-      ibStatus: "Declined",
-      inviteLink: "http://localhost:3000/app",
+      ibStatus: "New",
+      inviteLink: "http://localhost:3000/register",
 
     };
   }
 
  componentDidMount() {
   const account = this.props.account;
-  this.setState({ name: account?.fullname })
+  this.setState({ accountUuid: account?.accountUuid ,name: account?.fullname, ibStatus: account?.ibStatus, parentTradingAccountUuid: account?.parentTradingAccountUuid, inviteLink: account?.IBLink })
  }
 
- handleCopy = (e) => {
-  this.setState({ open: true})
-  navigator.clipboard.writeText(this.state.address);
-}
+  handleCopy = (e) => {
+    this.setState({ open: true})
+    navigator.clipboard.writeText(this.state.inviteLink);
+  }
+
+  requestIB( e ) {
+    const data ={
+      accountUuid: this.state.accountUuid,
+    }
+    this.setState({ loading: true});
+    axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/request-ib`, { data })
+    .then(res => {      
+      if ( res.data.status === 0 ) {
+        toast.warning(res.data.message);
+        return; 
+      }
+
+      toast.success(res.data.message);
+      this.props.dispatch(setAccount(res.data.account));
+      this.setState({ ibStatus: "Pending"});
+      this.setState({ loading: false});      
+    })
+    .catch(e => {
+      toast.error(e.response.data.message);   
+      this.setState({ loading: false});      
+    });
+  }
+
+  cancelIB(e) {
+    const data ={
+      accountUuid: this.state.accountUuid,
+    }
+    this.setState({ loading: true});
+    axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/cancel-ib`, { data })
+    .then(res => {
+      toast.success(res.data.message);
+      this.props.dispatch(setAccount(res.data.account));
+      this.setState({ ibStatus: "New"});
+      this.setState({ loading: false});
+    })
+    .catch(e => {
+      toast.error(e.response.data.message);
+      this.setState({ loading: false});      
+    });
+  }
  
   render() {
   const { themeColor, verifyStatus } = this.props;
@@ -53,21 +87,21 @@ class Dashboard extends React.Component {
                   <div className="mt-3">
                     { ibStatus === "New" && (
                       <div>
-                        <h6><i>Please send IB request. Once admin approve your IB request then you will get invite link. </i></h6>
-                        <Button className="input-content btn-info" disabled={false} >Request Become IB</Button>
+                        <div className="c_ib_alert_dv">Please send IB request. Once admin approve your IB request then you will get invite link. </div>
+                        <Button className="input-content btn-info" onClick={(e)=>this.requestIB()} disabled={false} >Request Become IB</Button>
                       </div>
                     )} 
                     {
                       ibStatus === "Pending" && (
                         <div>
-                          <h6><i>Your IB request is pending for admin prroviement. You can cancel the request.</i></h6>
-                          <Button className="input-content btn-danger" disabled={false} >Cancel IB Request</Button>
+                          <div className="c_ib_alert_dv">Your IB request is pending for admin prroviement. You can cancel the request.</div>
+                          <Button className="input-content btn-danger" onClick={(e)=>this.cancelIB()} disabled={false} >Cancel IB Request</Button>
                         </div>
                     )}
                     {
                       ibStatus === "Approved" && (
                         <div>
-                          <h6><i>You are already IB user. You can invite your friends using bellow invite link.</i></h6>
+                          <div className="c_ib_alert_dv">You are already IB user. You can invite your friends using bellow invite link.</div>
                           <Row className="mt-2">
                               <Col md={1} className="d-flex align-items-center">
                                   <Label><strong >IB Link: </strong></Label>
@@ -91,13 +125,13 @@ class Dashboard extends React.Component {
                     {
                       ibStatus === "Declined" && (
                         <div>
-                          <h6><i>Your IB request was declined. You can send IB request again.</i></h6>
+                          <div className="c_ib_alert_dv">Your IB request was declined. You can send IB request again.</div>
                           <div className="c_ib_decline_dv">
                             At the moment we can't agree your IB request. <br />
                             But the function will be working soon. We are doing our best. <br />
                             Thank you for your understanding.
                           </div>
-                          <Button className="input-content btn-info" disabled={false} >Request Become IB</Button>
+                          <Button className="input-content btn-info" onClick={(e)=>this.requestIB()} disabled={false} >Request Become IB</Button>
                         </div>
                     )}
                   </div>
