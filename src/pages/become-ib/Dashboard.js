@@ -38,7 +38,7 @@ class Dashboard extends React.Component {
       accountUuid: this.state.accountUuid,
     }
     this.setState({ loading: true});
-    console.log("****", accountUuid);
+    console.log("****", this.state.accountUuid);
 
     axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/request-ib`, { data })
     .then(res => {      
