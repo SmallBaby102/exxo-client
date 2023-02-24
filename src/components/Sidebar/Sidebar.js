@@ -11,7 +11,7 @@ import LinksGroup from './LinksGroup';
 import {changeActiveSidebarItem, closeSidebar} from '../../actions/navigation';
 import {logoutUser} from '../../actions/user';
 import Logo from '../../assets/logo-6.png';
-import { AiOutlineTool, AiOutlineLike, AiOutlineGroup, AiOutlineUser, AiOutlinePlusSquare, AiOutlineUserSwitch } from 'react-icons/ai';
+import { AiOutlineLike, AiOutlineGroup, AiOutlineUser, AiOutlinePlusSquare, AiOutlineUserSwitch, AiOutlineTransaction } from 'react-icons/ai';
 import { RiShareForwardLine } from "react-icons/ri";
 class Sidebar extends React.Component {
     static propTypes = {
@@ -171,15 +171,18 @@ class Sidebar extends React.Component {
                         index="ib-clients"
                     />
                     }
-                    {/* <LinksGroup
+                    {
+                    ibStatus === "Approved" &&
+                    <LinksGroup
                         onActiveSidebarItemChange={activeItem => this.props.dispatch(changeActiveSidebarItem(activeItem))}
                         activeItem={this.props.activeItem}
-                        header="test"
+                        header="IB Commission"
                         isHeader
-                        iconName={<AiOutlineUserSwitch className={themeColor === "dark"? s.menuIcon: s.menuIconLight}/>}
-                        link="/app/test"
-                        index="test"
-                    /> */}
+                        iconName={<AiOutlineTransaction className={themeColor === "dark"? s.menuIcon: s.menuIconLight}/>}
+                        link="/app/ib-commission"
+                        index="ib-commission"
+                    />
+                    }
                 </ul>
             </nav>
         );

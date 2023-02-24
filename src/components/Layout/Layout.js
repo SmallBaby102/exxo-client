@@ -17,7 +17,7 @@ import ChangeBackofficePass from '../../pages/change-backoffice-pass';
 import VerifyProfile from '../../pages/verify-profile'; 
 import BecomeIB from '../../pages/become-ib'; 
 import IBClinets from '../../pages/ib-clients'; 
-import Test from '../../pages/test'; 
+import IBCommission from '../../pages/ib-commission'; 
 
 import Header from '../Header';
 import Sidebar from '../Sidebar';
@@ -98,7 +98,7 @@ class Layout extends React.Component {
                     <Route path="/app/deposit_detail/:currency" exact component={DepositDetail} />
                     <Route path="/app/refer" exact component={BecomeIB} />
                     <Route path="/app/ib-clients" exact component={IBClinets} />
-                    <Route path="/app/test" exact component={Test} />
+                    <Route path="/app/ib-commission" exact component={IBCommission} />
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>

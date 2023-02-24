@@ -90,9 +90,6 @@ class Dashboard extends React.Component {
   if(account?.birthday){
     this.setState({ dob: account?.birthday })
   }
-
-  console.log("&&&&&&&&", this.props.account);
-
  }
  
   render() {
