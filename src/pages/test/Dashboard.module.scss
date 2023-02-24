@@ -22,9 +22,7 @@
     }
   }
 }
-.overFlow {
-  overflow-x: auto;
-}
+
 .table {
   :global(.table.table-sm) {
     td {
@@ -38,28 +36,6 @@
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
 }
-.payment_option {
-  display: inline-block;
-  width: 110px;
-  height: 68px;
-  background: url(/assets/payment/unavailable.png) no-repeat;
-  background-size: 110px 68px !important;
-  position: relative;
-  margin: 20px 0 20px 0;
-}
-.payment_option_skrill{
-  background: url(/assets/payment/skrill.png) no-repeat;
-}
-
-.c_code_ipt {
-  text-align: center !important;
-}
-
-
-.searchBtn {
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
-}
 .refer_banner{
   background: url(/assets/refer_banner.png) no-repeat;
   height: 350px;
@@ -67,20 +43,4 @@
 .refe_earn_banner{
   padding: 20px;
   color: white;
-}
-
-.c_ib_cnt_dv {
-  padding: 10px 15px;
-}
-
-.c_ib_m_core_dv {
-  text-align: center;
-}
-
-.c_padd_left_0 {
-  padding-left: 0px !important;
-}
-
-.c_padd_right_0 {
-  padding-right: 0px !important;
 }

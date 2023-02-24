@@ -22,9 +22,7 @@
     }
   }
 }
-.overFlow {
-  overflow-x: auto;
-}
+
 .table {
   :global(.table.table-sm) {
     td {
@@ -33,28 +31,6 @@
     }
   }
 }
-
-.searchBtn {
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
-}
-.payment_option {
-  display: inline-block;
-  width: 110px;
-  height: 68px;
-  background: url(/assets/payment/unavailable.png) no-repeat;
-  background-size: 110px 68px !important;
-  position: relative;
-  margin: 20px 0 20px 0;
-}
-.payment_option_skrill{
-  background: url(/assets/payment/skrill.png) no-repeat;
-}
-
-.c_code_ipt {
-  text-align: center !important;
-}
-
 
 .searchBtn {
   border-top-left-radius: 0px;

@@ -146,3 +146,158 @@ ol {
   width: 100%;
 
  }
+ .friend-list-how {
+  border-spacing: 20px;
+  padding: 0;
+}
+.refer-and-earn-program .friend-list-how li {
+  padding: 0 25px 10px 25px;
+}
+.friend-list-how li {
+  background: #fff;
+  border-radius: 10px;
+  counter-increment: idx;
+  display: table-cell;
+  font-size: 13px;
+  padding: 0 15px 15px;
+  position: relative;
+  width: 25%;
+  border: 1px solid #EEE;
+  border-radius: 5px;
+}
+.friend-list-how li::before {
+  background: #029FE1 none repeat scroll 0 0;
+  border: 5px solid #029FE1;
+  border-radius: 23px;
+  content: counter(idx, decimal);
+  display: block;
+  font-size: 40px;
+  height: 46px;
+  line-height: 34px;
+  margin: -8px 0 -8px -31px;
+  text-align: center;
+  width: 46px;
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  font-weight: lighter;
+}
+
+.friend-list-how li .list-how-item-title {
+  font-size: 20px;
+  color: #434A54;
+  text-align: center;
+  font-weight: 400;
+}
+.friend-list-how li .list-how-item-text {
+  font-size: 16px;
+  color: #434A54;
+  font-weight: 300;
+}
+.friend-list-how li .list-how-item-text a {
+  font-size: 16px;
+  color: #434A54;
+  font-weight: 400;
+  font-style: italic;
+  text-decoration: none;
+}
+a {
+  text-decoration: none;
+}
+.refer-and-earn-program>ol {
+  margin: 29px 20px 20px 20px;
+  -webkit-padding-start: 12px;
+}
+.friend-list-why li {
+  background: #fff;
+  display: table-cell;
+  font-size: 13px;
+  padding: 0 15px 15px;
+  position: relative;
+  width: 25%;
+}
+.friend-list-why li img {
+  width: 110px;
+  height: 110px;
+}
+.friend-list-why li .friend-why-item-title {
+  font-size: 20px;
+  font-weight: 400;
+  color: #434A54;
+  text-align: center;
+}
+.friend-list-why li .friend-why-item-text {
+  font-size: 15px;
+  font-weight: 300;
+  color: #434A54;
+}
+.friend-list-why li .friend-why-item-header {
+  text-align: center;
+  margin-top: 1rem;
+}
+.what_will_earn_block {
+  margin-top: 50px;
+}
+.what_will_earn_block .what_will_earn_img {
+  text-align: right;
+  padding-right: 22px;
+}
+.what_will_earn_block .what_will_earn_img img {
+  width: 132px;
+  height: 118px;
+}
+.what_will_earn_block .what_will_earn_desc {
+  font-size: 15px;
+  color: #414D5A;
+  font-weight: 300;
+}
+
+.what_will_earn_desc .what_will_earn_tx1 {
+  font-size: 21px;
+  color: #414D5A;
+  font-weight: 400;
+}
+.what_will_earn_tx2 {
+  margin-top: 18px;
+}
+.what_will_earn_block .what_will_earn_imp1 {
+  font-weight: 400;
+}
+.refer-and-earn-program .friend-button-block .btn {
+  height: 66px;
+  font-size: 21px;
+  font-weight: 400;
+  padding: 0 29px;
+  line-height: 66px;
+}
+.friend_contact_us {
+  margin-top: 20px;
+  text-align: center;
+}
+.refer-and-earn-program .copy_link_block {
+  text-align: left;
+  border: 1px solid #EEE;
+  border-radius: 5px;
+}
+.share-block-title {
+  font-size: 17px;
+  line-height: 23px;
+  color: #444A53;
+  font-weight: bold;
+}
+.copy_link_block .refer-and-earn-program-container {
+  align-items: center;
+  flex-flow: row wrap;
+}
+.refer-and-earn-program-row {
+  clear: both;
+  margin: 20px 0 0;
+}
+.refer-and-earn-program>h3 {
+  margin: 20px 20px 10px 20px;
+}
+.copy_link_block {
+  text-align: left;
+  border: 1px solid #EEE;
+  border-radius: 5px;
+}

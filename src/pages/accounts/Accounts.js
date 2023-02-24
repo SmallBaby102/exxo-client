@@ -97,9 +97,15 @@ class Accounts extends React.Component {
       this.props.dispatch(setChecking(true));
       axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: this.props.account?.accountUuid, partnerId: this.props.account?.partnerId }})
       .then( async res => {
+        // this.setState({ tradingAccounts: res.data})
+        // console.log(res);
+        // this.props.history.push("/app/accounts");
+        let tempAcc = res.data?.map(item => {
+          const offer = this.state.offers?.find(offer => offer.uuid === item.offerUuid);
+          return { ...item, partnerId: offer?.partnerId, offerName: offer?.name};
+        })
+        this.setState({ tradingAccounts: tempAcc})
         this.props.dispatch(setChecking(false));
-        this.setState({ tradingAccounts: res.data})
-        console.log(res);
       })
       .catch(e => {
         this.props.dispatch(setChecking(false));
@@ -115,6 +121,7 @@ class Accounts extends React.Component {
       console.log(e);
     })
   } 
+
   componentDidMount() {
     if(this.props.account?.verification_status !== "Approved")
     {
@@ -144,8 +151,8 @@ class Accounts extends React.Component {
     .catch(e => {
       console.log(e);
     })
-
   }
+
   render() {
   const { themeColor } = this.props;
   const { step, password, account, currencies, currency, offerNames } = this.state;

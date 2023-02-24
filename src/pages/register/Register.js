@@ -130,8 +130,9 @@ class Register extends React.Component {
         if (this.state.loading) return;
         this.setState({ loading: true });
         const queryParams = new URLSearchParams(window.location.search);
+        const ibid = queryParams.get("ibid")?queryParams.get("ibid"):'';
         const ibuuid = queryParams.get("ibuuid")?queryParams.get("ibuuid"):'';
-        axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/signup`, { email: this.state.email,countryCode: this.state.countryCode,  password: this.state.password, phone: this.state.phone, fullname: this.state.fullname, ibuuid:ibuuid })
+        axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/signup`, { email: this.state.email,countryCode: this.state.countryCode,  password: this.state.password, phone: this.state.phone, fullname: this.state.fullname, ibid: ibid, ibuuid:ibuuid })
         .then( async res => {
             this.props.dispatch(setChecking(false));
             this.setState({ loading: false });

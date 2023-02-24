@@ -92,8 +92,11 @@ class DepositDetail extends React.Component {
     this.props.dispatch(setChecking(true));
     axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: this.props.account?.accountUuid, partnerId: this.props.account?.partnerId }})
     .then( async res => {
+      console.log("tradingAccounts", res.data);
       axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/offers`, { params: { email: this.props.account?.email, partnerId: this.props.account?.partnerId }})
       .then( async offersRes => {
+        console.log("Offers", offersRes.data);
+
         let offersTemp = offersRes.data.filter(item => item.demo === false );
         let liveTrAccounts = res.data?.filter(item => {
           let liveOffer = offersTemp.find(offer =>  offer.uuid === item.offerUuid);

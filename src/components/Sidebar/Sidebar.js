@@ -96,7 +96,7 @@ class Sidebar extends React.Component {
                                 header: 'Personal Information', link: '/app/profile/personal-info',
                             },
                             {
-                                header: 'Change backoffice password', link: '/app/profile/change-backoffice-pass',
+                                header: 'Change Password', link: '/app/profile/change-backoffice-pass',
                             },
                             {
                                 header: 'Verify profile', link: '/app/profile/verify',
@@ -110,7 +110,7 @@ class Sidebar extends React.Component {
                                 header: 'Personal Information', link: '/app/profile/personal-info',
                             },
                             {
-                                header: 'Change backoffice password', link: '/app/profile/change-backoffice-pass',
+                                header: 'Change Password', link: '/app/profile/change-backoffice-pass',
                             },
                         ]}
                     />
@@ -147,7 +147,8 @@ class Sidebar extends React.Component {
                         index="withdrawal"
                         />
                     }
-                 
+                    {
+                        verifyStatus === "Approved" &&
                      <LinksGroup
                         onActiveSidebarItemChange={activeItem => this.props.dispatch(changeActiveSidebarItem(activeItem))}
                         activeItem={this.props.activeItem}
@@ -157,7 +158,7 @@ class Sidebar extends React.Component {
                         link="/app/refer"
                         index="refer"
                     />
-
+                    }
                     {
                     ibStatus === "Approved" &&
                     <LinksGroup
@@ -170,6 +171,15 @@ class Sidebar extends React.Component {
                         index="ib-clients"
                     />
                     }
+                    {/* <LinksGroup
+                        onActiveSidebarItemChange={activeItem => this.props.dispatch(changeActiveSidebarItem(activeItem))}
+                        activeItem={this.props.activeItem}
+                        header="test"
+                        isHeader
+                        iconName={<AiOutlineUserSwitch className={themeColor === "dark"? s.menuIcon: s.menuIconLight}/>}
+                        link="/app/test"
+                        index="test"
+                    /> */}
                 </ul>
             </nav>
         );

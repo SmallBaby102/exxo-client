@@ -40,7 +40,7 @@ class Dashboard extends React.Component {
 
     };
   }
-  updatedStates = (countryId) =>
+  updatedStates = (countryId) => 
     State
       .getStatesOfCountry(countryId)
       .map((state) => ({ ...state, label: state.name, value: state.isoCode }));
@@ -90,6 +90,9 @@ class Dashboard extends React.Component {
   if(account?.birthday){
     this.setState({ dob: account?.birthday })
   }
+
+  console.log("&&&&&&&&", this.props.account);
+
  }
  
   render() {

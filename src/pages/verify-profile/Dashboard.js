@@ -92,7 +92,7 @@ class Dashboard extends React.Component {
       check1: false,
       check2: false
     };
-  }
+  } 
   updatedStates = (countryId) =>
     State
       .getStatesOfCountry(countryId)
@@ -195,18 +195,20 @@ class Dashboard extends React.Component {
     formData.append("postalCode", this.state.postalCode)
     formData.append("state", this.state.state?.name)
     formData.append("city", this.state.city?.name)
-    formData.append("address", this.state.address)
+    formData.append("address", this.state?.address)
     formData.append("frontImg", this.state.frontFile)
     formData.append("backImg", this.state.backFile)
     formData.append("proofOfResident", this.state.proofOfResidentFile)
     formData.append("docType", this.state.docType)
     formData.append("docType2", this.state.docType2)
 
+    console.log("*************", formData);
+
     axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/verifyProfile`, formData, { headers })
       .then(account_info => {
         localStorage.setItem("account", JSON.stringify({ ...this.props.account, ...account_info.data }));
         this.props.dispatch(setAccount({ ...this.props.account, ...account_info.data }));
-      })
+      }) 
     this.props.history.push("/app/profile");
   }
   subtractYears(date, years) {

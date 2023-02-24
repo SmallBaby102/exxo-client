@@ -55,9 +55,62 @@
 .c_ib_alert_dv {
     background-color: rgba(52, 152, 219, 0.1);
     border: 1px solid rgba(52, 152, 219, 0.3);
-    display: block;
+    display: inline-block;
     padding: 5px;
     border-radius: 3px;
     font-style: italic;
     margin-bottom: 15px;
+}
+
+@media only screen and (max-width: 768px) {
+    .friend-list-how li {
+        display: block;
+        margin: 20px 0;
+        width: 100%;
+    }
+
+    .friend-list-why li {
+        display: block;
+        margin: 20px 0;
+        width: 100%;
+    }
+
+    .friend-list-why li p.friend-why-item-header {
+        display: table-cell;
+        position: relative;
+        width: 10%;
+        vertical-align: middle;
+    }
+
+    .friend-list-why li .friend-why-text-block {
+        display: table-cell;
+        position: relative;
+        width: 90%;
+        vertical-align: top;
+        padding-left: 10px;
+    }
+
+    .friend-list-why li img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .what_will_earn_block .what_will_earn_img {
+        width: 100%;
+        text-align: center;
+        padding: 0;
+        margin-bottom: 25px;
+    }
+
+    .c_ib_link_row>div:first-child {
+        display: inline-block;
+        width: 250px;
+    }
+
+    .c_ib_link_row>div:last-child {
+        display: inline-block;
+        width: 100px;
+        margin-left: 5px;
+    }
+    
 }
