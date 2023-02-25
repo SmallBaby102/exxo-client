@@ -98,10 +98,12 @@ class Withdrawal extends React.Component {
       inputValidation = false;
     }
     if (this.state.method === "USDT BEP20") {
+      /*
       if(parseInt(this.state.amount) < 50 ){
         toast.warn("Please set the amount more than 50USD");
         inputValidation = false;
       }
+      */
       if(!this.state.address){
         toast.warn("Please input withdraw address!");
         inputValidation = false;
