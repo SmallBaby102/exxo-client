@@ -81,9 +81,9 @@ class Dashboard extends React.Component {
                 <thead>
                   <tr className="fs-sm">
                     <th>Full Name</th>
-                    <th>Email</th>
+                    {/* <th>Email</th>
                     <th>Account UUID</th>
-                    <th>phone</th>
+                    <th>phone</th> */}
                     <th>Submitted At</th>
                     <th>Status</th>
                   </tr>
@@ -94,11 +94,11 @@ class Dashboard extends React.Component {
                       <td>
                       { row.fullname }
                       </td>
-                      <td>
+                      {/* <td>
                         { row.email }
                       </td>
                       <td>{ row.accountUuid }</td>
-                      <td>{ row.phone }</td>
+                      <td>{ row.phone }</td> */}
                       <td>{ new Date(row.submittedAt).toLocaleString() }</td>
                       <td >
                         <span
