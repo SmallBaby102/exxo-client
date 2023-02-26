@@ -4,13 +4,10 @@ import { Row, Col, Button, Label, Input, Table, FormGroup, InputGroup, InputGrou
 import axios from "axios";
 import { connect } from "react-redux";
 import ReactSelect from "react-select";
-
-import Widget from "../../components/Widget/Widget";
-
 import s from "./Withdrawal.module.scss";
 import "../../styles/custom.css"
 
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { setChecking } from '../../actions/navigation'
 import { toast } from "react-toastify";
 
@@ -161,7 +158,7 @@ class Withdrawal extends React.Component {
     this.props.dispatch(setChecking(true));
     axios.post(`${process.env.REACT_APP_BASE_URL}/api/other/withdraw`, data )
     .then( res => {
-      if ( res.data.status == "0" ) {
+      if ( res.data.status === "0" ) {
         toast.warning(res.data.message);
         this.props.dispatch(setChecking(false));
         return;

@@ -61,10 +61,29 @@ class Commission extends React.Component {
     let s_transactions = this.state.original_transactions.filter(item => {      
       if ( item.updated <= e_date && item.updated >= s_date ) return true;
       else return false;
-    });   
-
+    });       
     this.setState({transactions: s_transactions });
   }
+
+  onClickLastWeek() {
+    let today = new Date();
+    let lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+
+    let s_date = ( lastWeek.getMonth() + 1 ) + "/" + lastWeek.getDate() + "/" + lastWeek.getFullYear();
+    let e_date = ( today.getMonth() + 1 ) + "/" + today.getDate() + "/" + today.getFullYear();
+    this.setState({sdate: s_date});
+    this.searchTransaction(s_date, e_date);
+  };
+
+  onClickLastMonth() {
+    let today = new Date();
+    let lastWeek = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+
+    let s_date = ( lastWeek.getMonth() + 1 ) + "/" + lastWeek.getDate() + "/" + lastWeek.getFullYear();
+    let e_date = ( today.getMonth() + 1 ) + "/" + today.getDate() + "/" + today.getFullYear();
+    this.setState({sdate: s_date});
+    this.searchTransaction(s_date, e_date);
+  };
 
   render() {
   const { themeColor } = this.props;
@@ -76,7 +95,7 @@ class Commission extends React.Component {
                 IB Commissions
               </h4>
               <Row>
-                <Col md={3} className="c_padd_right_0">
+                <Col md={2} className="c_padd_right_0">
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                       disableFuture
@@ -96,7 +115,7 @@ class Commission extends React.Component {
                   </LocalizationProvider> 
                 </Col>
                 <Col md={1} className="text-center c_padd_left_0 c_padd_right_0"> ~ </Col>
-                <Col md={3} className="c_padd_left_0 c_padd_right_0">
+                <Col md={2} className="c_padd_left_0 c_padd_right_0">
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                       disableFuture
@@ -114,8 +133,12 @@ class Commission extends React.Component {
                     />}
                     />
                   </LocalizationProvider> 
-                </Col>
-                <Col md={5} className="c_commission_total_col">Total Amount: <strong>{total_amount} USD</strong></Col>
+                </Col> 
+                <Col md={4}> 
+                  <Button className="input-content btn-success" onClick={() => this.onClickLastWeek()}>Last Week</Button> &nbsp; 
+                  <Button className="input-content btn-success" onClick={() => this.onClickLastMonth()}>Last Month</Button>
+                </Col> 
+                <Col md={3} className="c_commission_total_col">Total Amount: <strong>{total_amount} USD</strong></Col>
               </Row>
               <div className={s.overFlow}>
                 <label></label>
@@ -127,7 +150,7 @@ class Commission extends React.Component {
                       <th>Payment Method</th>
                       <th>Amount</th>
                       <th>Status</th>
-                      <th>Created Datetime</th>
+                      <th>Trading Account</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -138,7 +161,7 @@ class Commission extends React.Component {
                         <td>{row.paymentMethod}</td>
                         <td>{row.amount}</td>
                         <td>{row.status}</td>
-                        <td>{row.updated}</td>
+                        <td>{row.login}</td>
                       </tr>
                     ))}
                     {

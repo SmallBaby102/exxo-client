@@ -21,7 +21,8 @@ class Accounts extends React.Component {
       currencies: [{ value: "USD", label: "USD"}],
       currency: "USD",
       leverages: [{ value: "1:200", label: "1:200"}, { value: "1:100", label: "1:100"}, { value: "1:50", label: "1:50"}],
-      leverage: "1:200"
+      leverage: "1:200",
+      accountTitle: "Open Live Account",
     };
     this.setLiveAccount = this.setLiveAccount.bind(this)
     this.setDemoAccount = this.setDemoAccount.bind(this)
@@ -48,12 +49,13 @@ class Accounts extends React.Component {
   setLiveAccount() {
     let temp = [];
     for (const iterator of this.state.offers) {
-      if(iterator.demo) continue;
+      if ( iterator.demo ) continue;
+      if ( iterator.name === "Exxo IB" ) continue;
       temp.push({ value: iterator.name, label: iterator.name, demo: iterator.demo })
     }
-    this.setState({ offerNames: temp })
-
-    this.setState({ step: 1 })
+    this.setState({ offerNames: temp });
+    this.setState({ step: 1 });
+    this.setState( { accountTitle: "Open Live Account"} );
   }
  
   setDemoAccount() {
@@ -62,9 +64,9 @@ class Accounts extends React.Component {
       if(!iterator.demo) continue;
       temp.push({ value: iterator.name, label: iterator.name, demo: iterator.demo })
     }
-    this.setState({ offerNames: temp })
-
-    this.setState({ step: 1 })
+    this.setState({ offerNames: temp });
+    this.setState({ step: 1 });
+    this.setState( { accountTitle: "Open Demo Account"} );
   }
   setInternalTransfer() {
     this.props.history.push("/app/internal-transfer");
@@ -155,12 +157,12 @@ class Accounts extends React.Component {
 
   render() {
   const { themeColor } = this.props;
-  const { step, password, account, currencies, currency, offerNames } = this.state;
+  const { step, password, account, currencies, currency, offerNames, accountTitle } = this.state;
     return (
       <div className={s.root}>
          <div className="form-content">
               <h4 className={`page-title-${themeColor}`}>
-                { step === 0 ? "Accounts" : (step === 1 ? "Open Live account" : "")}
+                { step === 0 ? "Accounts" : (step === 1 ? accountTitle : "")}
               </h4>
               {
                 step === 0 &&

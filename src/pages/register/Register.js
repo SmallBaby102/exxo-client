@@ -126,12 +126,39 @@ class Register extends React.Component {
        return this.state.password && this.state.password === this.state.confirmPassword;
     }
 
+    componentDidMount() { 
+        const queryParams = new URLSearchParams(window.location.search);
+        let ibid = queryParams.get("ibid")?queryParams.get("ibid"):'';
+        let ibuuid = queryParams.get("ibuuid")?queryParams.get("ibuuid"):'';
+        // check local storage for that this user used IB link before
+        if ( ibid != "" && ibid != undefined ) {            // save IB info to local storagfe
+            localStorage.setItem("ib_ibid", ibid);
+            localStorage.setItem("ib_ibuuid", ibuuid);
+        } else {
+            const l_ibid    = localStorage.getItem("ib_ibid");
+            const l_ibuuid  = localStorage.getItem("ib_ibuuid");
+
+            console.log(l_ibid + "///" + l_ibuuid);
+        }
+    }
+
     doRegister(e) {
         if (this.state.loading) return;
         this.setState({ loading: true });
         const queryParams = new URLSearchParams(window.location.search);
-        const ibid = queryParams.get("ibid")?queryParams.get("ibid"):'';
-        const ibuuid = queryParams.get("ibuuid")?queryParams.get("ibuuid"):'';
+        let ibid = queryParams.get("ibid")?queryParams.get("ibid"):'';
+        let ibuuid = queryParams.get("ibuuid")?queryParams.get("ibuuid"):'';
+
+        // check local storage for that this user used IB link before
+        if ( ibid == "" || ibid == undefined ) {
+            const l_ibid    = localStorage.getItem("ib_ibid");
+            const l_ibuuid  = localStorage.getItem("ib_ibuuid");
+            if ( l_ibid != "" && l_ibid != undefined ) {
+                ibid      = l_ibid;
+                ibuuid    = l_ibuuid;
+            }
+        }
+
         axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/signup`, { email: this.state.email,countryCode: this.state.countryCode,  password: this.state.password, phone: this.state.phone, fullname: this.state.fullname, ibid: ibid, ibuuid:ibuuid })
         .then( async res => {
             this.props.dispatch(setChecking(false));

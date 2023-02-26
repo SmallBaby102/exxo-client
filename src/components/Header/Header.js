@@ -7,21 +7,11 @@ import {
   Nav,
   NavItem,
   NavLink,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
-  Input,
-  UncontrolledAlert,
   Dropdown,
-  Collapse,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem,
-  Badge,
   ButtonGroup,
   Button,
-  Form,
-  FormGroup,
 } from "reactstrap";
 import s from "./Header.module.scss";
 import "animate.css";
@@ -32,7 +22,6 @@ import { withTranslation } from 'react-i18next';
 import PowerIcon from "../Icons/HeaderIcons/PowerIcon";
 import SettingsIcon from "../Icons/HeaderIcons/SettingsIcon";
 import BurgerIcon from "../Icons/HeaderIcons/BurgerIcon";
-import SearchIcon from "../Icons/HeaderIcons/SearchIcon";
 
 
 import { logoutUser } from "../../actions/user";
@@ -73,6 +62,7 @@ class Header extends React.Component {
       searchFocused: false,
       searchOpen: false,
       telegramLink: "",
+      useremail: "", 
       lang: "en",
       languages: { 
         en: EnglishFlag,
@@ -138,9 +128,13 @@ class Header extends React.Component {
   //   })
   // }
 
+  componentDidMount() {
+    this.setState({ useremail: this.props.account?.email })
+  }
+
   render() {
     const { t } = this.props;
-    const { telegramLink } = this.state;
+    const { telegramLink, useremail } = this.state;
     const { themeColor } = this.props;
     return (
       <Navbar className={`d-print-none `}>
@@ -154,7 +148,7 @@ class Header extends React.Component {
             </NavLink>
         </div>
         <div className={`d-print-none ${s.root}`}>
-
+          <div className="c_header_username_dv">{ useremail }</div>
           <Nav className="ml-md-0">
             {/* <NavItem className={`${s.divider} d-none d-sm-block`} /> */}
             <Dropdown
@@ -264,6 +258,7 @@ function mapStateToProps(store) {
     sidebarPosition: store.navigation.sidebarPosition,
     themeColor: store.navigation.themeColor,
     isAuthenticated: store.auth.isAuthenticated,
+    account: store.auth.account,
   };
 }
 export default withTranslation()(withRouter((connect(mapStateToProps)(Header))));

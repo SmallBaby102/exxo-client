@@ -74,6 +74,16 @@
     padding-right: 0px !important;
 }
 
+.c_header_username_dv {
+    color: white;
+    font-size: 16px;
+    padding-top: 7px;
+}
+
+.c_ib_m_ol {
+    display: flex;
+}
+
 @media only screen and (max-width: 768px) {
     .friend-list-how li {
         display: block;
@@ -124,5 +134,8 @@
         width: 100px;
         margin-left: 5px;
     }
-    
+
+    .c_ib_m_ol {
+        display: block;
+    }    
 }

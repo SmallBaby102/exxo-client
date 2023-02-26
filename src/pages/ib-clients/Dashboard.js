@@ -43,8 +43,8 @@ class Dashboard extends React.Component {
       <div className={s.root}>
         <div className={s.refer_banner}>
           <div className={s.refe_earn_banner}>
-            <h1 className="mt-2">Earn up to $250 per referral</h1>
-            <h3 style={{ maxWidth: "380px"}}>Each referral will receive a one-time 15% Deposit Bonus</h3>
+            <h1 className="mt-2">Earn up to $250 per lot</h1>
+            <br />
             <Row>
               <Col lg={12}>                      
               <div className="mt-3">

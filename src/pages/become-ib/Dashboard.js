@@ -89,14 +89,14 @@ class Dashboard extends React.Component {
       <div>  
         <div className={s.refer_banner}>
           <div className={s.refe_earn_banner}>
-            <h1 className="mt-2">Earn up to $250 per referral</h1>
-            <h3 style={{ maxWidth: "380px"}}>Each referral will receive a one-time 15% Deposit Bonus</h3>
+            <h1 className="mt-2">Earn up to $250 per lot</h1>
+            <br />
             <Row>
               <Col lg={12}>                      
               <div className="mt-3">
                 { ibStatus === "New" && (
                   <div>
-                    <div className="c_ib_alert_dv">Please send IB request. Once admin approve your IB request then you will get invite link. </div> <br />
+                    <div className="c_ib_alert_dv">Please send your request if you would like to become an Introducing Broker </div> <br />
                     <Button className="input-content btn-info" onClick={(e)=>this.requestIB()} disabled={false} >Request Become IB</Button>
                   </div>
                 )} 
@@ -166,7 +166,7 @@ class Dashboard extends React.Component {
             </ol>
           </div>
           <h3 className="mt-3">Why refer someone to us?</h3>
-          <ol className="friend-list-why mt-3">
+          <ol className="friend-list-why mt-3 c_ib_m_ol">
             <li>
               <p className="friend-why-item-header">
                 <img src="/images/why/coins.svg" alt="Refer a friend"/>    
@@ -174,8 +174,8 @@ class Dashboard extends React.Component {
               <div className="friend-why-text-block">
                 <p className="friend-why-item-title">
                   Financial motivation      </p>
-                <p className="friend-why-item-text">
-                  Potentially, you can earn up to USD 250 for every client you refer to us.      </p>
+                {/* <p className="friend-why-item-text">
+                  Potentially, you can earn up to USD 250 for every client you refer to us.      </p> */}
               </div>
             </li>
 
@@ -185,8 +185,8 @@ class Dashboard extends React.Component {
               <div className="friend-why-text-block">
                 <p className="friend-why-item-title">
                   Simplicity      </p>
-                <p className="friend-why-item-text">
-                  It is super simple to join our Refer and Earn programme. Just send our link and wait for them to open and fund their live accounts.      </p>
+                {/* <p className="friend-why-item-text">
+                  It is super simple to join our Refer and Earn programme. Just send our link and wait for them to open and fund their live accounts.      </p> */}
               </div>
             </li>
 
@@ -196,8 +196,8 @@ class Dashboard extends React.Component {
               <div className="friend-why-text-block">
                 <p className="friend-why-item-title">
                   Reputation      </p>
-                <p className="friend-why-item-text">
-                  We have put a lot of time and effort into building our reputation. You can be sure that none of your referrals will regret their decision to join us.      </p>
+                {/* <p className="friend-why-item-text">
+                  We have put a lot of time and effort into building our reputation. You can be sure that none of your referrals will regret their decision to join us.      </p> */}
               </div>
             </li>
 
@@ -207,8 +207,8 @@ class Dashboard extends React.Component {
               <div className="friend-why-text-block">
                 <p className="friend-why-item-title">
                   Bonus      </p>
-                <p className="friend-why-item-text">
-                  Each referral will receive a one-time <strong>15% Deposit Bonus.</strong>        General <a target="_blank" href="https://en.myfxchoice.com/files/FXChoice_Bonus_Terms_EN.pdf">terms and conditions</a> of the bonus program apply.      </p>
+                {/* <p className="friend-why-item-text">
+                  Each referral will receive a one-time <strong>15% Deposit Bonus.</strong>        General <a target="_blank" href="https://en.myfxchoice.com/files/FXChoice_Bonus_Terms_EN.pdf">terms and conditions</a> of the bonus program apply.      </p> */}
               </div>
             </li>
           </ol>
@@ -217,7 +217,7 @@ class Dashboard extends React.Component {
             <div className={`mt-3 ${s.c_ib_m_core_dv}`}>
               { ibStatus === "New" && (
                 <div>
-                  <div className="c_ib_alert_dv">Please send IB request. Once admin approve your IB request then you will get invite link. </div> <br />
+                  <div className="c_ib_alert_dv">Please send your request if you would like to become an Introducing Broker </div> <br />
                   <Button className="input-content btn-info" onClick={(e)=>this.requestIB()} disabled={false} >Request Become IB</Button>
                 </div>
               )} 
@@ -260,7 +260,7 @@ class Dashboard extends React.Component {
             </div>
           </Col>
           </Row>
-          <h3 className="mt-3">What will you earn?</h3>
+          {/* <h3 className="mt-3">What will you earn?</h3>
           <div className="row what_will_earn_block">
             <div className="col-md-2 col-sm-4 col-xs-4 what_will_earn_img">
               <img src="/images/money.svg" alt="Refer a friend"/>  </div>
@@ -284,7 +284,7 @@ class Dashboard extends React.Component {
           <div className="row friend_contact_us">
             <h3 className="mt-3">
               Still have some questions?      <a target="_blank" href="#">Contact us</a> now.    </h3>
-          </div>
+          </div> */}
           <hr/>
         </div>            
       </div>
