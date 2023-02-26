@@ -159,9 +159,9 @@ class Dashboard extends React.Component {
               </li>
               <li>
                 <p className="list-how-item-title">
-                  Earn up to USD 250      </p>
+                  Earn up to 12 USD per lot    </p>
                 <p className="list-how-item-text">
-                  You’ll get USD 25 for every USD 100 deposited.      </p>
+                  You’ll get USD 12 for every closed lot from your referrals.      </p>
               </li>
             </ol>
           </div>
