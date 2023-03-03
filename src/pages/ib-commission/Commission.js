@@ -35,7 +35,6 @@ class Commission extends React.Component {
       console.log("Commission Transaction List", result);
       this.setState({ transactions: result.data}); 
       this.setState({ original_transactions: result.data});
-
       let tamount = 0;
       result.data && result.data?.map((row) => {
         tamount += row.amount;
@@ -146,22 +145,18 @@ class Commission extends React.Component {
                   <thead>
                     <tr className="fs-sm">
                       <th className="hover-overlay hover-zoom hover-shadow ripple">Id</th>
-                      <th>Payment Gateway Name</th>
-                      <th>Payment Method</th>
+                      <th>Date</th>
                       <th>Amount</th>
-                      <th>Status</th>
-                      <th>Trading Account</th>
+                      <th>Comment</th>
                     </tr>
                   </thead>
                   <tbody>
                     { this.state.transactions && this.state.transactions?.map((row) => (
                       <tr className="c_accounts_tr" key={row.uuid} onDoubleClick={(e) => this.accountDetail(row.login)} >
-                        <td >{ row.uuid }</td>
-                        <td>{ row.paymentGatewayName }</td>
-                        <td>{row.paymentMethod}</td>
+                        <td >{ row.clientId }</td>
+                        <td>{new Date(row.generatedTime)}</td>
                         <td>{row.amount}</td>
-                        <td>{row.status}</td>
-                        <td>{row.login}</td>
+                        <td>{row.comment}</td>
                       </tr>
                     ))}
                     {
