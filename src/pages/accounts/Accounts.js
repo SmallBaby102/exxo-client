@@ -125,34 +125,34 @@ class Accounts extends React.Component {
   } 
 
   componentDidMount() {
-    if(this.props.account?.verification_status !== "Approved")
-    {
-      this.props.history.push(`/app/profile/verify`);
-      return;
-    }
-    this.props.dispatch(setChecking(true));
-    const temp =  JSON.parse(localStorage.getItem("account"));
-    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/offers`, { params: { email: temp?.email, partnerId: temp?.partnerId }})
-    .then( async res => {
-      this.setState({ offers: res.data})
+    // if(this.props.account?.verification_status !== "Approved")
+    // {
+    //   this.props.history.push(`/app/profile/verify`);
+    //   return;
+    // }
+    // this.props.dispatch(setChecking(true));
+    // const temp =  JSON.parse(localStorage.getItem("account"));
+    // axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/offers`, { params: { email: temp?.email, partnerId: temp?.partnerId }})
+    // .then( async res => {
+    //   this.setState({ offers: res.data})
     
-      axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: temp?.accountUuid, partnerId: temp?.partnerId }})
-      .then( async result => {
-        this.props.dispatch(setChecking(false));
-        let tempAcc = result.data?.map(item => {
-          const offer = res.data?.find(offer => offer.uuid === item.offerUuid);
-          return { ...item, partnerId: offer?.partnerId, offerName: offer?.name};
-        })
-        this.setState({ tradingAccounts: tempAcc})
-      }) 
-      .catch(e => {
-        this.props.dispatch(setChecking(false));
-        console.log(e);
-      })
-    })
-    .catch(e => {
-      console.log(e);
-    })
+    //   axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: temp?.accountUuid, partnerId: temp?.partnerId }})
+    //   .then( async result => {
+    //     this.props.dispatch(setChecking(false));
+    //     let tempAcc = result.data?.map(item => {
+    //       const offer = res.data?.find(offer => offer.uuid === item.offerUuid);
+    //       return { ...item, partnerId: offer?.partnerId, offerName: offer?.name};
+    //     })
+    //     this.setState({ tradingAccounts: tempAcc})
+    //   }) 
+    //   .catch(e => {
+    //     this.props.dispatch(setChecking(false));
+    //     console.log(e);
+    //   })
+    // })
+    // .catch(e => {
+    //   console.log(e);
+    // })
   }
 
   render() {

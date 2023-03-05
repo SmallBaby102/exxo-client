@@ -21,14 +21,14 @@ class Deposit extends React.Component {
       <div className={s.root}>
          <div className="form-content">
          {
-            verifyStatus === "New" ? 
-              <div>
-                <VerifyButton title="Please verify your profile."></VerifyButton>
-                <p className="mt-2">You can't fund your account right now your user profile hasn't been verified yet. Please click here to get verified now.</p>
-              </div>
-              : verifyStatus === "Pending" ?  <div className="col-md-12 text-center" style={{ color: "white", background:"#244985", padding: "5px 10px", fontSize: "1.3rem" }}>Your verification is pending now.</div> 
-              : verifyStatus === "Rejected" ? <VerifyButton title="Your profile has not verified. Please update your information."></VerifyButton>
-              :
+            // verifyStatus === "New" ? 
+            //   <div>
+            //     <VerifyButton title="Please verify your profile."></VerifyButton>
+            //     <p className="mt-2">You can't fund your account right now your user profile hasn't been verified yet. Please click here to get verified now.</p>
+            //   </div>
+            //   : verifyStatus === "Pending" ?  <div className="col-md-12 text-center" style={{ color: "white", background:"#244985", padding: "5px 10px", fontSize: "1.3rem" }}>Your verification is pending now.</div> 
+            //   : verifyStatus === "Rejected" ? <VerifyButton title="Your profile has not verified. Please update your information."></VerifyButton>
+            //   :
               <fieldset className="payment-buttons payment-buttons-crypto">
                 <legend className={s.legend}>Methods for deposit</legend>
                 <Row>
