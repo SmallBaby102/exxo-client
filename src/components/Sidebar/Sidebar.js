@@ -115,7 +115,6 @@ class Sidebar extends React.Component {
                         ]}
                     />
                       {
-                        verifyStatus === "Approved" &&
                         <LinksGroup
                             onActiveSidebarItemChange={activeItem => this.props.dispatch(changeActiveSidebarItem(activeItem))}
                             activeItem={this.props.activeItem}
@@ -148,7 +147,6 @@ class Sidebar extends React.Component {
                         />
                     }
                     {
-                        verifyStatus === "Approved" &&
                      <LinksGroup
                         onActiveSidebarItemChange={activeItem => this.props.dispatch(changeActiveSidebarItem(activeItem))}
                         activeItem={this.props.activeItem}
