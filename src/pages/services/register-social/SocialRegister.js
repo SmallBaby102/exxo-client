@@ -255,13 +255,15 @@ class SocialRegister extends React.Component {
                 </Form>
                 <FormGroup className="mt-3">
                   <Button 
-                    className="backgroundDark"
+                    className={s.backgroundDark}
                     onClick = {e=>this.submit()}
                   >
                     Submit
                   </Button>  
                   <Button 
-                    className= "ml-3 backgroundDark"
+                    className= {
+                      s.backgroundDark + " ml-3"
+                    }
                     onClick = {e=>this.prev()}
                   >
                     Back
