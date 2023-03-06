@@ -146,7 +146,7 @@ class SocialRegister extends React.Component {
                   </Col>
                 </Row>
                   <Button 
-                    color = "primary"
+                    className="backgroundDark"
                     onClick = {e=>this.next() }
                   >
                     Apply for Social Trading
@@ -255,14 +255,13 @@ class SocialRegister extends React.Component {
                 </Form>
                 <FormGroup className="mt-3">
                   <Button 
-                    color = "primary"
+                    className="backgroundDark"
                     onClick = {e=>this.submit()}
                   >
                     Submit
                   </Button>  
                   <Button 
-                    className= "ml-3"
-                    color = "primary"
+                    className= "ml-3 backgroundDark"
                     onClick = {e=>this.prev()}
                   >
                     Back
