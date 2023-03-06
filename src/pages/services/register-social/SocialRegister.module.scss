@@ -33,8 +33,15 @@
     .ml-3{
       margin-left:10px;
     }
+   
     
   }
 }
 
-
+.backgroundDark{
+  background:  $main-gradient-dark;
+  color: $text-color;
+}
+.backgroundLight {
+  background:  $main-gradient-light;
+}

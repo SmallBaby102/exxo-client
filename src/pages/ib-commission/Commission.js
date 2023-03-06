@@ -23,45 +23,59 @@ class Commission extends React.Component {
       edate: "",
       total_amount: 0,
     };
+
+    // this.searchTransaction = this.searchTransaction.bind(this);
+
   }
 
   componentDidMount() {
     // get given parent trading account's deposit list
     const email = this.props.account.email;
     const tradingAccountUuid = this.props.account?.ibParentTradingAccountUuid;
-    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/ib-parent-trading-account-deposits`, { params: { tradingAccountUuid, email }})
-    .then( async result => {
+    this.props.dispatch(setChecking(true));
+    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/ib-parent-trading-account-deposits`, { params: { tradingAccountUuid, email}} )
+    .then(async result => {
       this.props.dispatch(setChecking(false));
-      console.log("Commission Transaction List", result);
-      this.setState({ transactions: result.data}); 
-      this.setState({ original_transactions: result.data});
+      console.log("Commission Transaction List", result.data);
       let tamount = 0;
       result.data && result.data?.map((row) => {
-        tamount += row.amount;
+        tamount += Number(row.amount);
       });
-      this.setState({total_amount: Number(tamount).toFixed(2)});
+      console.log("tamount:", tamount);
+      let today = new Date();
+
+      this.setState({ 
+        ...this.state,
+        transactions: result.data,
+        original_transactions: result.data,
+        // total_amount: Number(tamount).toFixed(2),
+        // sdate: (today.getMonth() + 1) + "/" + today.getDate() + "/" + (today.getFullYear() - 10 ),
+        // edate: (today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear()
+      }); 
     }) 
     .catch(e => {
       this.props.dispatch(setChecking(false));
       console.log(e);
     })
 
-    let today = new Date();
-    this.setState({sdate: (today.getMonth() + 1) + "/" + today.getDate() + "/" + (today.getFullYear() - 10 )});
-    this.setState({edate: (today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear()});
-
   }
 
   searchTransaction(sd, ed) {
     let s_date = new Date(sd);
     let e_date = new Date(ed);
-    s_date = s_date.getFullYear() + "-" + (s_date.getMonth() < 10? "0" + (s_date.getMonth() + 1):(s_date.getMonth() + 1) ) + "-" + (s_date.getDate() < 11? "0" + s_date.getDate():s_date.getDate()) + "T00:00:00.000Z";
-    e_date = e_date.getFullYear() + "-" + (e_date.getMonth() < 10? "0" + (e_date.getMonth() + 1):(e_date.getMonth() + 1) ) + "-" + (e_date.getDate() < 11? "0" + e_date.getDate():e_date.getDate()) + "T23:59:00.000Z";
     let s_transactions = this.state.original_transactions.filter(item => {      
-      if ( item.updated <= e_date && item.updated >= s_date ) return true;
+      if ( item.generatedTime <= e_date.getTime() && item.generatedTime >= s_date.getTime() ) return true;
       else return false;
     });       
-    this.setState({transactions: s_transactions });
+    console.log("s_transactions:", s_transactions);
+    console.log(e_date, s_date);
+    this.setState({
+      ...this.state,
+      s_date:sd, 
+      e_date:ed,
+      transactions: s_transactions 
+    });
+
   }
 
   onClickLastWeek() {
@@ -70,7 +84,7 @@ class Commission extends React.Component {
 
     let s_date = ( lastWeek.getMonth() + 1 ) + "/" + lastWeek.getDate() + "/" + lastWeek.getFullYear();
     let e_date = ( today.getMonth() + 1 ) + "/" + today.getDate() + "/" + today.getFullYear();
-    this.setState({sdate: s_date});
+  
     this.searchTransaction(s_date, e_date);
   };
 
@@ -85,8 +99,9 @@ class Commission extends React.Component {
   };
 
   render() {
+    const { transactions, sdate, edate, total_amount } = this.state;
+   
   const { themeColor } = this.props;
-  const { transactions, sdate, edate, total_amount } = this.state;
     return (
       <div className={s.root}>
          <div className="form-content">
@@ -100,10 +115,9 @@ class Commission extends React.Component {
                       disableFuture
                       openTo="day"
                       views={['year', 'month', 'day']}
-                      value={sdate}
+                      value={String(this.state.s_date)}
                       onChange={(newValue) => {
-                        this.setState({ sdate: newValue });
-                        this.searchTransaction(newValue, edate);
+                        this.searchTransaction(newValue, this.state.e_date);
                       }}
                       renderInput={(params) => <TextField {...params}  
                       sx={{
@@ -120,10 +134,9 @@ class Commission extends React.Component {
                       disableFuture
                       openTo="day"
                       views={['year', 'month', 'day']}
-                      value={edate}
+                      value={String(this.state.e_date)}
                       onChange={(newValue) => {
-                        this.setState({ edate: newValue });
-                        this.searchTransaction(sdate, newValue);
+                        this.searchTransaction(this.state.s_date, newValue);
                       }}
                       renderInput={(params) => <TextField {...params}  
                       sx={{
@@ -151,20 +164,24 @@ class Commission extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    { this.state.transactions && this.state.transactions?.map((row) => (
-                      <tr className="c_accounts_tr" key={row.uuid} onDoubleClick={(e) => this.accountDetail(row.login)} >
-                        <td >{ row.clientId }</td>
-                        <td>{new Date(row.generatedTime)}</td>
-                        <td>{row.amount}</td>
-                        <td>{row.comment}</td>
-                      </tr>
-                    ))}
-                    {
+                    { 
+                      transactions.map((row, i) => {
+                        
+                        return(<tr className="c_accounts_tr" key={row.uuid} onDoubleClick={(e) => this.accountDetail(row.login)} >
+                          <td >{ row.clientId }</td>
+                          <td>{String(new Date(Number(row.generatedTime)))}</td>
+                          <td>{row.amount/100}</td>
+                          <td>{row.comment}</td>
+                        </tr>)
+                      }
+                      )
+                    }
+                    {/* {
                       this.state.transactions === "" && 
                         <tr>
                           <td colSpan={10} className="text-center">There is not any deposit transaction history.</td>
                         </tr>
-                    }
+                    } */}
                   </tbody>
                 </Table>
               </div>              
