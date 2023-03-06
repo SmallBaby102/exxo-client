@@ -6,6 +6,7 @@ export const VERIFY_STATUS = 'VERIFY_STATUS';
 export const SET_ACCOUNT = 'SET_ACCOUNT';
 export const SET_TRADING_ACCOUNT = 'SET_TRADING_ACCOUNT';
 export const SET_OFFER = 'SET_OFFER';
+export const SOCIAL_TRADING_APPLIED = 'SOCIAL_TRADING_APPLIED';
 
 export function receiveLogin(payload) {
     return {

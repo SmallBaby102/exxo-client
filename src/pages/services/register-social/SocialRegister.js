@@ -16,17 +16,23 @@ class SocialRegister extends React.Component {
     super(props);
     this.state = {
       step:1, 
-      hasWebsite:false, 
-      promoteContent:"", 
-      hasClientBase:false, 
-      tradingInstruements:[], 
-      tradingAccountForSocial:"", 
-      incentiveFeePercentage:0
+      socialAccountInfo:{
+        hasWebsite:false, 
+        hasClientBase:false,
+        shareTradingPerformance:false,
+        promoteContent:"", 
+        hasClientBase:false, 
+        tradingInstruments:0, 
+        tradingAccountForSocial:"", 
+        incentiveFeePercentage:0
+      }
     };
 
     this.next = this.next.bind(this)
     this.prev = this.prev.bind(this)
-    this.setFormData = this.setFormData(this);
+    this.updateSocialData = this.updateSocialData.bind(this);
+    this.updateSocilaDataWithTradingInstrument = this.updateSocilaDataWithTradingInstrument.bind(this)
+
   }
 
 
@@ -35,59 +41,31 @@ class SocialRegister extends React.Component {
   }
 
   componentDidMount() {
-    if(this.props.account?.verification_status !== "Approved")
-    {
-      this.props.history.push(`/app/profile/verify`);
-      return;
-    }
+    
     const { match } = this.props;
     let accounts = [];
     this.props.dispatch(setChecking(true));
+    
     this.setState({ 
-        methods: [
-         
-        ],
         step:1,
         benificiaryName: this.props.account.fullname,
     })
-    axios.get(`${process.env.REACT_APP_BASE_URL}/api/other/withdraw`, { params: { email: this.props.account?.email }})
+    
+    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/social-account`, { params: { email: this.props.account?.email }})
     .then( async res => {
-        this.setState({ withdraws: res.data });
+        this.setState({ 
+            ...this.state, 
+            socialAccountInfo:{
+              ...res.socialAccountInfo
+            }
+         });
+        this.props.dispatch(setChecking(false));
     })
     .catch(e => {
       console.log(e);
-    })
-    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: this.props.account?.accountUuid, partnerId: this.props.account?.partnerId }})
-    .then( async res => {
-      axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/offers`, { params: { email: this.props.account?.email, partnerId: this.props.account?.partnerId }})
-      .then( async offersRes => {
-        let offersTemp = offersRes.data.filter(item => item.demo === false );
-        let liveTrAccounts = res.data?.filter(item => {
-          let liveOffer = offersTemp.find(offer =>  offer.uuid === item.offerUuid);
-          if(liveOffer) return true;
-          else return false;
-        });
-
-        let temp = [];
-        for (const element of liveTrAccounts) {
-          temp.push({ value: element.login, balance: element.balance, label: element.login, address: element.address, tradingAccountUuid: element.uuid})
-        }
-        this.setState({ accounts: temp, tradingAccount: liveTrAccounts[0].login, tradingAccountBalance: liveTrAccounts[0].balance, address: liveTrAccounts[0].address }); 
-        this.props.dispatch(setChecking(false));
-      })
-      .catch(err => {
-        console.log(err)
-        this.props.dispatch(setChecking(false));
-      })
-    })
-    .catch(e => {
       this.props.dispatch(setChecking(false));
-      this.setState({ title: match.params.currency, accounts }); 
-      console.log(e);
     })
-
   }
-
   next = (e) =>{
     this.setState({
       ...this.state,
@@ -101,41 +79,53 @@ class SocialRegister extends React.Component {
     })
   }
   
-  setFormData = (data)=>{
+  updateSocialData = (data)=>{
     this.setState({
       ...this.state, 
-      ...data
+      socialAccountInfo:{
+        ...this.state.socialAccountInfo,
+        ...data
+      }
     })
+    console.log(this.state);
   }
+  updateSocilaDataWithTradingInstrument=(e, offset)=>{
+    
+    let offsetTrue = 0x01 << offset; 
+    let offsetFalse =  0x07 ^ offsetTrue; 
+
+    console.log(offset, offsetTrue, offsetFalse, this.state.socialAccountInfo.tradingInstruments);
+    let tradingInstruments = this.state.tradingInstruments;       
+    console.log(e.target.checked)
+    if(e.target.checked === true){
+      this.setState({
+        ...this.state,
+        socialAccountInfo:{
+          ...this.state.socialAccountInfo, 
+          tradingInstruments: this.state.socialAccountInfo.tradingInstruments | offsetTrue
+        } 
+      }); 
+    }else {
+      this.setState({
+        ...this.state,
+        socialAccountInfo:{
+          ...this.state.socialAccountInfo, 
+          tradingInstruments: this.state.socialAccountInfo.tradingInstruments & offsetFalse
+        } 
+      }); 
+    }
+  }
+
   submit = () =>{
-    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: this.props.account?.accountUuid, partnerId: this.props.account?.partnerId }})
-    .then( async res => {
-      axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/offers`, { params: { email: this.props.account?.email, partnerId: this.props.account?.partnerId }})
-      .then( async offersRes => {
-        let offersTemp = offersRes.data.filter(item => item.demo === false );
-        let liveTrAccounts = res.data?.filter(item => {
-          let liveOffer = offersTemp.find(offer =>  offer.uuid === item.offerUuid);
-          if(liveOffer) return true;
-          else return false;
-        });
-
-        let temp = [];
-        for (const element of liveTrAccounts) {
-          temp.push({ value: element.login, balance: element.balance, label: element.login, address: element.address, tradingAccountUuid: element.uuid})
-        }
-        this.setState({ accounts: temp, tradingAccount: liveTrAccounts[0].login, tradingAccountBalance: liveTrAccounts[0].balance, address: liveTrAccounts[0].address }); 
-        this.props.dispatch(setChecking(false));
-      })
-      .catch(err => {
-        console.log(err)
-        this.props.dispatch(setChecking(false));
-      })
+    console.log("Social Account Applied with ", this.state.socialAccountInfo);
+    axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: this.props.account?.accountUuid, socialAccountInfo: this.state.socialAccountInfo}})
+    .then(result=>{
+      toast.success("Your Social Account was successfully applied");      
     })
-    .catch(e => {
-      this.props.dispatch(setChecking(false));
-      console.log(e);
-    })
-
+    .catch(e=>{
+      toast.success("Some Eorros Happened"); 
+      console.log("Error with social account application", e); 
+    });
   }
 
   render() {
@@ -149,7 +139,7 @@ class SocialRegister extends React.Component {
                 </h3>
                 <Row>
                   <Col lg={12} >
-                    <p >
+                    <p className="form-text">
                         Social trading is a form of dealing that enables traders or investors to copy and execute the strategies of their peers or more experienced traders. While most traders perform their own fundamental and technical analysis, there is a class of traders that prefer to observe and replicate the analysis of others.
   You must fill in an application form so we can ascertain your suitability to become a Social Trading master. You will be expected to provide evidence of profitability and that you can bring clients to Exxomarkets
                     </p>
@@ -169,56 +159,98 @@ class SocialRegister extends React.Component {
                 <h3 className={`page-title-${themeColor}`}>
                     Social Trading application form
                 </h3>
-                <p>
+                <p className="form-text">
                 Please fill in the form below so we can find out a little bit more about you. We need to understand that a working relationship between us would be mutually beneficial.
                 </p>
                 <Form>
                   <FormGroup  className="mt-3">
-                    <Label className="mb-1" for="website">Do you have a website?*</Label>
+                    <Label className="mb-1 form-text" for="website">Do you have a website?*</Label>
                     <div>
+                    {
+                      this.state.socialAccountInfo.hasWebsite? 
                       <FormGroup inline>
-                        <Input type="radio" id="website1" name="hasWebsite" onClick ={e=>this.setFormData({hasWebsite:true})} /> <Label className="mr-5"> Yes </Label>
-                        <Input type="radio" id="website2" name="hasWebsite" onClick ={e=>this.setFormData({hasWebsite:false})} /><Label>No </Label> 
+                        <Input  className= "ml-3 form-text1"  type="radio" id="website1" name="hasWebsite" onClick ={e=>this.updateSocialData({"hasWebsite":true})} checked /> <Label className="mr-5"> Yes </Label>
+                        <Input className= "ml-3 form-text1"  type="radio" id="website2" name="hasWebsite" onClick ={e=>this.updateSocialData({"hasWebsite":false})} /><Label>No </Label> 
                       </FormGroup>
+                      :
+                      <FormGroup inline>
+                        <Input className= "ml-3 form-text1" type="radio" id="website1" name="hasWebsite" onClick ={e=>this.updateSocialData({"hasWebsite":true})} /> <Label className="mr-5"> Yes </Label>
+                        <Input className= "ml-3 form-text1" type="radio" id="website2" name="hasWebsite" onClick ={e=>this.updateSocialData({"hasWebsite":false})} checked/><Label>No </Label> 
+                      </FormGroup>
+                    } 
                     </div>
                   </FormGroup>
                   <FormGroup className="mt-3">
-                    <Label className = "mb-1" for="website">Do you share your trading performance on any social trading platform?</Label>
+                    <Label className = "mb-1 form-text" for="promoteContent">Do you share your trading performance on any social trading platform?</Label>
                     <div>
-                      <FormGroup inline>
-                        <Input type="radio" id="website1" name="willShare" /> <Label  className="mr-5" >Yes </Label>
-                        <Input type="radio" id="website2" name="willShare" /><Label>No </Label> 
-                      </FormGroup>
+                      {
+                        this.state.socialAccountInfo.shareTradingPerformance?
+                          <FormGroup inline>
+                            <Input className= "ml-3 form-text1" type="radio" id="website1" name="promoteContent" onClick ={e=>this.updateSocialData({"shareTradingPerformance":true})} checked/> <Label  className="" >Yes </Label>
+                            <Input className= "ml-3 form-text1" type="radio" id="website2" name="promoteContent" onClick ={e=>this.updateSocialData({"shareTradingPerformance":false})} /><Label>No </Label> 
+                          </FormGroup>
+                        :
+                          <FormGroup inline>
+                            <Input className= "ml-3 form-text1" type="radio" id="website1" name="promoteContent" onClick ={e=>this.updateSocialData({"shareTradingPerformance":true})} /> <Label  className="mr-5" >Yes </Label>
+                            <Input className= "ml-3 form-text1" type="radio" id="website2" name="promoteContent" onClick ={e=>this.updateSocialData({"shareTradingPerformance":false})} checked /><Label>No </Label> 
+                          </FormGroup>
+                      }
                     </div>
                   </FormGroup>
                   <FormGroup className="mt-3">
-                    <Label for="website">How do you promote the services?</Label>
-                    <Input type="textarea" name="text" id="exampleText" />
+                    <Label className="mb-1 form-text" for="website">How do you promote the services?</Label>
+                    <Input className= "ml-3 form-text1"  type="textarea" name="text" id="exampleText" value = {this.state.socialAccountInfo.promoteContent} onChange = {e=>this.updateSocialData({"promoteContent":e.target.value})} />
                   </FormGroup>
                   <FormGroup className="mt-3">
-                    <Label className = "mb-1" for="website">Do you have your own client base?*</Label>
+                    <Label className = "mb-1 form-text" for="website">Do you have your own client base?*</Label>
                     <div>
-                      <FormGroup inline>
-                        <Input type="radio" id="website1" name="hasWebsite"/> <Label  className="mr-5" >Yes </Label>
-                        <Input type="radio" id="website2" name="customRadio" /><Label>No </Label> 
-                      </FormGroup>
+                      {
+                        this.state.socialAccountInfo.hasClientBase?
+                          <FormGroup inline>
+                            <Input className= "ml-3 form-text1" type="radio" id="website1" name="hasClientBase" onClick = {e=>this.updateSocialData({"hasClientBase":true})}/> <Label  className="ml-1 form-text1" >Yes </Label>
+                            <Input className= "ml-3 form-text1" type="radio" id="website2" name="hasClientBase" onClick = {e=>this.updateSocialData({"hasClientBase":false})} /><Label className="ml-1 form-text1">No </Label> 
+                          </FormGroup>
+                        :
+                          <FormGroup inline>
+                            <Input className= "ml-3 form-text1" type="radio" id="website1" name="hasClientBase" onClick = {e=>this.updateSocialData({"hasClientBase":true})}/>   <Label className="ml-1 form-text1">Yes </Label>
+                            <Input className= "ml-3 form-text1" type="radio" id="website2" name="hasClientBase" onClick = {e=>this.updateSocialData({"hasClientBase":false})} /> <Label className="ml-1 form-text1">No </Label> 
+                          </FormGroup>
+                      }
                     </div>
                   </FormGroup>
                   <FormGroup className="mt-3">
-                    <Label className = "mb-1" for="website">What trading instrument are you interested in?*</Label>
+                    <Label className = "mb-1 form-text flex p-1" for="website">What trading instrument are you interested in?*</Label>
                     <div>
-                      <CustomInput type="checkbox" id="tradingInstrument1" label="Currencies" inline />
-                      <CustomInput type="checkbox" id="tradingInstrument2" label="CFD's" inline />
-                      <CustomInput type="checkbox" id="tradingInstrument3" label="Precious Metals" inline />
+                      <Input className="mt-1 ml-3 form-text1" type="checkbox" id="tradingInstrument1" inline 
+                          onChange = {e=>this.updateSocilaDataWithTradingInstrument(e, 0)}
+                          checked= {this.state.socialAccountInfo.tradingInstruments & 0x01 ? true: false }
+                      />
+                      <Label className="mt-1 form-text1" inline>
+                        Currencies
+                      </Label>
+                      <Input className="mt-1 ml-3 form-text1" type="checkbox" id="tradingInstrument2" 
+                        onChange = {e=>this.updateSocilaDataWithTradingInstrument(e, 1)}
+                        checked= {this.state.socialAccountInfo.tradingInstruments & 0x02 ? true:false }
+                        inline
+                      /> 
+                      <Label className="mt-1 form-text1" inline>
+                        CFD's
+                      </Label>
+                      <Input className="mt-1 ml-3 form-text1" type="checkbox" id="tradingInstrument3"  inline 
+                        onChange = {e=>this.updateSocilaDataWithTradingInstrument(e, 2)}
+                        checked= {this.state.socialAccountInfo.tradingInstruments & 0x04 ? true:false }
+                      />
+                      <Label className="mt-1 form-text1" inline>Precious Metal</Label>
+
                     </div>
                   </FormGroup> 
                   <FormGroup className="mt-3">
-                    <Label className="mb-1" for="website">What trading account do you want to apply as Social Trading master?</Label>
-                    <Input type="text" name="TradingAccount" id="exampleText" />
+                    <Label className="mb-1 form-text" for="website">What trading account do you want to apply as Social Trading master?</Label>
+                    <Input type="text" name="TradingAccount" id="exampleText" onChange ={e=>this.updateSocialData({tradingAccountForSocial:e.targe.value})} />
                   </FormGroup>
-                  <FormGroup className="mt-3">
+                  <FormGroup className="mt-3 form-text">
                     <Label className="mb-1" for="website">What is your incentive fee percentage?</Label>
-                    <Input type="number" name="TradingAccount" id="exampleText" />
+                    <Input type="number" name="TradingAccount" id="exampleText" onChange={e=>this.updateSocialData({incentiveFeePercentage: e.target.value})} />
                   </FormGroup>
                 </Form>
                 <FormGroup className="mt-3">
