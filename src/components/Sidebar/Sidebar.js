@@ -149,20 +149,20 @@ class Sidebar extends React.Component {
                      <LinksGroup
                         onActiveSidebarItemChange={activeItem => this.props.dispatch(changeActiveSidebarItem(activeItem))}
                         activeItem={this.props.activeItem}
-                        header="Services"
+                        header="Platforms"
                         isHeader
                         iconName={<RiCustomerServiceLine className={themeColor === "dark"? s.menuIcon: s.menuIconLight}/>}
-                        link="/app/services"
-                        index="services"
+                        link="/app/platforms"
+                        index="platforms"
                         childrenLinks={ [
                             {
-                                header: 'Iphone Trading Terminal', link: '/app/services/iphone-terminal',
+                                header: 'Iphone Trading Terminal', link: '/app/platforms/iphone-terminal',
                             },
                             {
-                                header: 'Android Trading Terminal', link: '/app/services/android-terminal',
+                                header: 'Android Trading Terminal', link: '/app/platforms/android-terminal',
                             },
                             {
-                                header: 'Register as Social Trading feed', link: '/app/services/register-social-trading',
+                                header: 'Register as Social Trading feed', link: '/app/platforms/register-social-trading',
                             },
                         ]} 
                     />
