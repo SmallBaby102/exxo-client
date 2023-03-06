@@ -12,7 +12,7 @@ import {changeActiveSidebarItem, closeSidebar} from '../../actions/navigation';
 import {logoutUser} from '../../actions/user';
 import Logo from '../../assets/logo-6.png';
 import { AiOutlineLike, AiOutlineGroup, AiOutlineUser, AiOutlinePlusSquare, AiOutlineUserSwitch, AiOutlineTransaction } from 'react-icons/ai';
-import { RiShareForwardLine } from "react-icons/ri";
+import { RiShareForwardLine, RiCustomerServiceLine } from "react-icons/ri";
 class Sidebar extends React.Component {
     static propTypes = {
         sidebarStatic: PropTypes.bool,
@@ -146,6 +146,26 @@ class Sidebar extends React.Component {
                         index="withdrawal"
                         />
                     }
+                     <LinksGroup
+                        onActiveSidebarItemChange={activeItem => this.props.dispatch(changeActiveSidebarItem(activeItem))}
+                        activeItem={this.props.activeItem}
+                        header="Services"
+                        isHeader
+                        iconName={<RiCustomerServiceLine className={themeColor === "dark"? s.menuIcon: s.menuIconLight}/>}
+                        link="/app/services"
+                        index="services"
+                        childrenLinks={ [
+                            {
+                                header: 'Iphone Trading Terminal', link: '/app/services/iphone-terminal',
+                            },
+                            {
+                                header: 'Android Trading Terminal', link: '/app/services/android-terminal',
+                            },
+                            {
+                                header: 'Register as Social Trading feed', link: '/app/services/register-social-trading',
+                            },
+                        ]} 
+                    />
                     {
                      <LinksGroup
                         onActiveSidebarItemChange={activeItem => this.props.dispatch(changeActiveSidebarItem(activeItem))}
