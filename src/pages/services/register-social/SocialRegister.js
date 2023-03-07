@@ -281,11 +281,17 @@ class SocialRegister extends React.Component {
                   </FormGroup> 
                   <FormGroup className="mt-3">
                     <Label className="mb-1 form-text" for="website">What trading account do you want to apply as Social Trading master?</Label>
-                    <Input type="text" name="TradingAccount" id="exampleText" onChange ={e=>this.updateSocialData({tradingAccountForSocial:e.target.value})} />
+                    <Input type="text" name="TradingAccount" id="exampleText" 
+                          onChange ={e=>this.updateSocialData({tradingAccountForSocial:e.target.value})} 
+                          value ={this.state.tradingAccountForSocial}
+                    />
                   </FormGroup>
                   <FormGroup className="mt-3 form-text">
                     <Label className="mb-1" for="website">What is your incentive fee percentage?</Label>
-                    <Input type="number" name="TradingAccount" id="exampleText" onChange={e=>this.updateSocialData({incentiveFeePercentage: e.target.value})} />
+                    <Input type="number" name="Fee" id="exampleText" 
+                          onChange={e=>this.updateSocialData({incentiveFeePercentage: e.target.value})} 
+                          value = {this.state.incentiveFeePercentage}
+                    />
                   </FormGroup>
                 </Form>
                 <FormGroup className="mt-3">
