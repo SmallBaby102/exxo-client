@@ -16,6 +16,7 @@ class Withdrawal extends React.Component {
     super(props);
     this.state = {
       accounts: [],
+      offers:[], 
       methods: [],
       method: null,
       withdraws: [],
@@ -61,6 +62,28 @@ class Withdrawal extends React.Component {
   changeAccount = (e) => {
     this.setState({ tradingAccount: e.value }); 
     this.setState({ tradingAccountBalance: e.balance });
+
+    const tradingAccountId = e.value; 
+    const offerUuid = e.offerUuid; 
+    let systemUuid= null; 
+    for( let i =0; i < this.state.offers.length; i++){
+      if(this.state.offers[i].uuid === offerUuid){
+          systemUuid = this.state.offers[i].system.uuid; 
+          break;
+      }
+    }
+    this.props.dispatch(setChecking(true));
+    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccount/balance`, { params: { tradingAccountId, systemUuid, partnerId: this.props.account?.partnerId}})
+      .then(result=>{
+        this.setState({
+          freeMargin: result.data.freeMargin
+        });
+        this.props.dispatch(setChecking(false));
+      })
+      .catch(e=>{
+        this.props.dispatch(setChecking(false));
+      })
+
   }
   changeMethod = (e) => {
     this.setState({ method: e.value })
@@ -69,10 +92,16 @@ class Withdrawal extends React.Component {
     this.setState({ address: e.target.value })
   }
   changeAmount = (e) => {
-    this.setState({ amount: e.target.value })
+    if(Number(e.target.value) > this.state.freeMargin){
+      this.setState({isAllowed:false})
+    }else {
+      this.setState({ amount: e.target.value })
+      this.setState({isAllowed: true});
+      return;
+    }
   }
   changeBenificiaryName = (e) => {
-    this.setState({ benificiaryName: e.target.value })
+   this.setState({benificiaryName:e.target.value});
   }
   changeBankName = (e) => {
     this.setState({ bankName: e.target.value })
@@ -166,7 +195,7 @@ class Withdrawal extends React.Component {
       this.props.dispatch(setChecking(false));
       this.setState({ withdraws: [...this.state.withdraws, data ] });
       toast.success("Withdraw request was successfully sent to admin!")
-      this.setState({ address:'', amount: '', verifycode:'', benificiaryName:'', bankName:'', bankAccount:'', bankBranch:''});
+      this.setState({ address:'', amount: '', verifycode:'', benificiaryName:'', bankName:'', bankAccount:'', bankBranch:'', partnerId: this.props.account?.partnerId});
     })
     .catch(e => {
       this.props.dispatch(setChecking(false));
@@ -227,10 +256,16 @@ class Withdrawal extends React.Component {
           else return false;
         });
 
+        this.setState({
+          offers: offersTemp, 
+        });
+        
         let temp = [];
         for (const element of liveTrAccounts) {
-          temp.push({ value: element.login, balance: element.balance, label: element.login, address: element.address, tradingAccountUuid: element.uuid})
+          temp.push({ value: element.login, balance: element.balance, label: element.login, address: element.address, tradingAccountUuid: element.uuid, 
+            offerUuid: element.offerUuid})
         }
+
         this.setState({ accounts: temp, tradingAccount: liveTrAccounts[0].login, tradingAccountBalance: liveTrAccounts[0].balance, address: liveTrAccounts[0].address }); 
         this.props.dispatch(setChecking(false));
       })
@@ -349,7 +384,11 @@ class Withdrawal extends React.Component {
                     </Col>
                   </Row>
                   <div className="mt-4 mb-3">
-                      <Button className={`btn-success`} onClick={e => this.withdraw()} >Request Withdraw</Button>       
+                      <Button className={`btn-success`} onClick={e => this.withdraw()} 
+                            disabled = {this.state.isAllowed?false:true}
+                      >
+                        Request Withdraw
+                      </Button>       
                   </div>
                 </div>
               }

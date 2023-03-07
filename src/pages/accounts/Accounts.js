@@ -134,8 +134,11 @@ class Accounts extends React.Component {
     const temp =  JSON.parse(localStorage.getItem("account"));
     axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/offers`, { params: { email: temp?.email, partnerId: temp?.partnerId }})
     .then( async res => {
+
+      console.log('user offers', res.data);
+
       this.setState({ offers: res.data})
-    
+      
       axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: temp?.accountUuid, partnerId: temp?.partnerId }})
       .then( async result => {
         this.props.dispatch(setChecking(false));

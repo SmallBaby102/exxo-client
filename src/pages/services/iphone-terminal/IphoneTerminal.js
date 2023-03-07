@@ -14,7 +14,7 @@ import { setChecking } from '../../../actions/navigation'
 import { toast } from "react-toastify";
 
 const AndroidGuideTexts = [
-    "1.	In Safari browser, Go to: https://m-terminal.exxomarkets.com/" ,
+    "1.	In Safari browser, Go to: " ,
     "2.	Touch to select “Share” button",
     "3.	Choose “ Add to Home Screen” , then “Add”",
     "4.	The Trading Terminal application will appear at your home screen at once."
@@ -36,8 +36,9 @@ class ImageItem extends React.Component {
           background: 'white'
         }}
       >
-        <CardTitle tag="h2">
+        <CardTitle tag="h3">
           {this.props.title}
+          {this.props.children}
         </CardTitle>
         <CardBody 
         
@@ -86,8 +87,10 @@ class IphoneTerminal extends React.Component {
     const { themeColor } = this.props;
     return (
       <div className={s.root}>
-          <h2>{GuidTitle}</h2>
-          <ImageItem title = {AndroidGuideTexts[0]} path ={[dirPath + "Iphone_1.png"]} />
+          <h3>{GuidTitle}</h3>
+          <ImageItem title = {AndroidGuideTexts[0]} path ={[dirPath + "Iphone_1.png"]} >
+            <a href="https://m-terminal.exxomarkets.com/">https://m-terminal.exxomarkets.com/</a>
+          </ImageItem>
           <ImageItem title = {AndroidGuideTexts[1]} path ={[dirPath + "Iphone_2.png"]} />
           <ImageItem title = {AndroidGuideTexts[2]} path ={[dirPath + "Iphone_3.png", dirPath + "Iphone_4.png"]} />
           <ImageItem title = {AndroidGuideTexts[3]} path ={[dirPath + "Iphone_5.png"]} />

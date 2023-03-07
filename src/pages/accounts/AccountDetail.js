@@ -36,6 +36,7 @@ class Accounts extends React.Component {
     this.props.dispatch(setChecking(true));
     axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccount/balance`, { params: { tradingAccountId, systemUuid, partnerId: this.props.account?.partnerId}})
     .then( async result => {
+        console.log("balance info:", result.data);
       this.props.dispatch(setChecking(false));
       this.setState({ account: result.data});
     }) 
