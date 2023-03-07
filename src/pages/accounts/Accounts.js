@@ -266,7 +266,7 @@ class Accounts extends React.Component {
                       }}
                       className="sm col-md-3" 
                   >
-                      Internal Transfer
+                      To Terminal 
                   </Button>
                 </a>
               </div>
