@@ -87,10 +87,10 @@ class IphoneTerminal extends React.Component {
     return (
       <div className={s.root}>
           <h2>{GuidTitle}</h2>
-          <ImageItem title = {AndroidGuideTexts[0]} path ={[dirPath + "Android_1.png"]} />
-          <ImageItem title = {AndroidGuideTexts[1]} path ={[dirPath + "Android_2.png"]} />
-          <ImageItem title = {AndroidGuideTexts[2]} path ={[dirPath + "Android_3.png", dirPath + "Android_4.png"]} />
-          <ImageItem title = {AndroidGuideTexts[3]} path ={[dirPath + "Android_5.png"]} />
+          <ImageItem title = {AndroidGuideTexts[0]} path ={[dirPath + "Iphone_1.png"]} />
+          <ImageItem title = {AndroidGuideTexts[1]} path ={[dirPath + "Iphone_2.png"]} />
+          <ImageItem title = {AndroidGuideTexts[2]} path ={[dirPath + "Iphone_3.png", dirPath + "Iphone_4.png"]} />
+          <ImageItem title = {AndroidGuideTexts[3]} path ={[dirPath + "Iphone_5.png"]} />
       </div>
     );
   }
