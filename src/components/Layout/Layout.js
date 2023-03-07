@@ -99,8 +99,8 @@ class Layout extends React.Component {
                     <Route path="/app/internal-transfer" exact component={InternalTransfer} />
                     <Route path="/app/withdraw" exact component={Withdrawal} />
                     <Route path="/app/platforms" exact render={() => <Redirect to="/app/platforms/iphone-terminal" />} />
-                    <Route path="/app/platforms/iphone-terminal" exact component={null} />
-                    <Route path="/app/platforms/android-terminal" exact component={null} />
+                    <Route path="/app/platforms/iphone-terminal" exact component={IphoneTerminal} />
+                    <Route path="/app/platforms/android-terminal" exact component={AndroidTerminal} />
                     <Route path="/app/platforms/register-social-trading" exact component={SocialRegister} />
                     <Route path="/app/deposit" exact component={Deposit} />
                     <Route path="/app/deposit_detail/:currency" exact component={DepositDetail} />

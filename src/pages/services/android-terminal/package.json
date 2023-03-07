@@ -2,5 +2,5 @@
   "name": "android-terminal",
   "version": "0.0.0",
   "private": true,
-  "main": "./Withdrawal.js"
+  "main": "./AndroidTerminal.js"
 }
