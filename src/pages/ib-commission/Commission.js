@@ -176,12 +176,12 @@ class Commission extends React.Component {
                       }
                       )
                     }
-                    {/* {
+                    {
                       this.state.transactions === "" && 
                         <tr>
                           <td colSpan={10} className="text-center">There is not any deposit transaction history.</td>
                         </tr>
-                    } */}
+                    }
                   </tbody>
                 </Table>
               </div>              

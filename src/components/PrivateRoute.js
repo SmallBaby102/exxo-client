@@ -42,6 +42,7 @@ const PrivateRoute = ({dispatch, component, ...rest }) => {
      
 
     }, [ location.pathname ])
+
     return ( // eslint-disable-line
               <LoadingOverlay active={checking} spinner>
                   <Route {...rest} render={props => (React.createElement(component, props))}/>

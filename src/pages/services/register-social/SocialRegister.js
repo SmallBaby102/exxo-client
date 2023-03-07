@@ -51,7 +51,7 @@ class SocialRegister extends React.Component {
         benificiaryName: this.props.account.fullname,
     })
     
-    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/social-account`, { params: { email: this.props.account?.email }})
+    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/social-account-info`, { params: { email: this.props.account?.email }})
     .then( async res => {
         this.setState({ 
             ...this.state, 
@@ -59,6 +59,7 @@ class SocialRegister extends React.Component {
               ...res.socialAccountInfo
             }
          });
+
         this.props.dispatch(setChecking(false));
     })
     .catch(e => {
@@ -118,13 +119,36 @@ class SocialRegister extends React.Component {
 
   submit = () =>{
     console.log("Social Account Applied with ", this.state.socialAccountInfo);
-    axios.post(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: this.props.account?.accountUuid, socialAccountInfo: this.state.socialAccountInfo}})
+    console.log("client Uuiid", this.props.account.accountUuid);
+    this.props.dispatch(setChecking(true));
+    axios.put(`${process.env.REACT_APP_BASE_URL}/api/user/social-account-info`, 
+    { 
+      params: { 
+        email: this.props.account.email, 
+        accountUuid: this.props.account.accountUuid, 
+        socialAccountInfo: this.state.socialAccountInfo
+      }
+    })
     .then(result=>{
-      toast.success("Your Social Account was successfully applied");      
+      
+      this.props.dispatch(setChecking(false));
+      console.log(result);
+      toast.success("Your Social Account was successfully applied"); 
+      this.setState(
+        {
+          ...this.state, 
+          socialAccountInfo: result.data
+        }
+      )     
     })
     .catch(e=>{
-      toast.success("Some Eorros Happened"); 
-      console.log("Error with social account application", e); 
+      this.props.dispatch(setChecking(false));
+      if(e.response.status == 501){
+        toast.warn("You are already applied for Social Trading Account"); 
+        console.log("Error with social account application", e.response); 
+      }else {
+        toast.warn("Something is wrong with server"); 
+      }
     });
   }
 
@@ -146,8 +170,9 @@ class SocialRegister extends React.Component {
                   </Col>
                 </Row>
                   <Button 
-                    className="backgroundDark"
+                    className={s.backgroundDark}
                     onClick = {e=>this.next() }
+                    disabled= {this.state.socialAccountInfo.status? true :false}
                   >
                     Apply for Social Trading
                   </Button>  
@@ -168,14 +193,14 @@ class SocialRegister extends React.Component {
                     <div>
                     {
                       this.state.socialAccountInfo.hasWebsite? 
-                      <FormGroup inline>
-                        <Input  className= "ml-3 form-text1"  type="radio" id="website1" name="hasWebsite" onClick ={e=>this.updateSocialData({"hasWebsite":true})} checked /> <Label className="mr-5"> Yes </Label>
+                      <FormGroup >
+                        <Input  className= "ml-3 form-text1"  type="radio" id="website1" name="hasWebsite" onClick ={e=>this.updateSocialData({"hasWebsite":true})} checked onChange={()=>{}} /> <Label className="mr-5"> Yes </Label>
                         <Input className= "ml-3 form-text1"  type="radio" id="website2" name="hasWebsite" onClick ={e=>this.updateSocialData({"hasWebsite":false})} /><Label>No </Label> 
                       </FormGroup>
                       :
-                      <FormGroup inline>
+                      <FormGroup >
                         <Input className= "ml-3 form-text1" type="radio" id="website1" name="hasWebsite" onClick ={e=>this.updateSocialData({"hasWebsite":true})} /> <Label className="mr-5"> Yes </Label>
-                        <Input className= "ml-3 form-text1" type="radio" id="website2" name="hasWebsite" onClick ={e=>this.updateSocialData({"hasWebsite":false})} checked/><Label>No </Label> 
+                        <Input className= "ml-3 form-text1" type="radio" id="website2" name="hasWebsite" onClick ={e=>this.updateSocialData({"hasWebsite":false})} checked onChange={()=>{}}/><Label>No </Label> 
                       </FormGroup>
                     } 
                     </div>
@@ -185,14 +210,14 @@ class SocialRegister extends React.Component {
                     <div>
                       {
                         this.state.socialAccountInfo.shareTradingPerformance?
-                          <FormGroup inline>
-                            <Input className= "ml-3 form-text1" type="radio" id="website1" name="promoteContent" onClick ={e=>this.updateSocialData({"shareTradingPerformance":true})} checked/> <Label  className="" >Yes </Label>
+                          <FormGroup >
+                            <Input className= "ml-3 form-text1" type="radio" id="website1" name="promoteContent" onClick ={e=>this.updateSocialData({"shareTradingPerformance":true})} checked onChange={()=>{}}/> <Label  className="" >Yes </Label>
                             <Input className= "ml-3 form-text1" type="radio" id="website2" name="promoteContent" onClick ={e=>this.updateSocialData({"shareTradingPerformance":false})} /><Label>No </Label> 
                           </FormGroup>
                         :
-                          <FormGroup inline>
+                          <FormGroup >
                             <Input className= "ml-3 form-text1" type="radio" id="website1" name="promoteContent" onClick ={e=>this.updateSocialData({"shareTradingPerformance":true})} /> <Label  className="mr-5" >Yes </Label>
-                            <Input className= "ml-3 form-text1" type="radio" id="website2" name="promoteContent" onClick ={e=>this.updateSocialData({"shareTradingPerformance":false})} checked /><Label>No </Label> 
+                            <Input className= "ml-3 form-text1" type="radio" id="website2" name="promoteContent" onClick ={e=>this.updateSocialData({"shareTradingPerformance":false})} checked onChange={()=>{}} /><Label>No </Label> 
                           </FormGroup>
                       }
                     </div>
@@ -206,12 +231,12 @@ class SocialRegister extends React.Component {
                     <div>
                       {
                         this.state.socialAccountInfo.hasClientBase?
-                          <FormGroup inline>
+                          <FormGroup >
                             <Input className= "ml-3 form-text1" type="radio" id="website1" name="hasClientBase" onClick = {e=>this.updateSocialData({"hasClientBase":true})}/> <Label  className="ml-1 form-text1" >Yes </Label>
                             <Input className= "ml-3 form-text1" type="radio" id="website2" name="hasClientBase" onClick = {e=>this.updateSocialData({"hasClientBase":false})} /><Label className="ml-1 form-text1">No </Label> 
                           </FormGroup>
                         :
-                          <FormGroup inline>
+                          <FormGroup >
                             <Input className= "ml-3 form-text1" type="radio" id="website1" name="hasClientBase" onClick = {e=>this.updateSocialData({"hasClientBase":true})}/>   <Label className="ml-1 form-text1">Yes </Label>
                             <Input className= "ml-3 form-text1" type="radio" id="website2" name="hasClientBase" onClick = {e=>this.updateSocialData({"hasClientBase":false})} /> <Label className="ml-1 form-text1">No </Label> 
                           </FormGroup>
@@ -221,32 +246,32 @@ class SocialRegister extends React.Component {
                   <FormGroup className="mt-3">
                     <Label className = "mb-1 form-text flex p-1" for="website">What trading instrument are you interested in?*</Label>
                     <div>
-                      <Input className="mt-1 ml-3 form-text1" type="checkbox" id="tradingInstrument1" inline 
+                      <Input className="mt-1 ml-3 form-text1" type="checkbox" id="tradingInstrument1"  
                           onChange = {e=>this.updateSocilaDataWithTradingInstrument(e, 0)}
-                          checked= {this.state.socialAccountInfo.tradingInstruments & 0x01 ? true: false }
+                          checked = {this.state.socialAccountInfo.tradingInstruments & 0x01 ? true: false }
                       />
-                      <Label className="mt-1 form-text1" inline>
+                      <Label className="mt-1 form-text1" >
                         Currencies
                       </Label>
                       <Input className="mt-1 ml-3 form-text1" type="checkbox" id="tradingInstrument2" 
                         onChange = {e=>this.updateSocilaDataWithTradingInstrument(e, 1)}
-                        checked= {this.state.socialAccountInfo.tradingInstruments & 0x02 ? true:false }
-                        inline
+                        checked = {this.state.socialAccountInfo.tradingInstruments & 0x02 ? true:false }
+                        
                       /> 
-                      <Label className="mt-1 form-text1" inline>
+                      <Label className="mt-1 form-text1" >
                         CFD's
                       </Label>
-                      <Input className="mt-1 ml-3 form-text1" type="checkbox" id="tradingInstrument3"  inline 
+                      <Input className="mt-1 ml-3 form-text1" type="checkbox" id="tradingInstrument3"   
                         onChange = {e=>this.updateSocilaDataWithTradingInstrument(e, 2)}
-                        checked= {this.state.socialAccountInfo.tradingInstruments & 0x04 ? true:false }
+                        checked = {this.state.socialAccountInfo.tradingInstruments & 0x04 ? true:false }
                       />
-                      <Label className="mt-1 form-text1" inline>Precious Metal</Label>
+                      <Label className="mt-1 form-text1" >Precious Metal</Label>
 
                     </div>
                   </FormGroup> 
                   <FormGroup className="mt-3">
                     <Label className="mb-1 form-text" for="website">What trading account do you want to apply as Social Trading master?</Label>
-                    <Input type="text" name="TradingAccount" id="exampleText" onChange ={e=>this.updateSocialData({tradingAccountForSocial:e.targe.value})} />
+                    <Input type="text" name="TradingAccount" id="exampleText" onChange ={e=>this.updateSocialData({tradingAccountForSocial:e.target.value})} />
                   </FormGroup>
                   <FormGroup className="mt-3 form-text">
                     <Label className="mb-1" for="website">What is your incentive fee percentage?</Label>
@@ -256,6 +281,7 @@ class SocialRegister extends React.Component {
                 <FormGroup className="mt-3">
                   <Button 
                     className={s.backgroundDark}
+                    disabled= {this.state.socialAccountInfo.status? true :false}
                     onClick = {e=>this.submit()}
                   >
                     Submit
@@ -264,6 +290,7 @@ class SocialRegister extends React.Component {
                     className= {
                       s.backgroundDark + " ml-3"
                     }
+                    disabled= {this.state.socialAccountInfo.status? true :false}
                     onClick = {e=>this.prev()}
                   >
                     Back
