@@ -48,9 +48,8 @@ class Commission extends React.Component {
         ...this.state,
         transactions: result.data,
         original_transactions: result.data,
-        // total_amount: Number(tamount).toFixed(2),
-        // sdate: (today.getMonth() + 1) + "/" + today.getDate() + "/" + (today.getFullYear() - 10 ),
-        // edate: (today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear()
+        total_amount: Number(tamount/100).toFixed(2)
+        
       }); 
     }) 
     .catch(e => {
@@ -150,7 +149,7 @@ class Commission extends React.Component {
                   <Button className="input-content btn-success" onClick={() => this.onClickLastWeek()}>Last Week</Button> &nbsp; 
                   <Button className="input-content btn-success" onClick={() => this.onClickLastMonth()}>Last Month</Button>
                 </Col> 
-                <Col md={3} className="c_commission_total_col">Total Amount: <strong>{total_amount} USD</strong></Col>
+                <Col md={3} className="c_commission_total_col">Total Amount: <strong>{this.state.total_amount} USD</strong></Col>
               </Row>
               <div className={s.overFlow}>
                 <label></label>

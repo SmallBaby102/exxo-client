@@ -62,9 +62,10 @@ class SocialRegister extends React.Component {
         this.setState({ 
             ...this.state, 
             socialAccountInfo:{
-              ...res.socialAccountInfo
+              ...res.data.socialAccountInfo
             }
-         });
+          });
+        console.log(res);
 
         this.props.dispatch(setChecking(false));
     })
@@ -124,6 +125,10 @@ class SocialRegister extends React.Component {
   }
 
   submit = () =>{
+    if(this.state.socialAccountInfo.sStatus){
+      toast.alert("You are already in Social Trading Accounts");
+      return;
+    }
     console.log("Social Account Applied with ", this.state.socialAccountInfo);
     console.log("client Uuiid", this.props.account.accountUuid);
     this.props.dispatch(setChecking(true));
@@ -178,9 +183,8 @@ class SocialRegister extends React.Component {
                   <Button 
                     className={s.backgroundDark}
                     onClick = {e=>this.next() }
-                    disabled= {this.state.socialAccountInfo.status? true :false}
                   >
-                    Apply for Social Trading
+                    {this.state.socialAccountInfo.sStatus?"See your Info": "Apply for Social Trading"}
                   </Button>  
             </div>
         }
@@ -287,7 +291,7 @@ class SocialRegister extends React.Component {
                 <FormGroup className="mt-3">
                   <Button 
                     className={s.backgroundDark}
-                    disabled= {this.state.socialAccountInfo.status? true :false}
+                    disabled= {this.state.socialAccountInfo.sStatus? true :false}
                     onClick = {e=>this.submit()}
                   >
                     Submit
@@ -296,7 +300,7 @@ class SocialRegister extends React.Component {
                     className= {
                       s.backgroundDark + " ml-3"
                     }
-                    disabled= {this.state.socialAccountInfo.status? true :false}
+                    disabled= {this.state.socialAccountInfo.sStatus? true :false}
                     onClick = {e=>this.prev()}
                   >
                     Back
