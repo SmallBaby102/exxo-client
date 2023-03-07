@@ -78,7 +78,7 @@ class Accounts extends React.Component {
     const tradingAccountUuid = tradingAccount.uuid;
     this.props.history.push(`/app/account-detail/${id}/${systemUuid}/${tradingAccountUuid}`);
   }
- 
+  
   openLiveAccount() {
     if(!this.state.account) {
       toast.warning("Please select an account!");
@@ -259,6 +259,16 @@ class Accounts extends React.Component {
                 <Button className="btn-success sm col-md-3" onClick={this.setLiveAccount}>Open Live Account</Button>
                 <Button className="btn-info sm  ml-1 col-md-3" onClick={this.setDemoAccount}>Open Demo Account</Button>
                 <Button className="btn-warning sm col-md-3" onClick={this.setInternalTransfer}>Internal Transfer</Button>
+                <a href = "https://terminal.exxomarkets.com/web" target="_blank">
+                  <Button 
+                      style={{
+                        backgroundColor:"OrangeRed"
+                      }}
+                      className="sm col-md-3" 
+                  >
+                      Internal Transfer
+                  </Button>
+                </a>
               </div>
               :
               <Button className="btn-success sm col-md-3" onClick={this.openLiveAccount}>Open account</Button>
