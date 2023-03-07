@@ -262,11 +262,11 @@ class Accounts extends React.Component {
                 <a href = "https://terminal.exxomarkets.com/web" target="_blank">
                   <Button 
                       style={{
-                        backgroundColor:"OrangeRed"
+                        backgroundColor:"#191f2c"
                       }}
                       className="sm col-md-3" 
                   >
-                      To Terminal 
+                      Go To Terminal 
                   </Button>
                 </a>
               </div>
