@@ -28,7 +28,8 @@ class Withdrawal extends React.Component {
       bankName : null,
       bankAccount : null,
       bankBranch : null,
-      verifycode: null
+      verifycode: null, 
+      freeMargin:0
     };
 
     this.changeAccount = this.changeAccount.bind(this);
@@ -92,7 +93,7 @@ class Withdrawal extends React.Component {
     this.setState({ address: e.target.value })
   }
   changeAmount = (e) => {
-    if(Number(e.target.value) > this.state.freeMargin){
+    if(Number(e.target.value) > Number(this.state.freeMargin)){
       this.setState({isAllowed:false})
     }else {
       this.setState({ amount: e.target.value })
@@ -265,7 +266,7 @@ class Withdrawal extends React.Component {
           temp.push({ value: element.login, balance: element.balance, label: element.login, address: element.address, tradingAccountUuid: element.uuid, 
             offerUuid: element.offerUuid})
         }
-
+        this.changeAccount(temp[0]);
         this.setState({ accounts: temp, tradingAccount: liveTrAccounts[0].login, tradingAccountBalance: liveTrAccounts[0].balance, address: liveTrAccounts[0].address }); 
         this.props.dispatch(setChecking(false));
       })
