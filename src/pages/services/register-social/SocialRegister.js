@@ -51,7 +51,13 @@ class SocialRegister extends React.Component {
         benificiaryName: this.props.account.fullname,
     })
     
-    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/social-account-info`, { params: { email: this.props.account?.email }})
+    axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/social-account-info`, 
+        { 
+          params: { 
+            email: this.props.account?.email ,
+            accountUuid: this.props.account?.accountUuid
+          }
+        })
     .then( async res => {
         this.setState({ 
             ...this.state, 
