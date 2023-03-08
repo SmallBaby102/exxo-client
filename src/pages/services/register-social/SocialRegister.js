@@ -181,8 +181,13 @@ class SocialRegister extends React.Component {
                   </Col>
                 </Row>
                   <Button 
-                    className={s.backgroundDark}
+                    className={s.backgroundDark} 
                     onClick = {e=>this.next() }
+                    style={{
+                      color:"white",
+                      background: "linear-gradient(#244985, #243b61)"
+                      
+                    }}
                   >
                     {this.state.socialAccountInfo.sStatus?"See your Info": "Apply for Social Trading"}
                   </Button>  

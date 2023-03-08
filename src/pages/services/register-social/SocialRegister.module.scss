@@ -41,6 +41,10 @@
 .backgroundDark{
   background: linear-gradient(#244985, #243b61);
   color: white;
+  min-width: 100px;
+}
+.backgroundDark:disabled{
+  color:white !important;
 }
 .backgroundLight {
   background:  $main-gradient-light;

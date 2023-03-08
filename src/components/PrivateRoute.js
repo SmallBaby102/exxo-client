@@ -16,6 +16,7 @@ const PrivateRoute = ({dispatch, component, ...rest }) => {
     const location = useLocation();
     const history = useHistory();
     useEffect(() => {
+
       const token = localStorage.getItem('authenticated');
 
       if( !token || typeof token === "boolean" ) {
@@ -25,6 +26,9 @@ const PrivateRoute = ({dispatch, component, ...rest }) => {
       try {
         const decoded = jwt_decode(token);
         console.log("token decode", decoded)
+        console.log("decded exp time ", decoded.exp); 
+        console.log("now  ", Date.now()/1000); 
+
         if ( decoded.exp < Date.now() / 1000 ) {
             dispatch(logoutUser());
             history.push("/login");

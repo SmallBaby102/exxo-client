@@ -62,8 +62,6 @@ class Login extends React.Component {
         this.props.dispatch(setChecking(true));
         axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/signin`, { email: this.state.email, password: this.state.password })
         .then( async res => {
-            this.setState({ loading: false });  
-            console.log("Login Account:", res.data)
             if (!res.data.isEmailVerified) {
                 this.props.history.push("/verify-email");
                 return;
@@ -76,31 +74,35 @@ class Login extends React.Component {
             axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/tradingAccounts`, { params: { clientUuid: res.data?.accountUuid, partnerId: res.data?.partnerId }})
             .then( async res => {
                 this.props.dispatch(setTradingAccounts(res.data));
-            })
-            .catch(e => {
-                console.log(e);
-            })
-            axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/offers`, { params: { email: this.state.email, partnerId: res.data?.partnerId }})
-            .then( async res => {
-                this.setState({ offers: res.data})
-                let temp = [];
-                for (const iterator of res.data) {
-                    temp.push({ value: iterator.name, label: iterator.name })
-                }
-                this.props.dispatch(setOfferNames(temp));
-                console.log(res);
-            })
-            .catch(e => {
-                console.log(e);
-            })
-            this.props.dispatch(setChecking(false));
-            this.props.dispatch(loginUser({ email: this.state.email, password: this.state.password }));
-            if (res.data.verification_status === "Approved") {
-                this.props.history.push("/app/accounts");
-            } else {
-                this.props.history.push("/app/profile");
-            }
+                axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/offers`, { params: { email: this.state.email, partnerId: res.data?.partnerId }})
+                .then( async res => {
+                    this.setState({ offers: res.data})
+                    let temp = [];
+                    for (const iterator of res.data) {
+                        temp.push({ value: iterator.name, label: iterator.name })
+                    }
+                    this.props.dispatch(setOfferNames(temp));
+                    console.log(res);
+                    this.props.dispatch(setChecking(false));
+                    this.props.dispatch(loginUser({ email: this.state.email, password: this.state.password }));
         
+                    if (res.data.verification_status === "Approved") {
+                        this.props.history.push("/app/accounts");
+                    } else {
+                        this.props.history.push("/app/profile");
+                    }
+                    this.setState({ loading: false });  
+                
+                })
+                .catch(e => {
+                    console.log(e);
+                })
+            })
+            .catch(e => {
+                console.log(e);
+            })
+           
+           
         })
         .catch(err => {
             toast.error(err.response.data.message)
