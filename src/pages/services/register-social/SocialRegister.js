@@ -260,14 +260,14 @@ class SocialRegister extends React.Component {
                     <div>
                       <Input className="mt-1 ml-3 form-text1" type="checkbox" id="tradingInstrument1"  
                           onChange = {e=>this.updateSocilaDataWithTradingInstrument(e, 0)}
-                          checked = {this.state.socialAccountInfo.tradingInstruments & 0x01 ? true: false }
+                          checked = {this.state.socialAccountInfo?.tradingInstruments & 0x01 ? true: false }
                       />
                       <Label className="mt-1 form-text1" >
                         Currencies
                       </Label>
                       <Input className="mt-1 ml-3 form-text1" type="checkbox" id="tradingInstrument2" 
                         onChange = {e=>this.updateSocilaDataWithTradingInstrument(e, 1)}
-                        checked = {this.state.socialAccountInfo.tradingInstruments & 0x02 ? true:false }
+                        checked = {this.state.socialAccountInfo?.tradingInstruments & 0x02 ? true:false }
                         
                       /> 
                       <Label className="mt-1 form-text1" >
@@ -275,7 +275,7 @@ class SocialRegister extends React.Component {
                       </Label>
                       <Input className="mt-1 ml-3 form-text1" type="checkbox" id="tradingInstrument3"   
                         onChange = {e=>this.updateSocilaDataWithTradingInstrument(e, 2)}
-                        checked = {this.state.socialAccountInfo.tradingInstruments & 0x04 ? true:false }
+                        checked = {this.state.socialAccountInfo?.tradingInstruments & 0x04 ? true:false }
                       />
                       <Label className="mt-1 form-text1" >Precious Metal</Label>
 
@@ -285,14 +285,14 @@ class SocialRegister extends React.Component {
                     <Label className="mb-1 form-text" for="website">What trading account do you want to apply as Social Trading master?</Label>
                     <Input type="text" name="TradingAccount" id="exampleText" 
                           onChange ={e=>this.updateSocialData({tradingAccountForSocial:e.target.value})} 
-                          value ={this.state.tradingAccountForSocial}
+                          value ={this.state.socialAccountInfo.tradingAccountForSocial}
                     />
                   </FormGroup>
                   <FormGroup className="mt-3 form-text">
                     <Label className="mb-1" for="website">What is your incentive fee percentage?</Label>
                     <Input type="number" name="Fee" id="exampleText" 
                           onChange={e=>this.updateSocialData({incentiveFeePercentage: e.target.value})} 
-                          value = {this.state.incentiveFeePercentage}
+                          value = {this.state.socialAccountInfo.incentiveFeePercentage}
                     />
                   </FormGroup>
                 </Form>
