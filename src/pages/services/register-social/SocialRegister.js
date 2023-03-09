@@ -52,12 +52,7 @@ class SocialRegister extends React.Component {
     })
     
     axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/social-account-info`, 
-        { 
-          params: { 
-            email: this.props.account?.email ,
-            accountUuid: this.props.account?.accountUuid
-          }
-        })
+    { params: { email: this.props.account?.email , accountUuid: this.props.account?.accountUuid}})
     .then( async res => {
         this.setState({ 
             ...this.state, 
@@ -65,7 +60,7 @@ class SocialRegister extends React.Component {
               ...res.data.socialAccountInfo
             }
           });
-        console.log(res);
+        console.log(res.data.socialAccountInfo);
 
         this.props.dispatch(setChecking(false));
     })
@@ -73,6 +68,8 @@ class SocialRegister extends React.Component {
       console.log(e);
       this.props.dispatch(setChecking(false));
     })
+    this.props.dispatch(setChecking(false));
+
   }
   next = (e) =>{
     this.setState({
