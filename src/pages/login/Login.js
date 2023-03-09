@@ -86,12 +86,7 @@ class Login extends React.Component {
                     this.props.dispatch(setChecking(false));
                     this.props.dispatch(loginUser({ email: this.state.email, password: this.state.password }));
         
-                    if (res.data.verification_status === "Approved") {
-                        this.props.history.push("/app/accounts");
-                    } else {
-                        this.props.history.push("/app/profile");
-                    }
-                    this.setState({ loading: false });  
+                  
                 
                 })
                 .catch(e => {
@@ -102,7 +97,13 @@ class Login extends React.Component {
                 console.log(e);
             })
            
-           
+            console.log("user infomation for redict after login", res.data);
+            if (res.data.verification_status === "Approved") {
+                this.props.history.push("/app/accounts");
+            } else {
+                this.props.history.push("/app/profile");
+            }
+            this.setState({ loading: false });  
         })
         .catch(err => {
             toast.error(err.response.data.message)
