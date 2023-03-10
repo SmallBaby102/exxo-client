@@ -25,7 +25,9 @@ let country_code_json = {"+1":"United States(+1)", "+93":"Afghanistan(+93)","+35
       country_code_arr.push({value: key, label: element});
     }
   }
-  
+
+const linkIndex = "ExxomarketsIbLink";
+
 class Register extends React.Component {
     static propTypes = {
         dispatch: PropTypes.func.isRequired,
@@ -128,38 +130,28 @@ class Register extends React.Component {
 
     componentDidMount() { 
         const queryParams = new URLSearchParams(window.location.search);
-        let ibid = queryParams.get("ibid")?queryParams.get("ibid"):'';
-        let ibuuid = queryParams.get("ibuuid")?queryParams.get("ibuuid"):'';
-        // check local storage for that this user used IB link before
-        if ( ibid != "" && ibid != undefined ) {            // save IB info to local storagfe
-            localStorage.setItem("ib_ibid", ibid);
-            localStorage.setItem("ib_ibuuid", ibuuid);
-        } else {
-            const l_ibid    = localStorage.getItem("ib_ibid");
-            const l_ibuuid  = localStorage.getItem("ib_ibuuid");
-
-            console.log(l_ibid + "///" + l_ibuuid);
+        const ibLinkId = queryParams.get("ibLinkId") || null; 
+        if(ibLinkId){
+            localStorage.setItem(linkIndex, JSON.stringify({ibLinkId:ibLinkId, when: (new Date).getTime()}) )
         }
+       
     }
 
     doRegister(e) {
         if (this.state.loading) return;
         this.setState({ loading: true });
-        const queryParams = new URLSearchParams(window.location.search);
-        let ibid = queryParams.get("ibid")?queryParams.get("ibid"):'';
-        let ibuuid = queryParams.get("ibuuid")?queryParams.get("ibuuid"):'';
 
-        // check local storage for that this user used IB link before
-        if ( ibid == "" || ibid == undefined ) {
-            const l_ibid    = localStorage.getItem("ib_ibid");
-            const l_ibuuid  = localStorage.getItem("ib_ibuuid");
-            if ( l_ibid != "" && l_ibid != undefined ) {
-                ibid      = l_ibid;
-                ibuuid    = l_ibuuid;
-            }
-        }
+        const ibLinkCookie = localStorage.getItem(linkIndex); 
 
-        axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/signup`, { email: this.state.email,countryCode: this.state.countryCode,  password: this.state.password, phone: this.state.phone, fullname: this.state.fullname, ibid: ibid, ibuuid:ibuuid })
+        axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/signup`, 
+            { 
+                email: this.state.email,
+                countryCode: this.state.countryCode,  
+                password: this.state.password, 
+                phone: this.state.phone, 
+                fullname: this.state.fullname, 
+                ibLinkCookie
+            })
         .then( async res => {
             this.props.dispatch(setChecking(false));
             this.setState({ loading: false });

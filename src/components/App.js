@@ -17,7 +17,6 @@ import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import MSGIcon from '@mui/icons-material/Telegram';
 
-
 const PrivateRoute = lazy(() =>  import('./PrivateRoute'));
 const LayoutComponent = lazy(() => import('../components/Layout'));
 

@@ -51,6 +51,7 @@ class SocialRegister extends React.Component {
         benificiaryName: this.props.account.fullname,
     })
     
+    this.props.dispatch(setChecking(true));
     axios.get(`${process.env.REACT_APP_BASE_URL}/api/user/social-account-info`, 
     { params: { email: this.props.account?.email , accountUuid: this.props.account?.accountUuid}})
     .then( async res => {
@@ -61,14 +62,12 @@ class SocialRegister extends React.Component {
             }
           });
         console.log(res.data.socialAccountInfo);
-
         this.props.dispatch(setChecking(false));
     })
     .catch(e => {
       console.log(e);
       this.props.dispatch(setChecking(false));
     })
-    this.props.dispatch(setChecking(false));
 
   }
   next = (e) =>{
@@ -285,7 +284,7 @@ class SocialRegister extends React.Component {
                     <Label className="mb-1 form-text" for="website">What trading account do you want to apply as Social Trading master?</Label>
                     <Input type="text" name="TradingAccount" id="exampleText" 
                           onChange ={e=>this.updateSocialData({tradingAccountForSocial:e.target.value})} 
-                          value ={this.state.socialAccountInfo.tradingAccountForSocial}
+                          value ={this.state.socialAccountInfo?.tradingAccountForSocial}
                     />
                   </FormGroup>
                   <FormGroup className="mt-3 form-text">

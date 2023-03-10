@@ -278,7 +278,7 @@ class Accounts extends React.Component {
 
             }
           </div>
-      </div>
+        </div>
     );
   }
 }
