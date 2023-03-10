@@ -11,9 +11,7 @@ import App from './components/App';
 import reducers from './reducers';
 
 import "./styles/custom.css"
-import posthog from 'posthog-js'
 
-posthog.init('phc_tPpLYM0nd6raQ0TjlpeWU56DVMmCn4L0uHC9eAKxY2m', { api_host: 'https://app.posthog.com' });
 
 const store = createStore(
   reducers,
